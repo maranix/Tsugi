@@ -17,6 +17,8 @@ struct RootView: View {
             } else {
                 OnboardingView()
             }
-        }.environment(serverStore)
+        }
+        .animation(.default, value: serverStore.isConfigured)
+        .environment(serverStore)
     }
 }

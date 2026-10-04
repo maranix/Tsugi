@@ -9,38 +9,26 @@ import SwiftUI
 
 enum MainShellTab: Hashable {
     case library
-    case browse
-    case settings
+    case discover
 }
 
 struct MainShellView: View {
     @State private var tab: MainShellTab = .library
-    
+    @State private var mockBooksViewModel = MockBooksViewModel()
+
     var body: some View {
         TabView(selection: $tab) {
             Tab("Library", systemImage: "books.vertical", value: .library) {
                 NavigationStack {
-                    Text("Library Screen")
-                        .navigationTitle("Library")
-                        .font(.headline)
+                    LibraryView()
                 }
             }
             
-            Tab("Browse", systemImage: "magnifyingglass", value: .browse) {
+            Tab("Discover", systemImage: "safari", value: .discover) {
                 NavigationStack {
-                    Text("Browse Screen")
-                        .navigationTitle("Browse")
-                        .font(.headline)
+                    DiscoverView()
                 }
             }
-            
-            Tab("Settings", systemImage: "gearshape", value: .settings) {
-                NavigationStack {
-                    Text("Settings Screen")
-                        .navigationTitle("Settings")
-                        .font(.headline)
-                }
-            }
-        }
+        }.environment(mockBooksViewModel)
     }
 }
