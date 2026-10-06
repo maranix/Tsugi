@@ -12,7 +12,8 @@ struct OnboardingServerView: View {
         VStack(alignment: .leading) {
             Spacer()
 
-            Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0) {
+            Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0)
+            {
                 GridRow {
                     Text(.generalYour)
                         .font(.largeTitle)
@@ -85,8 +86,4 @@ struct OnboardingServerView: View {
         }
         .padding()
     }
-}
-
-#Preview {
-    OnboardingServerView()
 }

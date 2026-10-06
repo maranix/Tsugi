@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct OnboardingWelcomeView: View {
-    @Environment(OnboardingTabViewModel.self) private var tabViewModel
-    
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -18,7 +16,7 @@ struct OnboardingWelcomeView: View {
                 Text(.appTitle)
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                
+
                 Text(.onboardingWelcomeSubtitle)
                     .font(.body)
                     .foregroundStyle(.secondary)
