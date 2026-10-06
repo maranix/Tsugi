@@ -11,14 +11,15 @@ struct RootView: View {
     @State private var serverStore = ServerStore()
 
     var body: some View {
-        Group {
-            if serverStore.isConfigured {
-                MainShellView()
-            } else {
-                OnboardingView()
-            }
-        }
-        .animation(.default, value: serverStore.isConfigured)
+        OnboardingPage()
+//        Group {
+//            if serverStore.isConfigured {
+//                MainShellView()
+//            } else {
+//                OnboardingView()
+//            }
+//        }
+//        .animation(.default, value: serverStore.isConfigured)
         .environment(serverStore)
     }
 }
