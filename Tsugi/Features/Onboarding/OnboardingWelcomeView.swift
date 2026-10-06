@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct OnboardingWelcomeView: View {
-    @Environment(TabViewModel.self) private var tabViewModel
+    @Environment(OnboardingTabViewModel.self) private var tabViewModel
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             Spacer()
 
             VStack(alignment: .leading, spacing: 16) {

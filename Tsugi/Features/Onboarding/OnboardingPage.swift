@@ -7,33 +7,67 @@
 
 import SwiftUI
 
+enum OnboardingStep: Int, CaseIterable {
+    case welcome
+    case server
+}
+
+typealias OnboardingTabViewModel = TabViewModel<OnboardingStep>
+
 struct OnboardingPage: View {
-    @State private var viewModel = TabViewModel(max: 2)
+    @State private var viewModel = OnboardingTabViewModel(.welcome)
 
     @ViewBuilder
     private var content: some View {
         switch viewModel.currentPage {
-        case 0:
+        case .welcome:
             OnboardingWelcomeView()
-        case 1:
+        case .server:
             OnboardingServerView()
-        default:
-            Text("These aren't the droids you're looking for")
         }
     }
 
     var body: some View {
         VStack {
+            HStack {
+                if viewModel.canGoPrevious {
+                    Button {
+                        withAnimation {
+                            viewModel.goPrevious()
+                        }
+                    } label: {
+                        Image(systemName: AppIcon.previous)
+                            .font(.title2)
+                            .padding(.all, 12)
+                    }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .opacity
+                        )
+                    )
+                }
+
+                Spacer()
+            }
+            .padding()
+            .animation(.snappy, value: viewModel.currentPage)
+
             ZStack {
                 content
                     .id(viewModel.currentPage)
                     .transition(.slidingBlurReplace)
             }
-            
+
             HStack {
-                if viewModel.isActive(page: 1) {
+                if viewModel.isActive(.server) {
                     Button(action: {}) {
-                        Label(Strings.Button.addServer, systemImage: AppIcon.plus)
+                        Label(
+                            Strings.Button.addServer,
+                            systemImage: AppIcon.plus
+                        )
                     }
                     .buttonStyle(.glass)
                     .controlSize(.extraLarge)
@@ -47,17 +81,26 @@ struct OnboardingPage: View {
 
                 Spacer()
 
-                Button {
-                    withAnimation {
-                        viewModel.nextPage()
+                if viewModel.canGoNext {
+                    Button {
+                        withAnimation {
+                            viewModel.goNext()
+                        }
+                    } label: {
+                        Image(systemName: AppIcon.next)
+                            .font(.title2)
+                            .padding(.all, 12)
                     }
-                } label: {
-                    Image(systemName: AppIcon.next)
-                        .font(.title2)
-                        .padding(.all, 12)
+                    .buttonStyle(.glassProminent)
+                    .buttonBorderShape(.circle)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .opacity
+                        )
+                    )
                 }
-                .buttonStyle(.glassProminent)
-                .buttonBorderShape(.circle)
+
             }
             .padding()
             .animation(.snappy, value: viewModel.currentPage)

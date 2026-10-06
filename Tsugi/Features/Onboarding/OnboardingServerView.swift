@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OnboardingServerView: View {
-    @Environment(TabViewModel.self) var tabViewModel: TabViewModel
+    @Environment(OnboardingTabViewModel.self) var tabViewModel
     
     var mainTitle: some View {
         Text(Strings.General.your)
@@ -17,19 +17,7 @@ struct OnboardingServerView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Button {
-                withAnimation {
-                    tabViewModel.previousPage()
-                }
-            } label: {
-                Image(systemName: AppIcon.previous)
-                    .font(.title2)
-                    .padding(.all, 12)
-            }
-            .buttonStyle(.glass)
-            .buttonBorderShape(.circle)
-
+        VStack(spacing: 16) {
             Spacer()
 
             VStack(alignment: .leading) {
