@@ -32,6 +32,9 @@ final class MockBooksViewModel {
     }
     
     func delete(book: Book) {
-        self.books.removeAll(where: {$0.id == book.id})
+        self.books.removeAll(where: { b in
+                b.id == book.id
+            }
+        )
     }
 }

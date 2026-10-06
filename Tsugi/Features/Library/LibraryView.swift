@@ -20,7 +20,7 @@ struct LibraryView: View {
                     .padding(.horizontal)
             }
         }
-        .navigationTitle("Library")
+        .navigationTitle(Strings.General.library)
         .searchable(text: $searchQuery)
         .toolbar {
             DefaultToolbarItem(kind: .title, placement: .title)

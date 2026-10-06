@@ -17,7 +17,7 @@ struct DiscoverView: View {
             BookGridView(books: viewModel.books)
                 .padding(.horizontal)
         }
-        .navigationTitle("Discover")
+        .navigationTitle(Strings.General.discover)
         .searchable(text: $searchQuery)
         .toolbar {
             DefaultToolbarItem(kind: .title, placement: .title)
