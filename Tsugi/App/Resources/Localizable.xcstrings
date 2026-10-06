@@ -1,0 +1,129 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "appTitle" : {
+      "comment" : "Title of the App",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsugi"
+          }
+        }
+      }
+    },
+    "buttonAddServer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Server"
+          }
+        }
+      }
+    },
+    "disclaimerControl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsugi has no control over network activity, external source extensions, or logs maintained on your server."
+          }
+        }
+      }
+    },
+    "disclaimerEndorsments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tsugi does not contain, bundle, or endorse third-party ad services and tracking analytics. Your reading habits belong strictly to you.\n"
+          }
+        }
+      }
+    },
+    "disclaimerPrivacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every request, image stream, bookmarked series to your page progress and chapter download is a direct handshake between your device and your hosted server.\n"
+          }
+        }
+      }
+    },
+    "generalControl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Control"
+          }
+        }
+      }
+    },
+    "generalDiscover" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discover"
+          }
+        }
+      }
+    },
+    "generalLibrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
+          }
+        }
+      }
+    },
+    "generalPrivacy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
+    "generalYour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your"
+          }
+        }
+      }
+    },
+    "onboardingWelcomeSubtitle" : {
+      "comment" : "Text below the main title displayed on OnboardingWelcomeView",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seamlessly control your self-hosted Suwayomi instance to bring your entire catalog, reading history, offline downloads and more."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
