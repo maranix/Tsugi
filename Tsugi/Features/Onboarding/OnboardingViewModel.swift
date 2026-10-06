@@ -16,6 +16,8 @@ enum OnboardingStep: Int, CaseIterable {
 final class OnboardingViewModel {
     private let tabVM = TabViewModel<OnboardingStep>(.welcome)
 
+    var showAddServerSheet = false
+
     var currentStep: OnboardingStep {
         tabVM.currentPage
     }
@@ -32,6 +34,8 @@ final class OnboardingViewModel {
         tabVM.canGoPrevious
     }
 
+    // Intents
+
     func goNext() {
         withAnimation(.snappy) {
             tabVM.goNext()
@@ -42,5 +46,13 @@ final class OnboardingViewModel {
         withAnimation(.snappy) {
             tabVM.goPrevious()
         }
+    }
+
+    func openAddServerSheet() {
+        showAddServerSheet = true
+    }
+    
+    func closeAddServerSheet() {
+        showAddServerSheet = false
     }
 }

@@ -13,7 +13,7 @@ struct OnboardingBottomBar: View {
     var body: some View {
         HStack {
             if viewModel.showAddServerButton {
-                Button(action: {}) {
+                Button(action: viewModel.openAddServerSheet) {
                     Label(
                         .buttonAddServer,
                         systemImage: AppIcon.plus

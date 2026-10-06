@@ -18,4 +18,5 @@ enum AppIcon {
     static let browse = "safari"
     static let next = "chevron.right"
     static let previous = "chevron.left"
+    static let close = "xmark"
 }

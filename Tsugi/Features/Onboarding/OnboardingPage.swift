@@ -32,6 +32,9 @@ struct OnboardingPage: View {
 
             OnboardingBottomBar()
         }
+        .sheet(isPresented: $viewModel.showAddServerSheet) {
+            AddServerSheetView()
+        }
         .environment(viewModel)
     }
 }

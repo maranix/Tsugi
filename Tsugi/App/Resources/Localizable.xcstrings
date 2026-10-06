@@ -23,6 +23,9 @@
         }
       }
     },
+    "Add Server" : {
+
+    },
     "appTitle" : {
       "comment" : "Title of the App",
       "extractionState" : "manual",
@@ -45,6 +48,9 @@
           }
         }
       }
+    },
+    "Confirm" : {
+
     },
     "disclaimerControl" : {
       "extractionState" : "manual",
@@ -145,6 +151,9 @@
           }
         }
       }
+    },
+    "Test" : {
+
     }
   },
   "version" : "1.1"
