@@ -48,6 +48,7 @@ struct OnboardingPage: View {
                             removal: .opacity
                         )
                     )
+                    .accessibilityLabel(.accessibilityPreviousPage)
                 }
 
                 Spacer()
@@ -99,6 +100,7 @@ struct OnboardingPage: View {
                             removal: .opacity
                         )
                     )
+                    .accessibilityLabel(.accessibilityNextPage)
                 }
 
             }

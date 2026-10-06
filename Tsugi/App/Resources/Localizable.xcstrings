@@ -1,6 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "accessibilityNextPage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Page"
+          }
+        }
+      }
+    },
+    "accessibilityPreviousPage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous Page"
+          }
+        }
+      }
+    },
     "appTitle" : {
       "comment" : "Title of the App",
       "extractionState" : "manual",
@@ -52,7 +74,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Every request, image stream, bookmarked series to your page progress and chapter download is a direct handshake between your device and your hosted server.\n"
+            "value" : "Every request, image stream, from bookmarked series to your page progress and chapter download is a direct handshake between your device and your hosted server.\n"
           }
         }
       }

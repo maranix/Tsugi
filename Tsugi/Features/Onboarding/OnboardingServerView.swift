@@ -8,48 +8,61 @@
 import SwiftUI
 
 struct OnboardingServerView: View {
-    @Environment(OnboardingTabViewModel.self) var tabViewModel
-    
-    var mainTitle: some View {
-        Text(.generalYour)
-            .font(.largeTitle)
-            .fontWeight(.bold)
-    }
-    
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading) {
             Spacer()
 
-            VStack(alignment: .leading) {
-                mainTitle
+            Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0) {
+                GridRow {
+                    Text(.generalYour)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                }
 
-                HStack {
-                    mainTitle
-                        .hidden()
-                        .accessibilityHidden(true)
+                GridRow {
+                    Color
+                        .clear
+                        .gridCellUnsizedAxes([.horizontal, .vertical])
 
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(.generalPrivacy)
-                            Image(systemName: AppIcon.privacy)
-                                .foregroundStyle(.secondary)
-                        }
-                        HStack {
-                            Text(.generalLibrary)
-                            Image(systemName: AppIcon.library)
-                                .foregroundStyle(.secondary)
-                        }
-                        HStack {
-                            Text(.generalControl)
-                            Image(systemName: AppIcon.control)
-                                .foregroundStyle(.secondary)
-                        }
+                    HStack {
+                        Text(.generalPrivacy)
+                        Image(systemName: AppIcon.privacy)
+                            .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
                     }
                 }
                 .font(.title2)
+
+                GridRow {
+                    Color
+                        .clear
+                        .gridCellUnsizedAxes([.horizontal, .vertical])
+
+                    HStack {
+                        Text(.generalLibrary)
+                        Image(systemName: AppIcon.library)
+                            .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
+                    }
+
+                }
+                .font(.title2)
+
+                GridRow {
+                    Color
+                        .clear
+                        .gridCellUnsizedAxes([.horizontal, .vertical])
+
+                    HStack {
+                        Text(.generalControl)
+                        Image(systemName: AppIcon.control)
+                            .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
+                    }
+                }
+                .font(.title2)
+
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 16)
 
             Spacer()
 
@@ -66,10 +79,14 @@ struct OnboardingServerView: View {
             Spacer()
 
             Text(.disclaimerControl)
-            .font(.footnote)
-            .fontWeight(.bold)
-            .padding(.bottom, 24)
+                .font(.footnote)
+                .fontWeight(.bold)
+                .padding(.bottom, 24)
         }
         .padding()
     }
+}
+
+#Preview {
+    OnboardingServerView()
 }
