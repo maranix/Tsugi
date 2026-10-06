@@ -65,7 +65,7 @@ struct OnboardingPage: View {
                 if viewModel.isActive(.server) {
                     Button(action: {}) {
                         Label(
-                            Strings.Button.addServer,
+                            .buttonAddServer,
                             systemImage: AppIcon.plus
                         )
                     }

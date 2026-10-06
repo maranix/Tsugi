@@ -15,11 +15,11 @@ struct OnboardingWelcomeView: View {
             Spacer()
 
             VStack(alignment: .leading, spacing: 16) {
-                Text(Strings.General.appTitle)
+                Text(.appTitle)
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text(Strings.Onboarding.welcomeSubtitle)
+                Text(.onboardingWelcomeSubtitle)
                     .font(.body)
                     .foregroundStyle(.secondary)
             }

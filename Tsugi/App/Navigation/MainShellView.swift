@@ -18,13 +18,13 @@ struct MainShellView: View {
 
     var body: some View {
         TabView(selection: $tab) {
-            Tab(Strings.General.library, systemImage: AppIcon.library, value: .library) {
+            Tab(.generalLibrary, systemImage: AppIcon.library, value: .library) {
                 NavigationStack {
                     LibraryView()
                 }
             }
             
-            Tab(Strings.General.discover, systemImage: AppIcon.browse, value: .discover) {
+            Tab(.generalDiscover, systemImage: AppIcon.browse, value: .discover) {
                 NavigationStack {
                     DiscoverView()
                 }

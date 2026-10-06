@@ -11,7 +11,7 @@ struct OnboardingServerView: View {
     @Environment(OnboardingTabViewModel.self) var tabViewModel
     
     var mainTitle: some View {
-        Text(Strings.General.your)
+        Text(.generalYour)
             .font(.largeTitle)
             .fontWeight(.bold)
     }
@@ -30,17 +30,17 @@ struct OnboardingServerView: View {
 
                     VStack(alignment: .leading) {
                         HStack {
-                            Text(Strings.General.privacy)
+                            Text(.generalPrivacy)
                             Image(systemName: AppIcon.privacy)
                                 .foregroundStyle(.secondary)
                         }
                         HStack {
-                            Text(Strings.General.library)
+                            Text(.generalLibrary)
                             Image(systemName: AppIcon.library)
                                 .foregroundStyle(.secondary)
                         }
                         HStack {
-                            Text(Strings.General.control)
+                            Text(.generalControl)
                             Image(systemName: AppIcon.control)
                                 .foregroundStyle(.secondary)
                         }
@@ -54,9 +54,8 @@ struct OnboardingServerView: View {
             Spacer()
 
             VStack(alignment: .leading, spacing: 12) {
-                Text(Strings.Disclaimer.endorsments)
-
-                Text(Strings.Disclaimer.privacy)
+                Text(.disclaimerEndorsments)
+                Text(.disclaimerPrivacy)
 
             }
             .font(.body)
@@ -66,7 +65,7 @@ struct OnboardingServerView: View {
 
             Spacer()
 
-            Text(Strings.Disclaimer.control)
+            Text(.disclaimerControl)
             .font(.footnote)
             .fontWeight(.bold)
             .padding(.bottom, 24)
