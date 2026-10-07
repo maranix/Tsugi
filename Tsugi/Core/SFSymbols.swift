@@ -19,4 +19,5 @@ enum AppIcon {
     static let next = "chevron.right"
     static let previous = "chevron.left"
     static let close = "xmark"
+    static let checkmark = "checkmark"
 }

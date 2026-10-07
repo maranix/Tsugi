@@ -1,6 +1,50 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    ".generalConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm"
+          }
+        }
+      }
+    },
+    ".generalTest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test"
+          }
+        }
+      }
+    },
+    "accessibilityCloseSheet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close %1$(name)@ sheet"
+          }
+        }
+      }
+    },
+    "accessibilityCompleteOnboarding" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Complete Onboarding"
+          }
+        }
+      }
+    },
     "accessibilityNextPage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,6 +52,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Next Page"
+          }
+        }
+      }
+    },
+    "accessibilityOpenSheet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %1$(name)@ sheet"
           }
         }
       }
@@ -22,9 +77,6 @@
           }
         }
       }
-    },
-    "Add Server" : {
-
     },
     "appTitle" : {
       "comment" : "Title of the App",
@@ -49,7 +101,18 @@
         }
       }
     },
-    "Confirm" : {
+    "buttonOnboardingComplete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Reading"
+          }
+        }
+      }
+    },
+    "Connected" : {
 
     },
     "disclaimerControl" : {
@@ -84,6 +147,9 @@
           }
         }
       }
+    },
+    "Error" : {
+
     },
     "generalControl" : {
       "extractionState" : "manual",
@@ -129,6 +195,17 @@
         }
       }
     },
+    "generalServer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Server"
+          }
+        }
+      }
+    },
     "generalYour" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -139,6 +216,12 @@
           }
         }
       }
+    },
+    "Host (127.0.0.1)" : {
+
+    },
+    "Lorem ipsum something somethimg soemthing somet ihiehtakshfkajslfjasf" : {
+
     },
     "onboardingWelcomeSubtitle" : {
       "comment" : "Text below the main title displayed on OnboardingWelcomeView",
@@ -152,7 +235,16 @@
         }
       }
     },
-    "Test" : {
+    "Port (4567)" : {
+
+    },
+    "Scheme" : {
+
+    },
+    "Something went wrong" : {
+
+    },
+    "Test Connection" : {
 
     }
   },
