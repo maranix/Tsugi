@@ -10,48 +10,170 @@ import SwiftUI
 struct AddServerSheetView: View {
     @Environment(\.dismiss) private var dismiss
 
+    @State private var viewModel: AddServerSheetViewModel
+
+    init(_ serverStore: ServerStore) {
+        self.viewModel = AddServerSheetViewModel(serverStore: serverStore)
+    }
+
     var body: some View {
-        VStack {
+        Form {
+            Section(
+                header: Text(.buttonAddServer),
+                footer: FormStatusSection(viewModel)
+            ) {
+                Picker("Scheme", selection: $viewModel.scheme) {
+                    ForEach(URLScheme.allCases) { scheme in
+                        Text(scheme.displayName).tag(scheme)
+                    }
+                }
+
+                TextField("Host (127.0.0.1)", text: $viewModel.host)
+                    .keyboardType(.URL)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+
+                TextField("Port (4567)", text: $viewModel.port)
+                    .keyboardType(.numberPad)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+
+                Button("Test Connection") {
+                    Task {
+                        await viewModel.testConnection()
+                    }
+                }
+                .foregroundStyle(.red)
+            }
+            .disabled(viewModel.isTesting)
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .presentationDetents([.medium, .large])
+        .presentationBackgroundInteraction(.disabled)
+        .presentationDragIndicator(.hidden)
+        .safeAreaInset(edge: .top) {
+            SheetToolbar(dismiss: dismiss, viewModel: viewModel)
+        }
+    }
+}
+
+private struct SheetToolbar: View {
+    private let dismiss: DismissAction
+    private let viewModel: AddServerSheetViewModel
+
+    init(dismiss: DismissAction, viewModel: AddServerSheetViewModel) {
+        self.dismiss = dismiss
+        self.viewModel = viewModel
+    }
+
+    var body: some View {
+        HStack {
             Button {
                 dismiss()
             } label: {
                 Image(systemName: AppIcon.close)
                     .font(.title2)
-                    .padding(.all, 12)
+                    .padding(8)
             }
             .buttonStyle(.glass)
             .buttonBorderShape(.circle)
-            .accessibilityLabel(.accessibilityPreviousPage)
+            .accessibilityLabel(
+                .accessibilityCloseSheet(name: "Server")
+            )
 
-            Text("Add Server")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-            
             Spacer()
 
+            Button {
+                if viewModel.saveConnection() {
+                    dismiss()
+                }
+            } label: {
+                if viewModel.isTesting {
+                    ProgressView()
+                        .padding(8)
+                } else {
+                    Image(systemName: AppIcon.checkmark)
+                        .font(.title2)
+                        .padding(8)
+                }
+            }
+            .tint(.green)
+            .buttonStyle(.glassProminent)
+            .buttonBorderShape(.circle)
+            .accessibilityLabel(.generalConfirm)
+
+        }
+        .padding([.horizontal, .top])
+        .disabled(viewModel.isTesting)
+    }
+}
+
+private struct FormStatusSection: View {
+    private let viewModel: AddServerSheetViewModel
+
+    init(_ viewModel: AddServerSheetViewModel) {
+        self.viewModel = viewModel
+    }
+
+    private var isSuccessOrFailure: Bool {
+        switch viewModel.status {
+        case .connected:
+            return true
+        case .failure(_):
+            return true
+        default:
+            return false
+        }
+    }
+
+    @ViewBuilder
+    private var failureContent: some View {
+        VStack(alignment: .leading) {
             HStack {
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Test")
-                        .frame(maxWidth: .infinity)
+                Image(systemName: AppIcon.close)
+                    .font(.body)
+
+                Text("Error")
+                    .font(.body)
+            }
+            .foregroundStyle(.red)
+
+            HStack {
+                Image(systemName: AppIcon.close)
+                    .font(.body)
+                    .hidden()
+
+                if let message = viewModel.status.failureMessage,
+                    !message.isEmpty
+                {
+                    Text(message)
+                        .font(.callout)
+                } else {
+                    Text("Something went wrong")
+                        .font(.callout)
                 }
-                .tint(.mint)
-                .buttonStyle(.glassProminent)
-                .controlSize(.extraLarge)
-                
-                Button {
-                    dismiss()
-                } label: {
-                    Text("Confirm")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.glass)
-                .controlSize(.extraLarge)
             }
         }
-        .padding()
-        .presentationDetents([.medium])
-        .presentationDragIndicator(.visible)
+    }
+
+    @ViewBuilder
+    private var successContent: some View {
+        HStack(spacing: 12) {
+            Image(systemName: AppIcon.checkmark)
+                .font(.body)
+                .tint(.green)
+
+            Text("Connected")
+        }
+    }
+
+    var body: some View {
+        if isSuccessOrFailure {
+            if viewModel.isSuccess {
+                successContent
+            } else {
+                failureContent
+            }
+        }
     }
 }
