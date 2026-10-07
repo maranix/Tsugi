@@ -1,5 +1,5 @@
 //
-//  ServerConfigStore.swift
+//  ServerStore.swift
 //  Tsugi
 //
 //  Created by Raman Verma on 04/10/26.
@@ -7,30 +7,43 @@
 
 import Foundation
 
+@MainActor
 @Observable
 final class ServerStore {
-    private let urlKey = "url"
-    private let isConfiguredKey = "is_configured"
-    
-    init() {
-        self.url = UserDefaults.standard.string(forKey: urlKey) ?? ""
-        self.isConfigured = UserDefaults.standard.bool(forKey: isConfiguredKey)
-    }
-    
-    var url: String {
-        didSet {
-            UserDefaults.standard.set(url, forKey: urlKey)
+    private let userDefaults: UserDefaults
+
+    private(set) var config: ServerConfig?
+
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+
+        if let configData = userDefaults.data(forKey: StorageKey.Server.config)
+        {
+            do {
+                self.config = try JSONDecoder().decode(
+                    ServerConfig.self,
+                    from: configData
+                )
+            } catch {
+                // Saved data is currupted, better to clear it out
+                userDefaults.removeObject(forKey: StorageKey.Server.config)
+                debugPrint(error.localizedDescription)
+            }
         }
     }
-    
+
     var isConfigured: Bool {
-        didSet {
-            UserDefaults.standard.set(isConfigured, forKey: isConfiguredKey)
-        }
+        config != nil
     }
-    
+
+    func save(_ config: ServerConfig) throws {
+        let data = try JSONEncoder().encode(config)
+        userDefaults.set(data, forKey: StorageKey.Server.config)
+        self.config = config
+    }
+
     func reset() {
-        url = ""
-        isConfigured = false
+        userDefaults.removeObject(forKey: StorageKey.Server.config)
+        config = nil
     }
 }
