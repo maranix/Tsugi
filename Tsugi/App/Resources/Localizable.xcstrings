@@ -112,6 +112,9 @@
         }
       }
     },
+    "Connect your server to start browsing and reading your library" : {
+
+    },
     "Connected" : {
 
     },
@@ -220,7 +223,7 @@
     "Host (127.0.0.1)" : {
 
     },
-    "Lorem ipsum something somethimg soemthing somet ihiehtakshfkajslfjasf" : {
+    "No Server Connected" : {
 
     },
     "onboardingWelcomeSubtitle" : {

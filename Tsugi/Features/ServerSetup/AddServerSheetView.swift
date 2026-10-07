@@ -9,11 +9,10 @@ import SwiftUI
 
 struct AddServerSheetView: View {
     @Environment(\.dismiss) private var dismiss
-
     @State private var viewModel: AddServerSheetViewModel
 
     init(_ serverStore: ServerStore) {
-        self.viewModel = AddServerSheetViewModel(serverStore: serverStore)
+        self.viewModel = AddServerSheetViewModel(serverStore)
     }
 
     var body: some View {
@@ -90,6 +89,7 @@ private struct SheetToolbar: View {
             } label: {
                 if viewModel.status.isLoading {
                     ProgressView()
+                        .tint(.white)
                         .padding(8)
                 } else {
                     Image(systemName: AppIcon.checkmark)
@@ -104,6 +104,7 @@ private struct SheetToolbar: View {
 
         }
         .padding([.horizontal, .top])
+        .disabled(viewModel.status.isLoading)
     }
 }
 
@@ -128,14 +129,9 @@ private struct FormStatusSection: View {
     @ViewBuilder
     private var failureContent: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Image(systemName: AppIcon.close)
-                    .font(.body)
-
-                Text("Error")
-                    .font(.body)
-            }
-            .foregroundStyle(.red)
+            Text("Error")
+                .font(.body)
+                .foregroundStyle(.red)
 
             HStack {
                 Image(systemName: AppIcon.close)

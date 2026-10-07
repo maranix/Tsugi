@@ -25,10 +25,24 @@ enum URLScheme: String, CaseIterable, Identifiable {
 @MainActor
 @Observable
 final class AddServerSheetViewModel {
-    private let serverStore: ServerStore
+    private let storage: ServerStorage
+    private let healthService: ServerHealthService
 
-    init(serverStore: ServerStore) {
-        self.serverStore = serverStore
+    init(
+        _ storage: ServerStorage,
+        healthService: ServerHealthService,
+    ) {
+        self.storage = storage
+        self.healthService = healthService
+    }
+
+    convenience init(
+        _ storage: ServerStorage,
+    ) {
+        self.init(
+            storage,
+            healthService: DefaultServerHealthService()
+        )
     }
 
     var status: AsyncStatus = .idle
@@ -74,13 +88,9 @@ final class AddServerSheetViewModel {
         status = .loading
 
         do {
-            let req = URLRequest(url: url)
+            let success = try await healthService.ping(to: url)
 
-            let (_, res) = try await URLSession.shared.data(for: req)
-
-            if let resStatus = res as? HTTPURLResponse,
-                (200...299).contains(resStatus.statusCode)
-            {
+            if success {
                 status = .success
             } else {
                 status = .failure(
@@ -106,7 +116,7 @@ final class AddServerSheetViewModel {
         }
 
         do {
-            try serverStore.save(ServerConfig(baseURL: url))
+            try storage.save(ServerConfig(baseURL: url))
             status = .success
             return true
         } catch {

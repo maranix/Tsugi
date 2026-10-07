@@ -40,6 +40,7 @@ struct OnboardingBottomBar: View {
                         .font(.title2)
                         .padding(.all, 12)
                 }
+                .tint(.green)
                 .buttonStyle(.glassProminent)
                 .buttonBorderShape(.circle)
                 .transition(

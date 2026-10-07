@@ -1,15 +1,24 @@
 //
-//  ServerStore.swift
+//  ServerStorage.swift
 //  Tsugi
 //
-//  Created by Raman Verma on 04/10/26.
+//  Created by Raman Verma on 07/10/26.
 //
 
 import Foundation
 
 @MainActor
+protocol ServerStorage {
+    var config: ServerConfig? { get }
+    var isConfigured: Bool { get }
+
+    func save(_ config: ServerConfig) throws
+    func reset()
+}
+
+@MainActor
 @Observable
-final class ServerStore {
+final class ServerStore: ServerStorage {
     private let userDefaults: UserDefaults
 
     private(set) var config: ServerConfig?
