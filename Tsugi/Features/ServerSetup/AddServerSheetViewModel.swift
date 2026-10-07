@@ -102,7 +102,7 @@ final class AddServerSheetViewModel {
 
             let (_, res) = try await URLSession.shared.data(for: req)
 
-            if let resStatus = res as? HTTPURLResponse,
+            if let resStatus = res as? HTTPURLResponse,dd
                 (200...299).contains(resStatus.statusCode)
             {
                 status = .connected
