@@ -22,6 +22,5 @@ struct OnboardingWelcomeView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .padding()
     }
 }

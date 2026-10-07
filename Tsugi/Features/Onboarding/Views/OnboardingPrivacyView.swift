@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardingServerView: View {
+struct OnboardingPrivacyView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Spacer()
@@ -84,6 +84,5 @@ struct OnboardingServerView: View {
                 .fontWeight(.bold)
                 .padding(.bottom, 24)
         }
-        .padding()
     }
 }

@@ -9,27 +9,15 @@ import SwiftUI
 
 enum OnboardingStep: Int, CaseIterable {
     case welcome
-    case server
+    case privacy
 }
 
 @Observable
 final class OnboardingViewModel {
-    private let userDefaults: UserDefaults
-    
     private let tabVM = TabViewModel<OnboardingStep>(.welcome)
-    
-    var showAddServerSheet = false
-    
-    init(userDefaults: UserDefaults = .standard) {
-        self.userDefaults = userDefaults
-    }
     
     var currentStep: OnboardingStep {
         tabVM.currentPage
-    }
-
-    var showAddServerButton: Bool {
-        currentStep == .server
     }
 
     var canGoNext: Bool {
@@ -51,13 +39,5 @@ final class OnboardingViewModel {
         withAnimation(.snappy) {
             tabVM.goPrevious()
         }
-    }
-
-    func openAddServerSheet() {
-        showAddServerSheet = true
-    }
-    
-    func completeOnboarding() {
-        userDefaults.set(true, forKey: StorageKey.Onboarding.completed)
     }
 }

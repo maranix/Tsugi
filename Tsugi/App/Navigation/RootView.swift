@@ -15,7 +15,9 @@ struct RootView: View {
             if isOnboarded {
                 MainShellView()
             } else {
-                OnboardingPage()
+                OnboardingPage(onComplete: {
+                    isOnboarded = true
+                })
             }
         }
         .animation(.easeIn, value: isOnboarded)

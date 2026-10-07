@@ -8,22 +8,48 @@
 import SwiftUI
 
 struct OnboardingPage: View {
+    private let onComplete: () -> Void
+
+    init(onComplete: @escaping () -> Void) {
+        self.onComplete = onComplete
+    }
+
     @State private var viewModel = OnboardingViewModel()
-    @Environment(ServerStore.self) private var serverStore
 
     @ViewBuilder
     private var content: some View {
         switch viewModel.currentStep {
         case .welcome:
             OnboardingWelcomeView()
-        case .server:
-            OnboardingServerView()
+        case .privacy:
+            OnboardingPrivacyView()
         }
     }
 
     var body: some View {
         VStack {
-            OnboardingTopBar()
+            HStack {
+                if viewModel.canGoPrevious {
+                    Button {
+                        viewModel.goPrevious()
+                    } label: {
+                        Image(systemName: AppIcon.previous)
+                            .font(.title2)
+                            .padding(.all, 12)
+                    }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .leading),
+                            removal: .opacity
+                        )
+                    )
+                    .accessibilityLabel(.accessibilityPreviousPage)
+                }
+
+                Spacer()
+            }
 
             ZStack {
                 content
@@ -31,11 +57,44 @@ struct OnboardingPage: View {
                     .transition(.slidingBlurReplace)
             }
 
-            OnboardingBottomBar()
+            HStack {
+                Spacer()
+
+                if viewModel.canGoNext {
+                    Button {
+                        viewModel.goNext()
+                    } label: {
+                        Image(systemName: AppIcon.next)
+                            .font(.title2)
+                            .padding(.all, 12)
+                    }
+                    .tint(.green)
+                    .buttonStyle(.glassProminent)
+                    .buttonBorderShape(.circle)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .opacity
+                        )
+                    )
+                    .accessibilityLabel(.accessibilityNextPage)
+                } else {
+                    Button(.buttonOnboardingComplete) {
+                        onComplete()
+                    }
+                    .tint(.green)
+                    .buttonStyle(.glassProminent)
+                    .controlSize(.extraLarge)
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .trailing),
+                            removal: .opacity
+                        )
+                    )
+                    .accessibilityLabel(.accessibilityCompleteOnboarding)
+                }
+            }
         }
-        .sheet(isPresented: $viewModel.showAddServerSheet) {
-            AddServerSheetView(serverStore)
-        }
-        .environment(viewModel)
+        .padding()
     }
 }
