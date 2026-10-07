@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingPage: View {
     @State private var viewModel = OnboardingViewModel()
+    @Environment(ServerStore.self) private var serverStore
 
     @ViewBuilder
     private var content: some View {
@@ -33,7 +34,7 @@ struct OnboardingPage: View {
             OnboardingBottomBar()
         }
         .sheet(isPresented: $viewModel.showAddServerSheet) {
-            AddServerSheetView()
+            AddServerSheetView(serverStore)
         }
         .environment(viewModel)
     }

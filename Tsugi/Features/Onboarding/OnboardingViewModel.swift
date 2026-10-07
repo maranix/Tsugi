@@ -14,10 +14,16 @@ enum OnboardingStep: Int, CaseIterable {
 
 @Observable
 final class OnboardingViewModel {
+    private let userDefaults: UserDefaults
+    
     private let tabVM = TabViewModel<OnboardingStep>(.welcome)
-
+    
     var showAddServerSheet = false
-
+    
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+    }
+    
     var currentStep: OnboardingStep {
         tabVM.currentPage
     }
@@ -33,9 +39,8 @@ final class OnboardingViewModel {
     var canGoPrevious: Bool {
         tabVM.canGoPrevious
     }
-
+    
     // Intents
-
     func goNext() {
         withAnimation(.snappy) {
             tabVM.goNext()
@@ -52,7 +57,7 @@ final class OnboardingViewModel {
         showAddServerSheet = true
     }
     
-    func closeAddServerSheet() {
-        showAddServerSheet = false
+    func completeOnboarding() {
+        userDefaults.set(true, forKey: StorageKey.Onboarding.completed)
     }
 }

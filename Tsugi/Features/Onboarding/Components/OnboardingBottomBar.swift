@@ -27,6 +27,7 @@ struct OnboardingBottomBar: View {
                         removal: .opacity
                     )
                 )
+                .accessibilityLabel(.accessibilityOpenSheet(name: "Server"))
             }
 
             Spacer()
@@ -48,6 +49,20 @@ struct OnboardingBottomBar: View {
                     )
                 )
                 .accessibilityLabel(.accessibilityNextPage)
+            } else {
+                Button(.buttonOnboardingComplete) {
+                    viewModel.completeOnboarding()
+                }
+                .tint(.green)
+                .buttonStyle(.glassProminent)
+                .controlSize(.extraLarge)
+                .transition(
+                    .asymmetric(
+                        insertion: .move(edge: .trailing),
+                        removal: .opacity
+                    )
+                )
+                .accessibilityLabel(.accessibilityCompleteOnboarding)
             }
 
         }
