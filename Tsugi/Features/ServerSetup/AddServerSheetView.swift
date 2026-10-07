@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct AddServerSheetView: View {
-    @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AddServerSheetViewModel
 
-    init(_ serverStore: ServerStore) {
-        self.viewModel = AddServerSheetViewModel(serverStore)
+    init(_ storage: ServerStorage) {
+        _viewModel = State(initialValue: AddServerSheetViewModel(storage))
     }
 
     var body: some View {
         Form {
             Section(
                 header: Text(.buttonAddServer),
-                footer: FormStatusSection(viewModel)
+                footer: FormStatusSection()
             ) {
                 Picker("Scheme", selection: $viewModel.scheme) {
                     ForEach(URLScheme.allCases) { scheme in
@@ -51,19 +50,15 @@ struct AddServerSheetView: View {
         .presentationBackgroundInteraction(.disabled)
         .presentationDragIndicator(.hidden)
         .safeAreaInset(edge: .top) {
-            SheetToolbar(dismiss: dismiss, viewModel: viewModel)
+            SheetToolbar()
         }
+        .environment(viewModel)
     }
 }
 
 private struct SheetToolbar: View {
-    private let dismiss: DismissAction
-    private let viewModel: AddServerSheetViewModel
-
-    init(dismiss: DismissAction, viewModel: AddServerSheetViewModel) {
-        self.dismiss = dismiss
-        self.viewModel = viewModel
-    }
+    @Environment(\.dismiss) private var dismiss
+    @Environment(AddServerSheetViewModel.self) private var viewModel
 
     var body: some View {
         HStack {
@@ -109,25 +104,10 @@ private struct SheetToolbar: View {
 }
 
 private struct FormStatusSection: View {
-    private let viewModel: AddServerSheetViewModel
-
-    init(_ viewModel: AddServerSheetViewModel) {
-        self.viewModel = viewModel
-    }
-
-    private var isSuccessOrFailure: Bool {
-        switch viewModel.status {
-        case .success:
-            return true
-        case .failure(_):
-            return true
-        default:
-            return false
-        }
-    }
+    @Environment(AddServerSheetViewModel.self) private var viewModel
 
     @ViewBuilder
-    private var failureContent: some View {
+    private func failureContent(_ message: String) -> some View {
         VStack(alignment: .leading) {
             Text("Error")
                 .font(.body)
@@ -138,15 +118,8 @@ private struct FormStatusSection: View {
                     .font(.body)
                     .hidden()
 
-                if let message = viewModel.status.failureMessage,
-                    !message.isEmpty
-                {
-                    Text(message)
-                        .font(.callout)
-                } else {
-                    Text("Something went wrong")
-                        .font(.callout)
-                }
+                Text(message.isEmpty ? "Something went wrong" : message)
+                    .font(.callout)
             }
         }
     }
@@ -156,19 +129,20 @@ private struct FormStatusSection: View {
         HStack(spacing: 12) {
             Image(systemName: AppIcon.checkmark)
                 .font(.body)
-                .tint(.green)
+                .foregroundStyle(.green)
 
             Text("Connected")
         }
     }
 
     var body: some View {
-        if isSuccessOrFailure {
-            if viewModel.status.isSuccess {
-                successContent
-            } else {
-                failureContent
-            }
+        switch viewModel.status {
+        case .success:
+            successContent
+        case .failure(let message):
+            failureContent(message)
+        default:
+            EmptyView()
         }
     }
 }

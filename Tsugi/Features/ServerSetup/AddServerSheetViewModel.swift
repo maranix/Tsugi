@@ -30,7 +30,7 @@ final class AddServerSheetViewModel {
 
     init(
         _ storage: ServerStorage,
-        healthService: ServerHealthService,
+        healthService: ServerHealthService
     ) {
         self.storage = storage
         self.healthService = healthService
@@ -39,10 +39,7 @@ final class AddServerSheetViewModel {
     convenience init(
         _ storage: ServerStorage,
     ) {
-        self.init(
-            storage,
-            healthService: DefaultServerHealthService()
-        )
+        self.init(storage, healthService: DefaultServerHealthService())
     }
 
     var status: AsyncStatus = .idle
