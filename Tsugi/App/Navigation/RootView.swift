@@ -11,16 +11,13 @@ struct RootView: View {
     @AppStorage(StorageKey.Onboarding.completed) private var isOnboarded = false
 
     var body: some View {
-        MainShellView()
-            .fullScreenCover(
-                isPresented: .init(
-                    get: { !isOnboarded },
-                    set: { val in
-                        isOnboarded = !val
-                    }
-                ),
-            ) {
+        Group {
+            if isOnboarded {
+                MainShellView()
+            } else {
                 OnboardingPage()
             }
+        }
+        .animation(.easeIn, value: isOnboarded)
     }
 }
