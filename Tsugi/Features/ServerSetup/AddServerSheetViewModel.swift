@@ -22,18 +22,6 @@ enum URLScheme: String, CaseIterable, Identifiable {
     }
 }
 
-enum ConnectionStatus: Equatable {
-    case idle
-    case connecting
-    case connected
-    case failure(String)
-
-    var failureMessage: String? {
-        guard case .failure(let message) = self else { return nil }
-        return message
-    }
-}
-
 @MainActor
 @Observable
 final class AddServerSheetViewModel {
@@ -43,7 +31,7 @@ final class AddServerSheetViewModel {
         self.serverStore = serverStore
     }
 
-    var status: ConnectionStatus = .idle
+    var status: AsyncStatus = .idle
 
     var scheme: URLScheme = .http {
         didSet {
@@ -63,18 +51,6 @@ final class AddServerSheetViewModel {
         }
     }
 
-    var isTesting: Bool {
-        status == .connecting
-    }
-
-    var isFailure: Bool {
-        status.failureMessage != nil
-    }
-
-    var isSuccess: Bool {
-        status == .connected
-    }
-
     func buildURL() -> URL? {
         let trimmedHost = host.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedHost.isEmpty else { return nil }
@@ -91,21 +67,21 @@ final class AddServerSheetViewModel {
     }
 
     func testConnection() async {
-        if isTesting { return }
+        if status.isLoading { return }
 
         guard let url = buildURL() else { return }
 
-        status = .connecting
+        status = .loading
 
         do {
             let req = URLRequest(url: url)
 
             let (_, res) = try await URLSession.shared.data(for: req)
 
-            if let resStatus = res as? HTTPURLResponse,dd
+            if let resStatus = res as? HTTPURLResponse,
                 (200...299).contains(resStatus.statusCode)
             {
-                status = .connected
+                status = .success
             } else {
                 status = .failure(
                     "Unable to establish a connection with the Server"
@@ -117,7 +93,7 @@ final class AddServerSheetViewModel {
     }
 
     func saveConnection() -> Bool {
-        if !isSuccess {
+        if !status.isSuccess {
             status = .failure(
                 "Tap on Test Connection to verify the details first."
             )
@@ -131,7 +107,7 @@ final class AddServerSheetViewModel {
 
         do {
             try serverStore.save(ServerConfig(baseURL: url))
-            status = .connected
+            status = .success
             return true
         } catch {
             status = .failure(error.localizedDescription)

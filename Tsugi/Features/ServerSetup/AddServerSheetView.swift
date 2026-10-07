@@ -45,7 +45,7 @@ struct AddServerSheetView: View {
                 }
                 .foregroundStyle(.red)
             }
-            .disabled(viewModel.isTesting)
+            .disabled(viewModel.status.isLoading)
         }
         .scrollDismissesKeyboard(.interactively)
         .presentationDetents([.medium, .large])
@@ -88,7 +88,7 @@ private struct SheetToolbar: View {
                     dismiss()
                 }
             } label: {
-                if viewModel.isTesting {
+                if viewModel.status.isLoading {
                     ProgressView()
                         .padding(8)
                 } else {
@@ -104,7 +104,6 @@ private struct SheetToolbar: View {
 
         }
         .padding([.horizontal, .top])
-        .disabled(viewModel.isTesting)
     }
 }
 
@@ -117,7 +116,7 @@ private struct FormStatusSection: View {
 
     private var isSuccessOrFailure: Bool {
         switch viewModel.status {
-        case .connected:
+        case .success:
             return true
         case .failure(_):
             return true
@@ -169,7 +168,7 @@ private struct FormStatusSection: View {
 
     var body: some View {
         if isSuccessOrFailure {
-            if viewModel.isSuccess {
+            if viewModel.status.isSuccess {
                 successContent
             } else {
                 failureContent
