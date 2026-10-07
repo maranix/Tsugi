@@ -8,18 +8,19 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var serverStore = ServerStore()
+    @AppStorage(StorageKey.Onboarding.completed) private var isOnboarded = false
 
     var body: some View {
-        OnboardingPage()
-//        Group {
-//            if serverStore.isConfigured {
-//                MainShellView()
-//            } else {
-//                OnboardingView()
-//            }
-//        }
-//        .animation(.default, value: serverStore.isConfigured)
-        .environment(serverStore)
+        MainShellView()
+            .fullScreenCover(
+                isPresented: .init(
+                    get: { !isOnboarded },
+                    set: { val in
+                        isOnboarded = !val
+                    }
+                ),
+            ) {
+                OnboardingPage()
+            }
     }
 }

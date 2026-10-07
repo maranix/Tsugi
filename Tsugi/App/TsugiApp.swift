@@ -10,9 +10,12 @@ import SwiftData
 
 @main
 struct TsugiApp: App {
+    @State private var serverStore = ServerStore()
+    
     var body: some Scene {
         WindowGroup {
             RootView()
+                .environment(serverStore)
         }
     }
 }
