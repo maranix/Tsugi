@@ -18,7 +18,8 @@ struct OnboardingWelcomeView: View {
                     .fontWeight(.bold)
 
                 Text(
-                    "Seamlessly control your self-hosted Suwayomi instance to bring your entire catalog, reading history, offline downloads and more."
+                    "Seamlessly control your self-hosted Suwayomi instance to " +
+                        "bring your entire catalog, reading history, offline downloads and more."
                 )
                 .font(.body)
                 .foregroundStyle(.secondary)

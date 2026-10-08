@@ -14,16 +14,18 @@ protocol ServerHealthService: Sendable {
 struct DefaultServerHealthService: ServerHealthService {
     private let client: URLSession
 
-    init(client: URLSession = .init(configuration: .ephemeral)) {
-        client.configuration.timeoutIntervalForRequest = 5
-        self.client = client
+    init(interval: TimeInterval = 10.0) {
+        let config = URLSessionConfiguration.ephemeral
+        config.timeoutIntervalForRequest = interval
+
+        client = URLSession(configuration: config)
     }
 
     func ping(to url: URL) async throws -> Bool {
         let (_, res) = try await client.data(from: url)
 
         if let response = res as? HTTPURLResponse {
-            if (200 ... 299).contains(response.statusCode) {
+            if (200 ..< 500).contains(response.statusCode) {
                 return true
             }
         }

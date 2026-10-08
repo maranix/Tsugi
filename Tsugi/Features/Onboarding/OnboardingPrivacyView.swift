@@ -66,10 +66,12 @@ struct OnboardingPrivacyView: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 Text(
-                    "Tsugi does not contain, bundle, or endorse third-party ad services and tracking analytics. Your reading habits belong strictly to you."
+                    "Tsugi does not contain, bundle, or endorse third-party ad services and tracking analytics. " +
+                        "Your reading habits belong strictly to you."
                 )
                 Text(
-                    "Every request, image stream, from bookmarked series to your page progress and chapter download is a direct handshake between your device and your hosted server."
+                    "Every request, image stream, from bookmarked series to your page progress and chapter download " +
+                        "is a direct handshake between your device and your hosted server."
                 )
             }
             .font(.body)
@@ -80,7 +82,8 @@ struct OnboardingPrivacyView: View {
             Spacer()
 
             Text(
-                "Tsugi has no control over network activity, external source extensions, or logs maintained on your server."
+                "Tsugi has no control over network activity, external source extensions, " +
+                    "or logs maintained on your server."
             )
             .font(.footnote)
             .fontWeight(.bold)
