@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddServerSheetView: View {
+    @Environment(\.serverHealthService) private var serverHealthService
     @State private var viewModel: AddServerSheetViewModel
 
     init(_ storage: ServerStorage) {
@@ -38,7 +39,7 @@ struct AddServerSheetView: View {
 
                 Button("Test Connection") {
                     Task {
-                        await viewModel.testConnection()
+                        await viewModel.testConnection(using: serverHealthService)
                     }
                 }
                 .foregroundStyle(.red)
@@ -96,7 +97,6 @@ private struct SheetToolbar: View {
             .buttonStyle(.glassProminent)
             .buttonBorderShape(.circle)
             .accessibilityLabel(.generalConfirm)
-
         }
         .padding([.horizontal, .top])
         .disabled(viewModel.status.isLoading)
@@ -106,7 +106,6 @@ private struct SheetToolbar: View {
 private struct FormStatusSection: View {
     @Environment(AddServerSheetViewModel.self) private var viewModel
 
-    @ViewBuilder
     private func failureContent(_ message: String) -> some View {
         VStack(alignment: .leading) {
             Text("Error")
@@ -124,7 +123,6 @@ private struct FormStatusSection: View {
         }
     }
 
-    @ViewBuilder
     private var successContent: some View {
         HStack(spacing: 12) {
             Image(systemName: AppIcon.checkmark)
@@ -139,7 +137,7 @@ private struct FormStatusSection: View {
         switch viewModel.status {
         case .success:
             successContent
-        case .failure(let message):
+        case let .failure(message):
             failureContent(message)
         default:
             EmptyView()

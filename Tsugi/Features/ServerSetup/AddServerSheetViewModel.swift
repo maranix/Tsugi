@@ -11,7 +11,9 @@ enum URLScheme: String, CaseIterable, Identifiable {
     case http
     case https
 
-    var id: String { rawValue }
+    var id: String {
+        rawValue
+    }
 
     var prefix: String {
         "\(rawValue)://"
@@ -26,20 +28,9 @@ enum URLScheme: String, CaseIterable, Identifiable {
 @Observable
 final class AddServerSheetViewModel {
     private let storage: ServerStorage
-    private let healthService: ServerHealthService
 
-    init(
-        _ storage: ServerStorage,
-        healthService: ServerHealthService
-    ) {
+    init(_ storage: ServerStorage) {
         self.storage = storage
-        self.healthService = healthService
-    }
-
-    convenience init(
-        _ storage: ServerStorage,
-    ) {
-        self.init(storage, healthService: DefaultServerHealthService())
     }
 
     var status: AsyncStatus = .idle
@@ -70,15 +61,17 @@ final class AddServerSheetViewModel {
         components.scheme = scheme.rawValue
         components.host = trimmedHost
 
-        if let portNumber = Int(port), (1...65535).contains(portNumber) {
+        if let portNumber = Int(port), (1 ... 65535).contains(portNumber) {
             components.port = portNumber
         }
 
         return components.url
     }
 
-    func testConnection() async {
-        if status.isLoading { return }
+    func testConnection(using healthService: ServerHealthService) async {
+        if status.isLoading {
+            return
+        }
 
         guard let url = buildURL() else { return }
 

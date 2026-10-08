@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol ServerHealthService: Sendable {
     func ping(to url: URL) async throws -> Bool
@@ -28,5 +29,16 @@ struct DefaultServerHealthService: ServerHealthService {
         }
 
         return false
+    }
+}
+
+private struct ServerHealthServiceKey: EnvironmentKey {
+    static let defaultValue: ServerHealthService = DefaultServerHealthService()
+}
+
+extension EnvironmentValues {
+    var serverHealthService: ServerHealthService {
+        get { self[ServerHealthServiceKey.self] }
+        set { self[ServerHealthServiceKey.self] = newValue }
     }
 }
