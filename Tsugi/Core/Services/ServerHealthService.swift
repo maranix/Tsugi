@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 protocol ServerHealthService: Sendable {
     func ping(to url: URL) async throws -> Bool
@@ -16,6 +15,7 @@ struct DefaultServerHealthService: ServerHealthService {
     private let client: URLSession
 
     init(client: URLSession = .init(configuration: .ephemeral)) {
+        client.configuration.timeoutIntervalForRequest = 5
         self.client = client
     }
 
@@ -29,16 +29,5 @@ struct DefaultServerHealthService: ServerHealthService {
         }
 
         return false
-    }
-}
-
-private struct ServerHealthServiceKey: EnvironmentKey {
-    static let defaultValue: ServerHealthService = DefaultServerHealthService()
-}
-
-extension EnvironmentValues {
-    var serverHealthService: ServerHealthService {
-        get { self[ServerHealthServiceKey.self] }
-        set { self[ServerHealthServiceKey.self] = newValue }
     }
 }

@@ -3,4 +3,4 @@
 --self remove
 --trimwhitespace always
 --stripunusedargs closure-only
---disable environmentEntry,wrapArguments
+--disable wrapArguments
