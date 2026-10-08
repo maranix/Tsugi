@@ -66,7 +66,7 @@ private struct SheetToolbar: View {
             Button {
                 dismiss()
             } label: {
-                Image(systemName: AppIcon.close)
+                Image(systemName: SFSymbol.close)
                     .font(.title2)
                     .padding(8)
             }
@@ -88,7 +88,7 @@ private struct SheetToolbar: View {
                         .tint(.white)
                         .padding(8)
                 } else {
-                    Image(systemName: AppIcon.checkmark)
+                    Image(systemName: SFSymbol.checkmark)
                         .font(.title2)
                         .padding(8)
                 }
@@ -113,7 +113,7 @@ private struct FormStatusSection: View {
                 .foregroundStyle(.red)
 
             HStack {
-                Image(systemName: AppIcon.close)
+                Image(systemName: SFSymbol.close)
                     .font(.body)
                     .hidden()
 
@@ -125,7 +125,7 @@ private struct FormStatusSection: View {
 
     private var successContent: some View {
         HStack(spacing: 12) {
-            Image(systemName: AppIcon.checkmark)
+            Image(systemName: SFSymbol.checkmark)
                 .font(.body)
                 .foregroundStyle(.green)
 

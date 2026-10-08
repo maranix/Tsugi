@@ -6,6 +6,9 @@
 //
 
 import Foundation
+import os
+
+private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tsugi", category: "Storage")
 
 @MainActor
 protocol ServerStorage {
@@ -33,9 +36,9 @@ final class ServerStore: ServerStorage {
                     from: configData
                 )
             } catch {
-                // Saved data is currupted, better to clear it out
+                // Saved data is corrupted, better to clear it out
                 userDefaults.removeObject(forKey: StorageKey.Server.config)
-                debugPrint(error.localizedDescription)
+                logger.error("Failed to decode saved ServerConfig: \(error.localizedDescription)")
             }
         }
     }

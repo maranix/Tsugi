@@ -23,7 +23,7 @@ struct MainShellView: View {
             TabView(selection: $tab) {
                 Tab(
                     .generalLibrary,
-                    systemImage: AppIcon.library,
+                    systemImage: SFSymbol.library,
                     value: .library
                 ) {
                     NavigationStack {
@@ -33,7 +33,7 @@ struct MainShellView: View {
 
                 Tab(
                     .generalDiscover,
-                    systemImage: AppIcon.browse,
+                    systemImage: SFSymbol.browse,
                     value: .discover
                 ) {
                     NavigationStack {
@@ -43,7 +43,7 @@ struct MainShellView: View {
             }
         } else {
             ContentUnavailableView {
-                Label("No Server Connected", systemImage: AppIcon.server)
+                Label("No Server Connected", systemImage: SFSymbol.server)
             } description: {
                 Text(
                     "Connect your server to start browsing and reading your library"

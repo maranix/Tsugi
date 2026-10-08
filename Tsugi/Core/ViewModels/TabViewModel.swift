@@ -20,31 +20,26 @@ final class TabViewModel<T: CaseIterable & Equatable> {
     }
 
     init(_ start: T) {
-        self.current = start
-
-        guard let index = cases.firstIndex(of: start) else {
-            fatalError("\(start) does not exist in \(T.self)")
-        }
-
-        self.currentIndex = index
+        current = start
+        currentIndex = cases.firstIndex(of: start) ?? 0
     }
 
     func goNext() {
-        if !canGoNext { return }
+        guard canGoNext else {
+            return
+        }
 
         let next = currentIndex + 1
         setPage(cases[next], index: next)
     }
 
     func goPrevious() {
-        if !canGoPrevious { return }
+        guard canGoPrevious else {
+            return
+        }
 
         let previous = currentIndex - 1
         setPage(cases[previous], index: previous)
-    }
-
-    func isActive(_ page: T) -> Bool {
-        page == current
     }
 
     var canGoNext: Bool {
@@ -66,10 +61,6 @@ final class TabViewModel<T: CaseIterable & Equatable> {
     }
 
     private func indexOfPage(_ page: T) -> Int {
-        guard let index = cases.firstIndex(of: page) else {
-            fatalError("\(page) does not exist in \(T.self)")
-        }
-
-        return index
+        cases.firstIndex(of: page) ?? currentIndex
     }
 }

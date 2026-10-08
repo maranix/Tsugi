@@ -5,7 +5,10 @@
 //  Created by Raman Verma on 07/10/26.
 //
 
+import os
 import SwiftUI
+
+private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tsugi", category: "ServerSetup")
 
 enum URLScheme: String, CaseIterable, Identifiable {
     case http
@@ -111,10 +114,7 @@ final class AddServerSheetViewModel {
             return true
         } catch {
             status = .failure(error.localizedDescription)
-            debugPrint(
-                "Unable to save ServerConfig object: ",
-                error.localizedDescription
-            )
+            logger.error("Unable to save ServerConfig object: \(error.localizedDescription)")
             return false
         }
     }

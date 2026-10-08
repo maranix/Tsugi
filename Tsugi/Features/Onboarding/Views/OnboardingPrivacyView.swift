@@ -26,7 +26,7 @@ struct OnboardingPrivacyView: View {
 
                     HStack {
                         Text(.generalPrivacy)
-                        Image(systemName: AppIcon.privacy)
+                        Image(systemName: SFSymbol.privacy)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
                     }
@@ -40,7 +40,7 @@ struct OnboardingPrivacyView: View {
 
                     HStack {
                         Text(.generalLibrary)
-                        Image(systemName: AppIcon.library)
+                        Image(systemName: SFSymbol.library)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
                     }
@@ -54,7 +54,7 @@ struct OnboardingPrivacyView: View {
 
                     HStack {
                         Text(.generalControl)
-                        Image(systemName: AppIcon.control)
+                        Image(systemName: SFSymbol.control)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
                     }

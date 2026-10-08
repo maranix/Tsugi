@@ -33,7 +33,7 @@ struct OnboardingPage: View {
                     Button {
                         viewModel.goPrevious()
                     } label: {
-                        Image(systemName: AppIcon.previous)
+                        Image(systemName: SFSymbol.previous)
                             .font(.title2)
                             .padding(.all, 12)
                     }
@@ -64,7 +64,7 @@ struct OnboardingPage: View {
                     Button {
                         viewModel.goNext()
                     } label: {
-                        Image(systemName: AppIcon.next)
+                        Image(systemName: SFSymbol.next)
                             .font(.title2)
                             .padding(.all, 12)
                     }

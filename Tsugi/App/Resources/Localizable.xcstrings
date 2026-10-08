@@ -12,17 +12,6 @@
         }
       }
     },
-    ".generalTest" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Test"
-          }
-        }
-      }
-    },
     "accessibilityCloseSheet" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -52,17 +41,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Next Page"
-          }
-        }
-      }
-    },
-    "accessibilityOpenSheet" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open %1$(name)@ sheet"
           }
         }
       }
