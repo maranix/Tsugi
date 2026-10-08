@@ -98,3 +98,7 @@ struct OnboardingPage: View {
         .padding()
     }
 }
+
+#Preview {
+    OnboardingPage(onComplete: {})
+}

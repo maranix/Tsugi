@@ -17,3 +17,7 @@ struct LibraryView: View {
             .scrollIndicators(.never)
     }
 }
+
+#Preview {
+    LibraryView()
+}

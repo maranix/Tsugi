@@ -1,0 +1,6 @@
+--swiftversion 6.0
+--indent 4
+--self remove
+--trimwhitespace always
+--stripunusedargs closure-only
+--disable environmentEntry,wrapArguments

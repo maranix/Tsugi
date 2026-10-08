@@ -142,3 +142,7 @@ private struct FormStatusSection: View {
         }
     }
 }
+
+#Preview {
+    AddServerSheetView(ServerStore())
+}

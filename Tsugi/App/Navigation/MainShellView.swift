@@ -60,3 +60,8 @@ struct MainShellView: View {
         }
     }
 }
+
+#Preview {
+    MainShellView()
+        .environment(ServerStore())
+}

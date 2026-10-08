@@ -23,3 +23,8 @@ struct RootView: View {
         .animation(.easeIn, value: isOnboarded)
     }
 }
+
+#Preview {
+    RootView()
+        .environment(ServerStore())
+}

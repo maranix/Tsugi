@@ -88,3 +88,8 @@ struct OnboardingPrivacyView: View {
         }
     }
 }
+
+#Preview {
+    OnboardingPrivacyView()
+        .padding()
+}

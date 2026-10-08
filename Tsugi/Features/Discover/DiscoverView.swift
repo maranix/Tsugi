@@ -17,3 +17,7 @@ struct DiscoverView: View {
             .scrollIndicators(.never)
     }
 }
+
+#Preview {
+    DiscoverView()
+}

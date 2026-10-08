@@ -26,3 +26,8 @@ struct OnboardingWelcomeView: View {
         }
     }
 }
+
+#Preview {
+    OnboardingWelcomeView()
+        .padding()
+}
