@@ -41,3 +41,6 @@ graphify-out/.*
 
 .nvim/*
 buildServer.json
+
+# Local configurations
+Config/Local.xcconfig

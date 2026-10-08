@@ -1,4 +1,6 @@
 // Configuration settings for Tsugi
-// Override local settings in Local.xcconfig if needed
+// Default placeholder for open-source / team contributors
+DEVELOPMENT_TEAM =
 
-DEVELOPMENT_TEAM = 66X62GDP94
+// Optional local overrides (gitignored)
+#include? "Local.xcconfig"

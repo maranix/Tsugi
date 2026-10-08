@@ -32,7 +32,7 @@ Tsugi is a modern native iOS client for self-hosted [Suwayomi](https://github.co
    cd Tsugi
    ```
 2. Open `Tsugi.xcodeproj` in Xcode.
-3. Configure your Apple Developer Team in `Config/Config.xcconfig` if needed:
+3. (Optional) Configure your Apple Developer Team for code signing by creating `Config/Local.xcconfig`:
    ```xcconfig
    DEVELOPMENT_TEAM = <YOUR_TEAM_ID>
    ```
