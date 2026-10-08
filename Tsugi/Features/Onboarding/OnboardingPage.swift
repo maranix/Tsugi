@@ -45,7 +45,7 @@ struct OnboardingPage: View {
                             removal: .opacity
                         )
                     )
-                    .accessibilityLabel(.accessibilityPreviousPage)
+                    .accessibilityLabel("Previous Page")
                 }
 
                 Spacer()
@@ -77,9 +77,9 @@ struct OnboardingPage: View {
                             removal: .opacity
                         )
                     )
-                    .accessibilityLabel(.accessibilityNextPage)
+                    .accessibilityLabel("Next Page")
                 } else {
-                    Button(.buttonOnboardingComplete) {
+                    Button("Start Reading") {
                         onComplete()
                     }
                     .tint(.green)
@@ -91,7 +91,7 @@ struct OnboardingPage: View {
                             removal: .opacity
                         )
                     )
-                    .accessibilityLabel(.accessibilityCompleteOnboarding)
+                    .accessibilityLabel("Complete Onboarding")
                 }
             }
         }

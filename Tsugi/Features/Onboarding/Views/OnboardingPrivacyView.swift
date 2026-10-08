@@ -14,7 +14,7 @@ struct OnboardingPrivacyView: View {
 
             Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0) {
                 GridRow {
-                    Text(.generalYour)
+                    Text("Your")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                 }
@@ -25,7 +25,7 @@ struct OnboardingPrivacyView: View {
                         .gridCellUnsizedAxes([.horizontal, .vertical])
 
                     HStack {
-                        Text(.generalPrivacy)
+                        Text("Privacy")
                         Image(systemName: SFSymbol.privacy)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
@@ -39,7 +39,7 @@ struct OnboardingPrivacyView: View {
                         .gridCellUnsizedAxes([.horizontal, .vertical])
 
                     HStack {
-                        Text(.generalLibrary)
+                        Text("Library")
                         Image(systemName: SFSymbol.library)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
@@ -53,7 +53,7 @@ struct OnboardingPrivacyView: View {
                         .gridCellUnsizedAxes([.horizontal, .vertical])
 
                     HStack {
-                        Text(.generalControl)
+                        Text("Control")
                         Image(systemName: SFSymbol.control)
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
@@ -65,8 +65,12 @@ struct OnboardingPrivacyView: View {
             Spacer()
 
             VStack(alignment: .leading, spacing: 12) {
-                Text(.disclaimerEndorsments)
-                Text(.disclaimerPrivacy)
+                Text(
+                    "Tsugi does not contain, bundle, or endorse third-party ad services and tracking analytics. Your reading habits belong strictly to you."
+                )
+                Text(
+                    "Every request, image stream, from bookmarked series to your page progress and chapter download is a direct handshake between your device and your hosted server."
+                )
             }
             .font(.body)
             .fontWeight(.thin)
@@ -75,10 +79,12 @@ struct OnboardingPrivacyView: View {
 
             Spacer()
 
-            Text(.disclaimerControl)
-                .font(.footnote)
-                .fontWeight(.bold)
-                .padding(.bottom, 24)
+            Text(
+                "Tsugi has no control over network activity, external source extensions, or logs maintained on your server."
+            )
+            .font(.footnote)
+            .fontWeight(.bold)
+            .padding(.bottom, 24)
         }
     }
 }

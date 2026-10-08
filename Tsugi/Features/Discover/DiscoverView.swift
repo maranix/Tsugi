@@ -12,7 +12,7 @@ struct DiscoverView: View {
 
     var body: some View {
         ScrollView {}
-            .navigationTitle(.generalDiscover)
+            .navigationTitle("Discover")
             .searchable(text: $searchQuery)
             .scrollIndicators(.never)
     }

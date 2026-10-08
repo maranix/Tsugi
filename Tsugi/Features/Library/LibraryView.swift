@@ -12,7 +12,7 @@ struct LibraryView: View {
 
     var body: some View {
         ScrollView {}
-            .navigationTitle(.generalLibrary)
+            .navigationTitle("Library")
             .searchable(text: $searchQuery)
             .scrollIndicators(.never)
     }

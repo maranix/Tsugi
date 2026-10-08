@@ -22,7 +22,7 @@ struct MainShellView: View {
         if serverStore.isConfigured {
             TabView(selection: $tab) {
                 Tab(
-                    .generalLibrary,
+                    "Library",
                     systemImage: SFSymbol.library,
                     value: .library
                 ) {
@@ -32,7 +32,7 @@ struct MainShellView: View {
                 }
 
                 Tab(
-                    .generalDiscover,
+                    "Discover",
                     systemImage: SFSymbol.browse,
                     value: .discover
                 ) {
@@ -49,9 +49,10 @@ struct MainShellView: View {
                     "Connect your server to start browsing and reading your library"
                 )
             } actions: {
-                Button(.buttonAddServer) {
+                Button("Add Server") {
                     showAddServerSheet = true
-                }.buttonStyle(.glassProminent)
+                }
+                .buttonStyle(.glassProminent)
             }
             .sheet(isPresented: $showAddServerSheet) {
                 AddServerSheetView(serverStore)

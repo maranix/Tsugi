@@ -14,30 +14,39 @@ enum OnboardingStep: Int, CaseIterable {
 
 @Observable
 final class OnboardingViewModel {
-    private let tabVM = TabViewModel<OnboardingStep>(.welcome)
+    private let steps = Array(OnboardingStep.allCases)
+    private var currentIndex: Int = 0
 
     var currentStep: OnboardingStep {
-        tabVM.currentPage
+        steps[currentIndex]
     }
 
     var canGoNext: Bool {
-        tabVM.canGoNext
+        steps.indices.contains(currentIndex + 1)
     }
 
     var canGoPrevious: Bool {
-        tabVM.canGoPrevious
+        currentIndex > 0
     }
 
     /// Intents
     func goNext() {
+        guard canGoNext else {
+            return
+        }
+
         withAnimation(.snappy) {
-            tabVM.goNext()
+            currentIndex += 1
         }
     }
 
     func goPrevious() {
+        guard canGoPrevious else {
+            return
+        }
+
         withAnimation(.snappy) {
-            tabVM.goPrevious()
+            currentIndex -= 1
         }
     }
 }

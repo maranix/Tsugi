@@ -13,13 +13,15 @@ struct OnboardingWelcomeView: View {
             Spacer()
 
             VStack(alignment: .leading, spacing: 16) {
-                Text(.appTitle)
+                Text("Tsugi")
                     .font(.largeTitle)
                     .fontWeight(.bold)
 
-                Text(.onboardingWelcomeSubtitle)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
+                Text(
+                    "Seamlessly control your self-hosted Suwayomi instance to bring your entire catalog, reading history, offline downloads and more."
+                )
+                .font(.body)
+                .foregroundStyle(.secondary)
             }
         }
     }

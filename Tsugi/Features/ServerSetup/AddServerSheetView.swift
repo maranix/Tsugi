@@ -18,7 +18,7 @@ struct AddServerSheetView: View {
     var body: some View {
         Form {
             Section(
-                header: Text(.buttonAddServer),
+                header: Text("Add Server"),
                 footer: FormStatusSection()
             ) {
                 Picker("Scheme", selection: $viewModel.scheme) {
@@ -72,9 +72,7 @@ private struct SheetToolbar: View {
             }
             .buttonStyle(.glass)
             .buttonBorderShape(.circle)
-            .accessibilityLabel(
-                .accessibilityCloseSheet(name: "Server")
-            )
+            .accessibilityLabel("Close Server sheet")
 
             Spacer()
 
@@ -96,7 +94,7 @@ private struct SheetToolbar: View {
             .tint(.green)
             .buttonStyle(.glassProminent)
             .buttonBorderShape(.circle)
-            .accessibilityLabel(.generalConfirm)
+            .accessibilityLabel("Confirm")
         }
         .padding([.horizontal, .top])
         .disabled(viewModel.status.isLoading)
