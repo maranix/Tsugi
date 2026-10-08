@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SlidingBlurReplaceTransition: ViewModifier {
     let blur: CGFloat
-    let y: CGFloat
+    let yAxis: CGFloat
     let opacity: Double
 
     func body(content: Content) -> some View {
         content
             .blur(radius: blur)
-            .offset(y: y)
+            .offset(y: yAxis)
             .opacity(opacity)
     }
 }
@@ -26,24 +26,24 @@ extension AnyTransition {
             insertion: .modifier(
                 active: SlidingBlurReplaceTransition(
                     blur: 10,
-                    y: 30,
+                    yAxis: 30,
                     opacity: 0
                 ),
                 identity: SlidingBlurReplaceTransition(
                     blur: 0,
-                    y: 0,
+                    yAxis: 0,
                     opacity: 1
                 )
             ),
             removal: .modifier(
                 active: SlidingBlurReplaceTransition(
                     blur: 10,
-                    y: -60,
+                    yAxis: -60,
                     opacity: 0
                 ),
                 identity: SlidingBlurReplaceTransition(
                     blur: 0,
-                    y: 0,
+                    yAxis: 0,
                     opacity: 1
                 )
             )

@@ -1,5 +1,5 @@
 //
-//  OnboardingServerConfigurationView.swift
+//  OnboardingPrivacyView.swift
 //  Tsugi
 //
 //  Created by Raman Verma on 05/10/26.
@@ -12,8 +12,7 @@ struct OnboardingPrivacyView: View {
         VStack(alignment: .leading) {
             Spacer()
 
-            Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0)
-            {
+            Grid(alignment: .leading, horizontalSpacing: 0, verticalSpacing: 0) {
                 GridRow {
                     Text(.generalYour)
                         .font(.largeTitle)
@@ -45,7 +44,6 @@ struct OnboardingPrivacyView: View {
                             .foregroundStyle(.secondary)
                             .accessibilityHidden(true)
                     }
-
                 }
                 .font(.title2)
 
@@ -62,7 +60,6 @@ struct OnboardingPrivacyView: View {
                     }
                 }
                 .font(.title2)
-
             }
 
             Spacer()
@@ -70,7 +67,6 @@ struct OnboardingPrivacyView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(.disclaimerEndorsments)
                 Text(.disclaimerPrivacy)
-
             }
             .font(.body)
             .fontWeight(.thin)

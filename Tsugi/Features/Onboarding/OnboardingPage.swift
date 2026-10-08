@@ -1,5 +1,5 @@
 //
-//  OnboardingView.swift
+//  OnboardingPage.swift
 //  Tsugi
 //
 //  Created by Raman Verma on 04/10/26.

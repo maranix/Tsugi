@@ -12,22 +12,28 @@ enum AsyncStatus {
     case failure(String)
 
     var isLoading: Bool {
-        if case .loading = self { return true }
+        if case .loading = self {
+            return true
+        }
         return false
     }
-    
+
     var isSuccess: Bool {
-        if case .success = self { return true }
+        if case .success = self {
+            return true
+        }
         return false
     }
 
     var isFailure: Bool {
-        if case .failure(_) = self { return true }
+        if case .failure = self {
+            return true
+        }
         return false
     }
 
     var failureMessage: String? {
-        guard case .failure(let message) = self else { return nil }
+        guard case let .failure(message) = self else { return nil }
         return message
     }
 }

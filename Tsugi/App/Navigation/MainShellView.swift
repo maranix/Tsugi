@@ -16,7 +16,6 @@ struct MainShellView: View {
     @Environment(ServerStore.self) private var serverStore
 
     @State private var tab: MainShellTab = .library
-    @State private var mockBooksViewModel = MockBooksViewModel()
     @State private var showAddServerSheet = false
 
     var body: some View {
@@ -42,7 +41,6 @@ struct MainShellView: View {
                     }
                 }
             }
-            .environment(mockBooksViewModel)
         } else {
             ContentUnavailableView {
                 Label("No Server Connected", systemImage: AppIcon.server)

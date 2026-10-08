@@ -21,10 +21,10 @@ struct DefaultServerHealthService: ServerHealthService {
     func ping(to url: URL) async throws -> Bool {
         let (_, res) = try await client.data(from: url)
 
-        if let response = res as? HTTPURLResponse,
-            (200...299).contains(response.statusCode)
-        {
-            return true
+        if let response = res as? HTTPURLResponse {
+            if (200 ... 299).contains(response.statusCode) {
+                return true
+            }
         }
 
         return false

@@ -15,7 +15,7 @@ enum OnboardingStep: Int, CaseIterable {
 @Observable
 final class OnboardingViewModel {
     private let tabVM = TabViewModel<OnboardingStep>(.welcome)
-    
+
     var currentStep: OnboardingStep {
         tabVM.currentPage
     }
@@ -27,8 +27,8 @@ final class OnboardingViewModel {
     var canGoPrevious: Bool {
         tabVM.canGoPrevious
     }
-    
-    // Intents
+
+    /// Intents
     func goNext() {
         withAnimation(.snappy) {
             tabVM.goNext()

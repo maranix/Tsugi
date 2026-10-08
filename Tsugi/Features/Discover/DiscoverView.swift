@@ -8,21 +8,12 @@
 import SwiftUI
 
 struct DiscoverView: View {
-    @Environment(MockBooksViewModel.self) private var viewModel
-    
     @State private var searchQuery: String = ""
-    
+
     var body: some View {
-        ScrollView {
-            BookGridView(books: viewModel.books)
-                .padding(.horizontal)
-        }
-        .navigationTitle(.generalDiscover)
-        .searchable(text: $searchQuery)
-        .toolbar {
-            DefaultToolbarItem(kind: .title, placement: .title)
-            DefaultToolbarItem(kind: .search, placement: .automatic)
-        }
-        .scrollIndicators(.never)
+        ScrollView {}
+            .navigationTitle(.generalDiscover)
+            .searchable(text: $searchQuery)
+            .scrollIndicators(.never)
     }
 }

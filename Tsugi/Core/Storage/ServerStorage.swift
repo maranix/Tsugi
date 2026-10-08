@@ -26,10 +26,9 @@ final class ServerStore: ServerStorage {
     init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
 
-        if let configData = userDefaults.data(forKey: StorageKey.Server.config)
-        {
+        if let configData = userDefaults.data(forKey: StorageKey.Server.config) {
             do {
-                self.config = try JSONDecoder().decode(
+                config = try JSONDecoder().decode(
                     ServerConfig.self,
                     from: configData
                 )

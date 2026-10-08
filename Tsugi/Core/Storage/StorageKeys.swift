@@ -9,7 +9,7 @@ enum StorageKey {
     enum Onboarding {
         static let completed = "onboarding.completed"
     }
-    
+
     enum Server {
         static let config = "server.config"
     }
