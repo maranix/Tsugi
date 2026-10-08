@@ -10,23 +10,6 @@ import SwiftUI
 
 private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tsugi", category: "ServerSetup")
 
-enum URLScheme: String, CaseIterable, Identifiable {
-    case http
-    case https
-
-    var id: String {
-        rawValue
-    }
-
-    var prefix: String {
-        "\(rawValue)://"
-    }
-
-    var displayName: String {
-        rawValue.uppercased()
-    }
-}
-
 @MainActor
 @Observable
 final class AddServerSheetViewModel {

@@ -1,0 +1,4 @@
+// Configuration settings for Tsugi
+// Override local settings in Local.xcconfig if needed
+
+DEVELOPMENT_TEAM = 66X62GDP94
