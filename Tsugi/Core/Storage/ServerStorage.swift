@@ -21,7 +21,9 @@ protocol ServerStorage {
 
 @MainActor
 @Observable
-final class ServerStore: ServerStorage {
+final class DefaultServerStore: ServerStorage {
+    static let shared = DefaultServerStore()
+
     private let userDefaults: UserDefaults
 
     private(set) var config: ServerConfig?

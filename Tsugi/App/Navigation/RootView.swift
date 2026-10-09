@@ -9,8 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var router = Router()
-    @State private var serverStorage = ServerStore()
-    @State private var onboardingStorage = OnboardingStore()
+    @Environment(\.onboardingStorage) private var onboardingStorage
 
     var body: some View {
         ZStack {
@@ -28,7 +27,7 @@ struct RootView: View {
                     Button("Reset Onboarding") {
                         withAnimation(.easeIn) {
                             router.pushRoot(.splash)
-                            onboardingStorage.onboarded = false
+                            onboardingStorage.setOnboarded(false)
                         }
                     }
                 }
@@ -44,13 +43,13 @@ struct RootView: View {
                         onComplete: {
                             withAnimation(.easeIn) {
                                 router.popSheet()
-                                onboardingStorage.onboarded = true
+                                onboardingStorage.setOnboarded(true)
                             }
                         }
                     )
                     .interactiveDismissDisabled()
                 case .addServer:
-                    AddServerSheetView(serverStorage)
+                    AddServerSheetView()
                 }
             }
         )

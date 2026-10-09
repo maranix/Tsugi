@@ -9,11 +9,8 @@ import SwiftUI
 
 struct AddServerSheetView: View {
     @Environment(\.serverHealthService) private var serverHealthService
-    @State private var viewModel: AddServerSheetViewModel
 
-    init(_ storage: ServerStorage) {
-        _viewModel = State(initialValue: AddServerSheetViewModel(storage))
-    }
+    @State private var viewModel = AddServerSheetViewModel()
 
     var body: some View {
         Form {
@@ -59,6 +56,7 @@ struct AddServerSheetView: View {
 
 private struct SheetToolbar: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.serverStorage) private var serverStorage
     @Environment(AddServerSheetViewModel.self) private var viewModel
 
     var body: some View {
@@ -77,7 +75,7 @@ private struct SheetToolbar: View {
             Spacer()
 
             Button {
-                if viewModel.saveConnection() {
+                if viewModel.saveConnection(using: serverStorage) {
                     dismiss()
                 }
             } label: {
@@ -141,8 +139,4 @@ private struct FormStatusSection: View {
             EmptyView()
         }
     }
-}
-
-#Preview {
-    AddServerSheetView(ServerStore())
 }
