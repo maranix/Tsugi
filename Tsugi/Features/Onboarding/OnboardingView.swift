@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct OnboardingPage: View {
+struct OnboardingView: View {
     private let onComplete: () -> Void
 
     init(onComplete: @escaping () -> Void) {
@@ -206,5 +206,5 @@ private struct PrivacyView: View {
 }
 
 #Preview {
-    OnboardingPage(onComplete: {})
+    OnboardingView(onComplete: {})
 }
