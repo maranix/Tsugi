@@ -15,22 +15,9 @@ struct RootView: View {
         ZStack {
             switch router.root {
             case .splash:
-                Text("Tsugi")
-                    .font(.title)
-                    .fontWeight(.bold)
+                SplashView()
             case .homeShell:
-                VStack {
-                    Text("Home")
-                        .font(.title)
-                        .fontWeight(.bold)
-
-                    Button("Reset Onboarding") {
-                        withAnimation(.easeIn) {
-                            router.pushRoot(.splash)
-                            onboardingStorage.setOnboarded(false)
-                        }
-                    }
-                }
+                HomeShellView()
             }
         }
         .sheet(
@@ -53,15 +40,6 @@ struct RootView: View {
                 }
             }
         )
-        .task(id: onboardingStorage.onboarded) {
-            withAnimation(.easeIn(duration: 0.25)) {
-                if onboardingStorage.onboarded {
-                    router.pushRoot(.homeShell)
-                } else {
-                    router.pushSheet(.onboarding)
-                }
-            }
-        }
         .environment(router)
     }
 }
