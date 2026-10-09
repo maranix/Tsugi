@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct RootView: View {
-    @AppStorage(StorageKey.Onboarding.completed) private var isOnboarded = false
-
     @State private var router = Router()
-    @State private var serverStorage: ServerStorage = ServerStore()
+    @State private var serverStorage = ServerStore()
+    @State private var onboardingStorage = OnboardingStore()
 
     var body: some View {
         ZStack {
@@ -29,7 +28,7 @@ struct RootView: View {
                     Button("Reset Onboarding") {
                         withAnimation(.easeIn) {
                             router.pushRoot(.splash)
-                            isOnboarded = false
+                            onboardingStorage.onboarded = false
                         }
                     }
                 }
@@ -45,7 +44,7 @@ struct RootView: View {
                         onComplete: {
                             withAnimation(.easeIn) {
                                 router.popSheet()
-                                isOnboarded = true
+                                onboardingStorage.onboarded = true
                             }
                         }
                     )
@@ -55,9 +54,9 @@ struct RootView: View {
                 }
             }
         )
-        .task(id: isOnboarded) {
+        .task(id: onboardingStorage.onboarded) {
             withAnimation(.easeIn(duration: 0.25)) {
-                if isOnboarded {
+                if onboardingStorage.onboarded {
                     router.pushRoot(.homeShell)
                 } else {
                     router.pushSheet(.onboarding)
