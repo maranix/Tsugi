@@ -17,4 +17,6 @@ enum SFSymbol {
     static let previous = "chevron.left"
     static let close = "xmark"
     static let checkmark = "checkmark"
+    static let settings = "gearshape"
+    static let search = "magnifyingglass"
 }

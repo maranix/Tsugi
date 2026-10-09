@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SplashView: View {
-    @Environment(Router.self) private var router
+    @Environment(MainRouter.self) private var router
     @Environment(\.onboardingStorage) private var onboardingStorage
 
     var body: some View {
@@ -13,7 +13,7 @@ struct SplashView: View {
         .task(id: onboardingStorage.onboarded) {
             withAnimation(.easeIn) {
                 if onboardingStorage.onboarded {
-                    router.pushRoot(.homeShell)
+                    router.push(.homeShell)
                 } else {
                     router.pushSheet(.onboarding)
                 }

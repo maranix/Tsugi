@@ -1,35 +1,34 @@
 import SwiftUI
 
-enum AppRoute: Hashable {
-    enum Root: String, Hashable, Identifiable {
+enum AppRoute {
+    enum Main: Hashable {
         case splash
         case homeShell
-
-        var id: String {
-            rawValue
-        }
     }
 
     enum Sheet: String, Hashable, Identifiable {
         case onboarding
         case addServer
+        case settings
 
         var id: String {
             rawValue
         }
     }
+
+    enum Destination: Hashable {
+        case item(index: Int)
+    }
 }
 
 @MainActor
 @Observable
-final class Router {
-    var stack: [AppRoute] = []
-
-    var root: AppRoute.Root = .splash
+final class MainRouter {
+    private(set) var route: AppRoute.Main = .splash
     var sheet: AppRoute.Sheet?
 
-    func pushRoot(_ route: AppRoute.Root) {
-        root = route
+    func push(_ dest: AppRoute.Main) {
+        route = dest
     }
 
     func pushSheet(_ route: AppRoute.Sheet) {
@@ -39,8 +38,18 @@ final class Router {
     func popSheet() {
         sheet = nil
     }
+}
+
+@MainActor
+@Observable
+final class NavigationRouter<Destination: Hashable> {
+    var stack: [Destination] = []
+
+    func push(_ dest: Destination) {
+        stack.append(dest)
+    }
 
     func pop() {
-        _ = stack.popLast()
+        _ = stack.removeLast()
     }
 }

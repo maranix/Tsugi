@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var router = Router()
+    @State private var router = MainRouter()
     @Environment(\.onboardingStorage) private var onboardingStorage
 
     var body: some View {
         ZStack {
-            switch router.root {
+            switch router.route {
             case .splash:
                 SplashView()
             case .homeShell:
@@ -37,6 +37,9 @@ struct RootView: View {
                     .interactiveDismissDisabled()
                 case .addServer:
                     AddServerSheetView()
+                case .settings:
+                    SettingsView()
+                        .presentationDetents([.large])
                 }
             }
         )
