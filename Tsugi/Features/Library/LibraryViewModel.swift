@@ -10,7 +10,7 @@ final class LibraryViewModel {
         service = DefaultLibraryService(serverStorage: storage)
     }
 
-    private(set) var mangas: [LibraryQuery.Data.Mangas.Node] = []
+    private(set) var mangas: [Manga] = []
     private(set) var status: AsyncStatus = .idle
 
     var searchText = ""

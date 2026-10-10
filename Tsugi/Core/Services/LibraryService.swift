@@ -3,7 +3,19 @@ import Foundation
 import SuwayomiAPI
 
 protocol LibraryService: Sendable {
-    func get() async throws -> [LibraryQuery.Data.Mangas.Node]
+    func get() async throws -> [Manga]
+}
+
+extension LibraryQuery.Data.Mangas.Node {
+    func toManga(baseURL: URL?) -> Manga {
+        Manga(
+            id: id,
+            title: title,
+            thumbnailURL: thumbnailUrl.flatMap { path in
+                path.isEmpty ? nil : baseURL?.appending(path: path)
+            }
+        )
+    }
 }
 
 final class DefaultLibraryService: LibraryService {
@@ -35,15 +47,17 @@ final class DefaultLibraryService: LibraryService {
         return client
     }
 
-    func get() async throws -> [LibraryQuery.Data.Mangas.Node] {
+    func get() async throws -> [Manga] {
         let client = try client()
 
         let response = try await client.fetch(query: LibraryQuery())
 
-        guard let library = response.data?.mangas.nodes else {
+        guard let list = response.data?.mangas.nodes else {
             return []
         }
 
-        return library.compactMap(\.self)
+        return list.compactMap { node in
+            node.toManga(baseURL: serverStorage.config?.baseURL)
+        }
     }
 }

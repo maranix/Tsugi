@@ -1,54 +1,20 @@
-import SuwayomiAPI
 import SwiftUI
 
 struct LibraryView: View {
     @Environment(MainRouter.self) private var mainRouter
 
-    let columns: [GridItem] = [GridItem(.flexible()), GridItem(.flexible())]
-
     @State private var router = NavigationRouter<AppRoute.Destination>()
     @State private var viewModel = LibraryViewModel()
+    @State private var gridLayout: GridLayout.Column = .three
 
     var body: some View {
         NavigationStack(path: $router.stack) {
-            ScrollView {
+            Group {
                 switch viewModel.status {
                 case .success:
-                    LazyVGrid(columns: columns) {
-                        ForEach(viewModel.mangas, id: \.id) { manga in
-                            VStack {
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.secondary.opacity(0.15))
-                                    .aspectRatio(2 / 3, contentMode: .fit)
-                                    .overlay {
-                                        AsyncImage(url: URL(string: "http://192.168.1.200:4567\(manga.thumbnailUrl!)")) { phase in
-                                            switch phase {
-                                            case .empty:
-                                                ProgressView()
-                                            case .failure:
-                                                Image(systemName: "photo")
-                                                    .foregroundStyle(.secondary)
-                                            case let .success(img):
-                                                img
-                                                    .resizable()
-                                                    .scaledToFill()
-                                            default:
-                                                EmptyView()
-                                            }
-                                        }
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 8))
-
-                                ZStack(alignment: .topLeading) {
-                                    Text(" \n ")
-                                        .hidden()
-
-                                    Text(manga.title)
-                                        .lineLimit(2)
-                                        .multilineTextAlignment(.leading)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .topLeading)
-                            }
+                    MangaGridView(layout: gridLayout.items) {
+                        ForEach(viewModel.mangas) { manga in
+                            MangaView(manga)
                         }
                     }
                 case let .failure(msg):
@@ -60,7 +26,31 @@ struct LibraryView: View {
             .padding(.horizontal)
             .navigationTitle("Library")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        withAnimation(.easeIn) {
+                            gridLayout = .three
+                        }
+                    } label: {
+                        if gridLayout == .three {
+                            Image(systemName: "square.grid.3x2.fill")
+                        } else {
+                            Image(systemName: "square.grid.3x2")
+                        }
+                    }
+
+                    Button {
+                        withAnimation(.easeIn) {
+                            gridLayout = .two
+                        }
+                    } label: {
+                        if gridLayout == .two {
+                            Image(systemName: "square.grid.2x2.fill")
+                        } else {
+                            Image(systemName: "square.grid.2x2")
+                        }
+                    }
+
                     Button {
                         mainRouter.pushSheet(.settings)
                     } label: {
@@ -81,6 +71,9 @@ struct LibraryView: View {
                         .navigationTitle("Item \(index)")
                 }
             }
+        }
+        .refreshable {
+            await viewModel.getAll()
         }
         .task {
             try? await Task.sleep(for: .seconds(1))
