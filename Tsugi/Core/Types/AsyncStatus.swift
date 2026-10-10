@@ -11,6 +11,13 @@ enum AsyncStatus {
     case success
     case failure(String)
 
+    var isIdle: Bool {
+        if case .idle = self {
+            return true
+        }
+        return false
+    }
+
     var isLoading: Bool {
         if case .loading = self {
             return true

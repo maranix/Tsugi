@@ -25,7 +25,11 @@ final class LibraryViewModel {
         }
     }
 
-    func getAll() async {
+    func getAll(force: Bool = false) async {
+        guard force || status.isIdle else {
+            return
+        }
+
         status = .loading
 
         do {

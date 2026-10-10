@@ -27,7 +27,7 @@ struct LibraryView: View {
                     .scrollIndicators(.never)
                     .refreshable {
                         try? await Task.sleep(for: .seconds(1))
-                        await viewModel.getAll()
+                        await viewModel.getAll(force: true)
                     }
                     .navigationDestination(for: AppRoute.Destination.self) { dest in
                         switch dest {
