@@ -3,6 +3,7 @@ import SwiftUI
 struct LibraryView: View {
     @Environment(MainRouter.self) private var mainRouter
     @State private var router = NavigationRouter<AppRoute.Destination>()
+    @State private var searchText = ""
 
     var body: some View {
         NavigationStack(path: $router.stack) {
@@ -20,10 +21,14 @@ struct LibraryView: View {
                         mainRouter.pushSheet(.settings)
                     } label: {
                         Image(systemName: SFSymbol.settings)
-                            .font(.caption)
                     }
                 }
+
+                ToolbarSpacer(.flexible, placement: .bottomBar)
+                DefaultToolbarItem(kind: .search, placement: .bottomBar)
             }
+            .searchable(text: $searchText)
+            .searchToolbarBehavior(.minimize)
             .navigationDestination(for: AppRoute.Destination.self) { dest in
                 switch dest {
                 case let .item(index):

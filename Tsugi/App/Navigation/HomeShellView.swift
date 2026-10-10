@@ -20,15 +20,6 @@ struct HomeShellView: View {
                     DiscoverView()
                 }
             }
-
-            Tab(
-                "Search",
-                systemImage: SFSymbol.search,
-                value: ShellTab.search,
-                role: .search
-            ) {
-                SearchView()
-            }
         }
         .tabBarMinimizeBehavior(.onScrollDown)
     }
