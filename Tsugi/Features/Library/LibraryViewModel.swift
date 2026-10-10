@@ -8,18 +8,28 @@ final class LibraryViewModel {
 
     init(_ storage: ServerStorage = DefaultServerStore.shared) {
         service = DefaultLibraryService(serverStorage: storage)
+        searchText = ""
     }
 
-    private(set) var mangas: [Manga] = []
+    private(set) var allManga: [Manga] = []
     private(set) var status: AsyncStatus = .idle
+    var searchText: String = ""
 
-    var searchText = ""
+    var mangas: [Manga] {
+        if searchText.trimmingCharacters(in: .whitespaces).isEmpty {
+            allManga
+        } else {
+            allManga.filter { manga in
+                manga.title.contains(searchText)
+            }
+        }
+    }
 
     func getAll() async {
         status = .loading
 
         do {
-            mangas = try await service.get()
+            allManga = try await service.getAll()
             status = .success
         } catch {
             status = .failure(error.localizedDescription)

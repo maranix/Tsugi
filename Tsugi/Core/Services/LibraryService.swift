@@ -3,7 +3,7 @@ import Foundation
 import SuwayomiAPI
 
 protocol LibraryService: Sendable {
-    func get() async throws -> [Manga]
+    func getAll() async throws -> [Manga]
 }
 
 extension LibraryQuery.Data.Mangas.Node {
@@ -47,7 +47,7 @@ final class DefaultLibraryService: LibraryService {
         return client
     }
 
-    func get() async throws -> [Manga] {
+    func getAll() async throws -> [Manga] {
         let client = try client()
 
         let response = try await client.fetch(query: LibraryQuery())

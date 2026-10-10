@@ -17,13 +17,31 @@ struct LibraryView: View {
                             MangaView(manga)
                         }
                     }
+                    .padding(.horizontal)
+                    .searchable(text: $viewModel.searchText)
+                    .toolbar {
+                        ToolbarSpacer(.flexible, placement: .bottomBar)
+                        DefaultToolbarItem(kind: .search, placement: .bottomBar)
+                    }
+                    .searchToolbarBehavior(.minimize)
+                    .scrollIndicators(.never)
+                    .refreshable {
+                        try? await Task.sleep(for: .seconds(1))
+                        await viewModel.getAll()
+                    }
+                    .navigationDestination(for: AppRoute.Destination.self) { dest in
+                        switch dest {
+                        case let .item(index):
+                            Text("Item Page")
+                                .navigationTitle("Item \(index)")
+                        }
+                    }
                 case let .failure(msg):
                     Text(msg)
                 default:
                     ProgressView()
                 }
             }
-            .padding(.horizontal)
             .navigationTitle("Library")
             .toolbar {
                 ToolbarItemGroup(placement: .topBarTrailing) {
@@ -57,27 +75,11 @@ struct LibraryView: View {
                         Image(systemName: SFSymbol.settings)
                     }
                 }
-
-                ToolbarSpacer(.flexible, placement: .bottomBar)
-                DefaultToolbarItem(kind: .search, placement: .bottomBar)
             }
-            .searchable(text: $viewModel.searchText)
-            .searchToolbarBehavior(.minimize)
-            .scrollIndicators(.never)
-            .navigationDestination(for: AppRoute.Destination.self) { dest in
-                switch dest {
-                case let .item(index):
-                    Text("Item Page")
-                        .navigationTitle("Item \(index)")
-                }
+            .task {
+                try? await Task.sleep(for: .seconds(1))
+                await viewModel.getAll()
             }
-        }
-        .refreshable {
-            await viewModel.getAll()
-        }
-        .task {
-            try? await Task.sleep(for: .seconds(1))
-            await viewModel.getAll()
         }
     }
 }
