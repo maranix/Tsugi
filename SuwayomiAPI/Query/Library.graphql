@@ -1,0 +1,12 @@
+query Library {
+  mangas(filter: {inLibrary: {equalTo: true}}) {
+    totalCount
+
+    nodes {
+      id,
+      title,
+      thumbnailUrl
+      genre
+    }
+  }
+}

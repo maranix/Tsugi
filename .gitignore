@@ -44,3 +44,4 @@ buildServer.json
 
 # Local configurations
 Config/Local.xcconfig
+apollo-ios-cli

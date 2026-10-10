@@ -11,6 +11,7 @@ excluded:
   - .build
   - DerivedData
   - Pods
+  - SuwayomiAPI
 
 line_length:
   warning: 120

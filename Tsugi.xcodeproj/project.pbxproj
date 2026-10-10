@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4D1CB84D307A0BEA00F138A8 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 4D1CB84C307A0BEA00F138A8 /* Apollo */; };
+		4DB86655307A1704006CBE2A /* SuwayomiAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB86654307A1704006CBE2A /* SuwayomiAPI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		4D6E456130777F8A00A5CE54 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -26,8 +31,8 @@
 /* Begin PBXFileReference section */
 		4D6E455D30777F8A00A5CE54 /* TsugiUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TsugiUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D6E456A30777FC200A5CE54 /* TsugiUiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TsugiUiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D6E45793077810000A5CE54 /* Config/Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Config.xcconfig; sourceTree = "<group>"; };
 		4D98D3A03071728F000B6AF5 /* Tsugi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tsugi.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D6E45793077810000A5CE54 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config/Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -80,6 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D1CB84D307A0BEA00F138A8 /* Apollo in Frameworks */,
+				4DB86655307A1704006CBE2A /* SuwayomiAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +96,7 @@
 		4D98D3973071728F000B6AF5 = {
 			isa = PBXGroup;
 			children = (
-				4D6E45793077810000A5CE54 /* Config.xcconfig */,
+				4D6E45793077810000A5CE54 /* Config/Config.xcconfig */,
 				4D98D3A23071728F000B6AF5 /* Tsugi */,
 				4D6E455E30777F8A00A5CE54 /* TsugiUnitTests */,
 				4D6E456B30777FC200A5CE54 /* TsugiUiTests */,
@@ -173,6 +180,8 @@
 			);
 			name = Tsugi;
 			packageProductDependencies = (
+				4D1CB84C307A0BEA00F138A8 /* Apollo */,
+				4DB86654307A1704006CBE2A /* SuwayomiAPI */,
 			);
 			productName = Tsugi;
 			productReference = 4D98D3A03071728F000B6AF5 /* Tsugi.app */;
@@ -210,6 +219,10 @@
 			);
 			mainGroup = 4D98D3973071728F000B6AF5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4D1CB84B307A0BEA00F138A8 /* XCRemoteSwiftPackageReference "apollo-ios" */,
+				4DB86653307A1704006CBE2A /* XCLocalSwiftPackageReference "SuwayomiAPI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4D98D3A13071728F000B6AF5 /* Products */;
 			projectDirPath = "";
@@ -384,7 +397,7 @@
 		};
 		4D98D3AB30717292000B6AF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D6E45793077810000A5CE54 /* Config.xcconfig */;
+			baseConfigurationReference = 4D6E45793077810000A5CE54 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -451,7 +464,7 @@
 		};
 		4D98D3AC30717292000B6AF5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D6E45793077810000A5CE54 /* Config.xcconfig */;
+			baseConfigurationReference = 4D6E45793077810000A5CE54 /* Config/Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -627,6 +640,36 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		4DB86653307A1704006CBE2A /* XCLocalSwiftPackageReference "SuwayomiAPI" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = SuwayomiAPI;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4D1CB84B307A0BEA00F138A8 /* XCRemoteSwiftPackageReference "apollo-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apollographql/apollo-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4D1CB84C307A0BEA00F138A8 /* Apollo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D1CB84B307A0BEA00F138A8 /* XCRemoteSwiftPackageReference "apollo-ios" */;
+			productName = Apollo;
+		};
+		4DB86654307A1704006CBE2A /* SuwayomiAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SuwayomiAPI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4D98D3983071728F000B6AF5 /* Project object */;
 }

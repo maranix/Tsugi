@@ -1,0 +1,43 @@
+{
+  "schemaNamespace" : "SuwayomiAPI",
+  "input" : {
+    "operationSearchPaths" : [
+      "./SuwayomiAPI/**/*.graphql"
+    ],
+    "schemaSearchPaths" : [
+      "./SuwayomiAPI/**/*.graphqls"
+    ]
+  },
+  "output" : {
+    "testMocks" : {
+      "none" : {
+      }
+    },
+    "schemaTypes" : {
+      "path" : "./SuwayomiAPI",
+      "moduleType" : {
+        "swiftPackage" : {
+        }
+      }
+    },
+    "operations" : {
+      "inSchemaModule" : {
+      }
+    }
+  },
+  "schemaDownloadConfiguration": {
+    "downloadMethod": {
+        "introspection": {
+            "endpointURL": "http://192.168.1.200:4567/api/graphql",
+            "httpMethod": {
+                "POST": {}
+            },
+            "includeDeprecatedInputValues": false,
+            "outputFormat": "SDL"
+        }
+    },
+    "downloadTimeout": 60,
+    "headers": [],
+    "outputPath": "./SuwayomiAPI/schema.graphqls"
+  }
+}

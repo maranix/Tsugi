@@ -4,3 +4,4 @@
 --trimwhitespace always
 --stripunusedargs closure-only
 --disable wrapArguments
+--exclude SuwayomiAPI
