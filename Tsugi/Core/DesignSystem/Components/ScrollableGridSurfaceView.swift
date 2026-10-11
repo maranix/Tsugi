@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MangaGridView<Content: View>: View {
+struct ScrollableGridSurfaceView<Content: View>: View {
     enum ScrollDirection {
         case vertical(HorizontalAlignment)
         case horizontal(VerticalAlignment)

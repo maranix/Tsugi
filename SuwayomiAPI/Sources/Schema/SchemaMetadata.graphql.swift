@@ -29,6 +29,7 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     "MangaType": SuwayomiAPI.Objects.MangaType,
     "Query": SuwayomiAPI.Objects.Query,
     "SourceNodeList": SuwayomiAPI.Objects.SourceNodeList,
+    "SourceType": SuwayomiAPI.Objects.SourceType,
     "TrackRecordNodeList": SuwayomiAPI.Objects.TrackRecordNodeList,
     "TrackerNodeList": SuwayomiAPI.Objects.TrackerNodeList
   ]

@@ -4,26 +4,14 @@ import SwiftUI
 @MainActor
 @Observable
 final class LibraryViewModel {
-    private let service: LibraryService
+    private let mangaService: MangaService
 
     init(_ storage: ServerStorage = DefaultServerStore.shared) {
-        service = DefaultLibraryService(serverStorage: storage)
-        searchText = ""
+        mangaService = DefaultMangaService(serverStorage: storage)
     }
 
-    private(set) var allManga: [Manga] = []
+    private(set) var books: [Book] = []
     private(set) var status: AsyncStatus = .idle
-    var searchText: String = ""
-
-    var mangas: [Manga] {
-        if searchText.trimmingCharacters(in: .whitespaces).isEmpty {
-            allManga
-        } else {
-            allManga.filter { manga in
-                manga.title.contains(searchText)
-            }
-        }
-    }
 
     func getAll(force: Bool = false) async {
         guard force || status.isIdle else {
@@ -33,7 +21,7 @@ final class LibraryViewModel {
         status = .loading
 
         do {
-            allManga = try await service.getAll()
+            books = try await mangaService.getAll(fromLibrary: true)
             status = .success
         } catch {
             status = .failure(error.localizedDescription)

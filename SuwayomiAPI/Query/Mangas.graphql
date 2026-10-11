@@ -1,0 +1,22 @@
+query MangaList($inLibrary: Boolean) {
+  mangas(filter: {inLibrary: {equalTo: $inLibrary}}) {
+    nodes {
+      id,
+      title,
+      thumbnailUrl
+      author,
+      artist,
+      genre,
+      status,
+      url,
+      description
+      source {
+        homeUrl,
+        iconUrl,
+        displayName,
+        name,
+        lang
+      }
+    }
+  }
+}
