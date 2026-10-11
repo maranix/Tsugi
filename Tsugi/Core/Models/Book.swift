@@ -1,14 +1,9 @@
 import Foundation
 
 struct Book: Identifiable, Hashable, Sendable {
-    enum Metadata: Hashable, Sendable {
-        case suwayomi(SuwayomiMetadata)
-    }
-
     let id: Int
     let title: String
     let thumbnail: String?
-    let metadata: Metadata
 
     func thumbnailUrl(_ baseURL: URL) -> URL? {
         guard let path = thumbnail, !path.isEmpty else {
@@ -19,40 +14,48 @@ struct Book: Identifiable, Hashable, Sendable {
     }
 }
 
-struct SuwayomiMetadata: Hashable, Sendable {
-    struct Source: Hashable, Sendable {
-        let name: String
-        let displayName: String
-        let lang: String
-        let home: String?
-        let icon: String
+struct BookDetails: Sendable {
+    enum Source {
+        case suwayomi(Suwayomi)
+    }
 
-        func homeUrl() -> URL? {
-            guard let url = home, !url.isEmpty else {
+    struct Suwayomi: Sendable {
+        let author: String?
+        let artist: String?
+        let description: String?
+        let genre: [String]
+        let realUrl: String?
+        let status: String
+        let inLibrary: Bool
+
+        func sourceUrl() -> URL? {
+            guard let url = realUrl, !url.isEmpty else {
                 return nil
             }
 
             return URL(string: url)
         }
+    }
+}
 
-        func iconUrl(_ baseURL: URL) -> URL {
-            baseURL.appending(path: icon)
-        }
+struct BookChapter: Sendable {
+    enum Source {
+        case suwayomi(Suwayomi)
     }
 
-    let author: String?
-    let artist: String?
-    let description: String?
-    let genre: [String]
-    let status: String
-    let url: String
-    let source: Source?
+    struct Suwayomi: Identifiable {
+        let id: Int
+        let number: Double
+        let name: String
+        let realUrl: String?
+        let scanlator: String?
 
-    func sourcePageURL() -> URL? {
-        guard let src = source?.homeUrl() else {
-            return nil
+        func sourceUrl() -> URL? {
+            guard let url = realUrl, !url.isEmpty else {
+                return nil
+            }
+
+            return URL(string: url)
         }
-
-        return src.appending(path: url)
     }
 }

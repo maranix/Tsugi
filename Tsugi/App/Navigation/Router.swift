@@ -17,7 +17,7 @@ enum AppRoute {
     }
 
     enum Destination: Hashable {
-        case item(index: Int)
+        case bookDetails(_ book: Book)
     }
 }
 

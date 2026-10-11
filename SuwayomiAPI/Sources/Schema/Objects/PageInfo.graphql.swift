@@ -4,8 +4,8 @@
 import ApolloAPI
 
 public extension Objects {
-  nonisolated static let SourceType = ApolloAPI.Object(
-    typename: "SourceType",
+  nonisolated static let PageInfo = ApolloAPI.Object(
+    typename: "PageInfo",
     implementedInterfaces: [],
     keyFields: nil
   )

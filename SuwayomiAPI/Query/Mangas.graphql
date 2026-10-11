@@ -1,22 +1,51 @@
 query MangaList($inLibrary: Boolean) {
-  mangas(filter: {inLibrary: {equalTo: $inLibrary}}) {
+  mangas(condition: {inLibrary: $inLibrary}) {
     nodes {
       id,
       title,
       thumbnailUrl
-      author,
-      artist,
-      genre,
-      status,
-      url,
+    }
+  }
+}
+
+query MangaDetails($id: Int) {
+  mangas(condition: {id: $id}) {
+    nodes {
+      artist
+      author
       description
-      source {
-        homeUrl,
-        iconUrl,
-        displayName,
-        name,
-        lang
-      }
+      genre
+      status
+      realUrl
+      inLibrary
+    }
+  }
+}
+
+query MangaChapters(
+  $id: Int,
+  $first: Int,
+  $after: Cursor,
+  $orderBy: SortOrder
+) {
+  chapters(
+    condition: {mangaId: $id}
+    first: $first
+    after: $after
+    order: {by: CHAPTER_NUMBER, byType: $orderBy}
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+    }
+    nodes {
+      id
+      chapterNumber
+      name
+      realUrl
+      scanlator
     }
   }
 }

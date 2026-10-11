@@ -21,15 +21,16 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
   private static let objectTypeMap: [String: ApolloAPI.Object] = [
     "CategoryNodeList": SuwayomiAPI.Objects.CategoryNodeList,
     "ChapterNodeList": SuwayomiAPI.Objects.ChapterNodeList,
+    "ChapterType": SuwayomiAPI.Objects.ChapterType,
     "DownloadNodeList": SuwayomiAPI.Objects.DownloadNodeList,
     "ExtensionNodeList": SuwayomiAPI.Objects.ExtensionNodeList,
     "ExtensionStoreNodeList": SuwayomiAPI.Objects.ExtensionStoreNodeList,
     "GlobalMetaNodeList": SuwayomiAPI.Objects.GlobalMetaNodeList,
     "MangaNodeList": SuwayomiAPI.Objects.MangaNodeList,
     "MangaType": SuwayomiAPI.Objects.MangaType,
+    "PageInfo": SuwayomiAPI.Objects.PageInfo,
     "Query": SuwayomiAPI.Objects.Query,
     "SourceNodeList": SuwayomiAPI.Objects.SourceNodeList,
-    "SourceType": SuwayomiAPI.Objects.SourceType,
     "TrackRecordNodeList": SuwayomiAPI.Objects.TrackRecordNodeList,
     "TrackerNodeList": SuwayomiAPI.Objects.TrackerNodeList
   ]

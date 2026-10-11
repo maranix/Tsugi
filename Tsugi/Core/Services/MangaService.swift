@@ -4,39 +4,44 @@ import SuwayomiAPI
 
 protocol MangaService: Sendable {
     func getAll(fromLibrary: Bool) async throws -> [Book]
-}
-
-extension MangaListQuery.Data.Mangas.Node.Source {
-    func toSuwayomiSource() -> SuwayomiMetadata.Source {
-        SuwayomiMetadata.Source(
-            name: name,
-            displayName: displayName,
-            lang: lang,
-            home: homeUrl,
-            icon: iconUrl
-        )
-    }
+    func getDetails(id: Int) async throws -> BookDetails.Suwayomi?
+    func getChapterList(id: Int, limit: Int, cursor: String?) async throws -> [BookChapter.Suwayomi]
 }
 
 extension MangaListQuery.Data.Mangas.Node {
     func toBook() -> Book {
         let thumbnail = thumbnailUrl
 
-        let metadata = SuwayomiMetadata(
+        return Book(
+            id: id,
+            title: title,
+            thumbnail: thumbnail
+        )
+    }
+}
+
+extension MangaDetailsQuery.Data.Mangas.Node {
+    func toDetails() -> BookDetails.Suwayomi {
+        BookDetails.Suwayomi(
             author: author,
             artist: artist,
             description: description,
             genre: genre,
+            realUrl: realUrl,
             status: status.rawValue,
-            url: url,
-            source: source?.toSuwayomiSource()
+            inLibrary: inLibrary
         )
+    }
+}
 
-        return Book(
+extension MangaChaptersQuery.Data.Chapters.Node {
+    func toChapter() -> BookChapter.Suwayomi {
+        BookChapter.Suwayomi(
             id: id,
-            title: title,
-            thumbnail: thumbnail,
-            metadata: .suwayomi(metadata)
+            number: chapterNumber,
+            name: name,
+            realUrl: realUrl,
+            scanlator: scanlator
         )
     }
 }
@@ -85,6 +90,39 @@ final class DefaultMangaService: MangaService {
 
         return list.compactMap { node in
             node.toBook()
+        }
+    }
+
+    func getDetails(id: Int) async throws -> BookDetails.Suwayomi? {
+        let client = try client()
+
+        let response = try await client.fetch(query: MangaDetailsQuery(id: .some(Int32(id))))
+
+        guard let details = response.data?.mangas.nodes else {
+            return nil
+        }
+
+        return details.first?.toDetails()
+    }
+
+    func getChapterList(id: Int, limit: Int = 20, cursor: String? = nil) async throws -> [BookChapter.Suwayomi] {
+        let client = try client()
+
+        let response = try await client.fetch(
+            query: MangaChaptersQuery(
+                id: .some(Int32(id)),
+                first: .some(Int32(limit)),
+                after: cursor != nil ? .some(cursor!) : .null,
+                orderBy: .some(.case(.asc))
+            )
+        )
+
+        guard let chapters = response.data?.chapters.nodes else {
+            return []
+        }
+
+        return chapters.compactMap { chapter in
+            chapter.toChapter()
         }
     }
 }

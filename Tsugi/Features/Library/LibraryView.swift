@@ -14,10 +14,13 @@ struct LibraryView: View {
                 case .success:
                     ScrollableGridSurfaceView(layout: gridLayout.items) {
                         ForEach(viewModel.books) { book in
-                            BookCoverView(book)
+                            NavigationLink(value: AppRoute.Destination.bookDetails(book)) {
+                                BookCoverView(book)
+                            }
                         }
                     }
                     .padding(.horizontal)
+                    .buttonStyle(.plain)
                     .scrollIndicators(.never)
                     .refreshable {
                         try? await Task.sleep(for: .seconds(1))
@@ -25,9 +28,9 @@ struct LibraryView: View {
                     }
                     .navigationDestination(for: AppRoute.Destination.self) { dest in
                         switch dest {
-                        case let .item(index):
-                            Text("Item Page")
-                                .navigationTitle("Item \(index)")
+                        case let .bookDetails(book):
+                            BookDetailsView(book)
+                                .toolbarVisibility(.hidden, for: .tabBar)
                         }
                     }
                 case let .failure(msg):
