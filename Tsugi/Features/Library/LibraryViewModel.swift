@@ -13,11 +13,7 @@ final class LibraryViewModel {
     private(set) var books: [Book] = []
     private(set) var status: AsyncStatus = .idle
 
-    func getAll(force: Bool = false) async {
-        guard force || status.isIdle else {
-            return
-        }
-
+    func getAll() async {
         status = .loading
 
         do {

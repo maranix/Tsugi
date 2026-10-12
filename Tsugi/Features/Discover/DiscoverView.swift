@@ -5,12 +5,16 @@ struct DiscoverView: View {
 
     var body: some View {
         NavigationStack(path: $router.stack) {
-            List {
-                ForEach(0 ..< 99) { index in
-                    Text("Item \(index)")
+            ServerContentView {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(0 ..< 99) { index in
+                            Text("Item \(index)")
+                        }
+                    }
                 }
+                .navigationTitle("Discover")
             }
-            .navigationTitle("Discover")
         }
     }
 }
