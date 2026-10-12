@@ -8,41 +8,63 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var router = MainRouter()
-    @Environment(\.onboardingStorage) private var onboardingStorage
+    @State private var coordinator = RouteCoordinator()
 
     var body: some View {
-        ZStack {
-            switch router.route {
-            case .splash:
-                SplashView()
-            case .homeShell:
-                HomeShellView()
-            }
-        }
-        .sheet(
-            item: $router.sheet,
-            onDismiss: { router.popSheet() },
-            content: { sheet in
-                switch sheet {
-                case .onboarding:
-                    OnboardingView(
-                        onComplete: {
-                            withAnimation(.easeIn) {
-                                router.popSheet()
-                                onboardingStorage.setOnboarded(true)
+        HomeShellView()
+            .fullScreenCover(
+                item: $coordinator.presentedCover,
+                content: { cover in
+                    switch cover {
+                    case .onboarding:
+                        OnboardingView(
+                            onComplete: {
+                                withAnimation(.easeIn) {
+                                    coordinator.completeOnboarding()
+                                }
                             }
+                        )
+                    }
+                }
+            )
+            .sheet(
+                item: $coordinator.presentedSheet,
+                content: { sheet in
+                    switch sheet {
+                    case .addServer:
+                        AddServerSheetView()
+                    case .settings:
+                        SettingsView()
+                            .presentationDetents([.large])
+                    }
+                }
+            )
+            .alert(
+                "",
+                isPresented: Binding(
+                    get: { coordinator.presentedAlert != nil },
+                    set: {
+                        if !$0 {
+                            coordinator.presentedAlert = nil
                         }
-                    )
-                    .interactiveDismissDisabled()
-                case .addServer:
-                    AddServerSheetView()
-                case .settings:
-                    SettingsView()
-                        .presentationDetents([.large])
+                    }),
+                presenting: coordinator.presentedAlert
+            ) { alert in
+                switch alert {
+                case .error:
+                    Button("OK", role: .cancel, action: {})
+                case let .resetAllSettings(onConfirm):
+                    Button("Cancel", role: .cancel) {}
+                    Button("Reset", role: .destructive, action: onConfirm)
+                }
+            } message: { alert in
+                switch alert {
+                case .resetAllSettings:
+                    Text("Are you sure you want to reset all settings?")
+                case let .error(message):
+                    Text(message)
                 }
             }
-        )
-        .environment(router)
+            .environment(coordinator)
     }
 }

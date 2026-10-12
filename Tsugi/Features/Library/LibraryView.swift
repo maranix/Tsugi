@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @Environment(MainRouter.self) private var mainRouter
+    @Environment(RouteCoordinator.self) private var coordinator
 
-    @State private var router = NavigationRouter<AppRoute.Destination>()
+    @State private var router = NavigationRouter<RouteCoordinator.Destination>()
     @State private var viewModel = LibraryViewModel()
     @State private var gridLayout: GridLayout.Column = .three
 
@@ -14,7 +14,7 @@ struct LibraryView: View {
                 case .success:
                     ScrollableGridSurfaceView(layout: gridLayout.items) {
                         ForEach(viewModel.books) { book in
-                            NavigationLink(value: AppRoute.Destination.bookDetails(book)) {
+                            NavigationLink(value: RouteCoordinator.Destination.bookDetails(book)) {
                                 BookCoverView(book)
                             }
                         }
@@ -26,7 +26,7 @@ struct LibraryView: View {
                         try? await Task.sleep(for: .seconds(1))
                         await viewModel.getAll(force: true)
                     }
-                    .navigationDestination(for: AppRoute.Destination.self) { dest in
+                    .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                         switch dest {
                         case let .bookDetails(book):
                             BookDetailsView(book)
@@ -67,7 +67,7 @@ struct LibraryView: View {
                     }
 
                     Button {
-                        mainRouter.pushSheet(.settings)
+                        coordinator.presentSheet(.settings)
                     } label: {
                         Image(systemName: SFSymbol.settings)
                     }
