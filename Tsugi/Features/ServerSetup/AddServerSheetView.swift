@@ -12,7 +12,7 @@ struct AddServerSheetView: View {
 
     init(
         service: ServerHealthService = DefaultServerHealthService(),
-        storage: ServerStorage = DefaultServerStore()
+        storage: ServerStorage = DefaultServerStore.shared
     ) {
         _viewModel = State(
             initialValue: AddServerSheetViewModel(
@@ -66,7 +66,6 @@ struct AddServerSheetView: View {
 
 private struct SheetToolbar: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.serverStorage) private var serverStorage
     @Environment(AddServerSheetViewModel.self) private var viewModel
 
     var body: some View {

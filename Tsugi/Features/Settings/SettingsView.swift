@@ -5,7 +5,7 @@ struct SettingsView: View {
 
     private let store: ServerStorage
 
-    init(_ store: ServerStorage = DefaultServerStore()) {
+    init(_ store: ServerStorage = DefaultServerStore.shared) {
         self.store = store
     }
 
