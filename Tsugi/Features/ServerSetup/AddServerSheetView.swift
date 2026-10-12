@@ -8,9 +8,19 @@
 import SwiftUI
 
 struct AddServerSheetView: View {
-    @Environment(\.serverHealthService) private var serverHealthService
+    @State private var viewModel: AddServerSheetViewModel
 
-    @State private var viewModel = AddServerSheetViewModel()
+    init(
+        service: ServerHealthService = DefaultServerHealthService(),
+        storage: ServerStorage = DefaultServerStore()
+    ) {
+        _viewModel = State(
+            initialValue: AddServerSheetViewModel(
+                service: service,
+                storage: storage
+            )
+        )
+    }
 
     var body: some View {
         Form {
@@ -36,7 +46,7 @@ struct AddServerSheetView: View {
 
                 Button("Test Connection") {
                     Task {
-                        await viewModel.testConnection(using: serverHealthService)
+                        await viewModel.testConnection()
                     }
                 }
                 .foregroundStyle(.red)
@@ -75,7 +85,7 @@ private struct SheetToolbar: View {
             Spacer()
 
             Button {
-                if viewModel.saveConnection(using: serverStorage) {
+                if viewModel.saveConnection() {
                     dismiss()
                 }
             } label: {

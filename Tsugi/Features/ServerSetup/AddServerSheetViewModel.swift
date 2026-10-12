@@ -13,6 +13,14 @@ private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tsugi", 
 @MainActor
 @Observable
 final class AddServerSheetViewModel {
+    private let service: ServerHealthService
+    private let storage: ServerStorage
+
+    init(service: ServerHealthService, storage: ServerStorage) {
+        self.service = service
+        self.storage = storage
+    }
+
     var status: AsyncStatus = .idle
 
     var scheme: URLScheme = .http {
@@ -48,7 +56,7 @@ final class AddServerSheetViewModel {
         return components.url
     }
 
-    func testConnection(using service: ServerHealthService) async {
+    func testConnection() async {
         if status.isLoading {
             return
         }
@@ -72,7 +80,7 @@ final class AddServerSheetViewModel {
         }
     }
 
-    func saveConnection(using storage: ServerStorage) -> Bool {
+    func saveConnection() -> Bool {
         if !status.isSuccess {
             status = .failure(
                 "Tap on Test Connection to verify the details first."
