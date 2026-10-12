@@ -1,22 +1,21 @@
 import SwiftUI
 
 struct BookCoverView: View {
-    @Environment(\.serverStorage) private var server
-
     private let book: Book
     private var baseURL: URL?
 
     init(_ book: Book) {
         self.book = book
+        baseURL = DefaultServerStore.shared.config?.baseURL
     }
 
-    init(_ book: Book, baseURL: URL?) {
+    init(_ book: Book, baseURL: URL) {
         self.book = book
         self.baseURL = baseURL
     }
 
     var resolveThumbnail: URL? {
-        guard let base = (baseURL ?? server.config?.baseURL) else {
+        guard let base = baseURL else {
             return nil
         }
 

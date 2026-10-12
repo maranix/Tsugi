@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct BookDetailsView: View {
-    @Environment(\.serverStorage) private var serverStorage
-
     private var mangaService: DefaultMangaService?
     private var viewModel: BookDetailsViewModel
 
@@ -29,9 +27,9 @@ struct BookDetailsView: View {
                 }
             }
         }
-        .task {
-            await viewModel.getDetails(using: DefaultMangaService(serverStorage: serverStorage))
-        }
+        // .task {
+        //     await viewModel.getDetails(using: DefaultMangaService(serverStorage: serverStorage))
+        // }
     }
 }
 
