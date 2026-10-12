@@ -25,13 +25,13 @@ final class RouteCoordinator {
     }
 
     enum Alert: Identifiable {
-        case resetAllSettings(onConfirm: () -> Void)
+        case reset(message: String, onConfirm: () -> Void)
         case error(String)
 
         var id: String {
             switch self {
-            case .resetAllSettings:
-                "resetAllSettings"
+            case let .reset(message, _):
+                "reset-\(message)"
             case .error:
                 "error"
             }

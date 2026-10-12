@@ -53,14 +53,14 @@ struct RootView: View {
                 switch alert {
                 case .error:
                     Button("OK", role: .cancel, action: {})
-                case let .resetAllSettings(onConfirm):
-                    Button("Cancel", role: .cancel) {}
+                case let .reset(_, onConfirm):
+                    Button("Cancel", role: .cancel, action: {})
                     Button("Reset", role: .destructive, action: onConfirm)
                 }
             } message: { alert in
                 switch alert {
-                case .resetAllSettings:
-                    Text("Are you sure you want to reset all settings?")
+                case let .reset(message, _):
+                    Text(message)
                 case let .error(message):
                     Text(message)
                 }

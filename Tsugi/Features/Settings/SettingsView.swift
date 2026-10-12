@@ -16,9 +16,12 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Button("Reset All Settings", role: .destructive) {
+                Button("Reset All", role: .destructive) {
                     coordinator.presentAlert(
-                        .resetAllSettings(onConfirm: onResetAllSettings)
+                        .reset(
+                            message: "Are you sure you want to reset all to defaults?",
+                            onConfirm: onResetAllSettings
+                        )
                     )
                 }
                 Spacer()
