@@ -41,8 +41,14 @@ struct LibraryView: View {
                             Text(msg)
                             Spacer()
                         }
+                        .frame(maxWidth: .infinity)
                     default:
-                        ProgressView()
+                        VStack {
+                            Spacer()
+                            ProgressView()
+                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                 }
             }
