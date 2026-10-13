@@ -8,16 +8,14 @@
 import os
 import SwiftUI
 
-private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Tsugi", category: "ServerSetup")
-
 @MainActor
 @Observable
 final class AddServerSheetViewModel {
-    private let service: ServerHealthService
+    private let client: URLSession
     private let storage: ServerStorage
 
-    init(service: ServerHealthService, storage: ServerStorage) {
-        self.service = service
+    init(storage: ServerStorage = AppPreferences.shared) {
+        client = URLSession(configuration: .ephemeral)
         self.storage = storage
     }
 
@@ -56,7 +54,7 @@ final class AddServerSheetViewModel {
         return components.url
     }
 
-    func testConnection() async {
+    func testConnection(using session: URLSession? = nil) async {
         if status.isLoading {
             return
         }
@@ -66,9 +64,9 @@ final class AddServerSheetViewModel {
         status = .loading
 
         do {
-            let success = try await service.ping(to: url)
+            let (_, res) = try await (session ?? client).bytes(from: url)
 
-            if success {
+            if let urlRes = res as? HTTPURLResponse, (200 ..< 300).contains(urlRes.statusCode) {
                 status = .success
             } else {
                 status = .failure(
@@ -83,7 +81,7 @@ final class AddServerSheetViewModel {
     func saveConnection() -> Bool {
         if !status.isSuccess {
             status = .failure(
-                "Tap on Test Connection to verify the details first."
+                "Tap on Test Connection to validate the connection first."
             )
             return false
         }
@@ -93,14 +91,8 @@ final class AddServerSheetViewModel {
             return false
         }
 
-        do {
-            try storage.save(ServerConfig(baseURL: url))
-            status = .success
-            return true
-        } catch {
-            status = .failure(error.localizedDescription)
-            logger.error("Unable to save ServerConfig object: \(error.localizedDescription)")
-            return false
-        }
+        storage.setServerUrl(url)
+        status = .success
+        return true
     }
 }

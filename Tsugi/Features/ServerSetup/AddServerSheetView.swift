@@ -8,19 +8,7 @@
 import SwiftUI
 
 struct AddServerSheetView: View {
-    @State private var viewModel: AddServerSheetViewModel
-
-    init(
-        service: ServerHealthService = DefaultServerHealthService(),
-        storage: ServerStorage = DefaultServerStore.shared
-    ) {
-        _viewModel = State(
-            initialValue: AddServerSheetViewModel(
-                service: service,
-                storage: storage
-            )
-        )
-    }
+    @State private var viewModel = AddServerSheetViewModel()
 
     var body: some View {
         Form {
