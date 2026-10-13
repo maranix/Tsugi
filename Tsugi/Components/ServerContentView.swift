@@ -1,30 +1,24 @@
 import SwiftUI
 
 struct ServerContentView<Content: View>: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(RouteCoordinator.self) private var coordinator
 
     @ViewBuilder
     private let content: Content
 
-    @State
-    private var isPresented: () -> Bool
-
-    private let onPresentationChanged: (Bool) -> Void?
-
-    init(
-        isPresented: @escaping () -> Bool = { DefaultServerStore.shared.isConfigured },
-        onPresentationChanged: @escaping (Bool) -> Void? = { _ in nil },
-        @ViewBuilder content: () -> Content
-    ) {
+    init(@ViewBuilder content: () -> Content) {
         self.content = content()
-        self.isPresented = isPresented
-        self.onPresentationChanged = onPresentationChanged
+    }
+
+    var isServerConfigured: Bool {
+        preferences.serverUrl != nil
     }
 
     var body: some View {
         content
             .overlay {
-                if !isPresented() {
+                if !isServerConfigured {
                     ContentUnavailableView {
                         Label("No Server Configured", systemImage: SFSymbol.server)
                     } description: {
@@ -39,9 +33,6 @@ struct ServerContentView<Content: View>: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(.background)
                 }
-            }
-            .task(id: isPresented()) {
-                onPresentationChanged(isPresented())
             }
     }
 }

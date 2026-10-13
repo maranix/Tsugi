@@ -6,7 +6,7 @@ struct BookCoverView: View {
 
     init(_ book: Book) {
         self.book = book
-        baseURL = DefaultServerStore.shared.config?.baseURL
+        baseURL = AppPreferences.shared.serverUrl
     }
 
     init(_ book: Book, baseURL: URL) {
