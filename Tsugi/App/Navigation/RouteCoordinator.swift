@@ -38,16 +38,16 @@ final class RouteCoordinator {
         }
     }
 
-    private let onboardingStorage: OnboardingStorage
+    private let storage: OnboardingStorage
 
     var presentedSheet: Sheet?
     var presentedCover: FullScreenCover?
     var presentedAlert: Alert?
 
-    init(onboarding: OnboardingStorage = DefaultOnboardingStore.shared) {
-        onboardingStorage = onboarding
+    init(storage: OnboardingStorage = AppPreferences.shared) {
+        self.storage = storage
 
-        if !onboardingStorage.onboarded {
+        if !self.storage.isOnboarded() {
             presentedCover = .onboarding
         }
     }
@@ -65,7 +65,7 @@ final class RouteCoordinator {
     }
 
     func completeOnboarding() {
-        onboardingStorage.setOnboarded(true)
+        storage.markOnboarded()
         presentedCover = nil
     }
 }

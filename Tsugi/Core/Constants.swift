@@ -1,11 +1,9 @@
 //
-//  URLScheme.swift
+//  Constants.swift
 //  Tsugi
 //
 //  Created by Raman Verma on 07/10/26.
 //
-
-import Foundation
 
 enum URLScheme: String, CaseIterable, Identifiable, Sendable {
     case http
@@ -22,4 +20,9 @@ enum URLScheme: String, CaseIterable, Identifiable, Sendable {
     var displayName: String {
         rawValue.uppercased()
     }
+}
+
+enum StorageKey {
+    static let onboarded = "onboarding.onboarded"
+    static let server = "server"
 }

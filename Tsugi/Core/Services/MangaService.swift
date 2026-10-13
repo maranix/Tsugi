@@ -47,21 +47,22 @@ extension MangaChaptersQuery.Data.Chapters.Node {
 }
 
 final class DefaultMangaService: MangaService {
-    private(set) var serverStorage: ServerStorage
     private(set) var cachedClient: (url: URL, client: ApolloClient)?
+
+    private let serverStorage: ServerStorage
 
     private let lock = NSLock()
 
-    init(serverStorage: ServerStorage) {
+    init(serverStorage: ServerStorage = AppPreferences.shared) {
         self.serverStorage = serverStorage
     }
 
     func client() throws -> ApolloClient {
-        guard let config = serverStorage.config else {
+        guard let url = serverStorage.getServerUrl() else {
             throw URLError(.badURL)
         }
 
-        let endpoint = config.baseURL.appending(path: "api/graphql")
+        let endpoint = url.appending(path: "api/graphql")
 
         lock.lock()
         defer { lock.unlock() }

@@ -3,14 +3,14 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(RouteCoordinator.self) private var coordinator
 
-    private let store: ServerStorage
+    private let storage: ServerStorage
 
-    init(_ store: ServerStorage = DefaultServerStore.shared) {
-        self.store = store
+    init(_ storage: ServerStorage = AppPreferences.shared) {
+        self.storage = storage
     }
 
     func onResetAllSettings() {
-        store.reset()
+        storage.setServerUrl(nil)
     }
 
     var body: some View {
