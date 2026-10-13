@@ -1,25 +1,20 @@
 import SwiftUI
 
 struct LibraryView: View {
+    @Environment(AppPreferences.self) private var preferences
     @Environment(RouteCoordinator.self) private var coordinator
 
     @State private var router = NavigationRouter<RouteCoordinator.Destination>()
     @State private var viewModel = LibraryViewModel()
     @State private var gridLayout: GridLayout.Column = .three
-    @State private var runTask = false
 
     func fetchLibrary() async {
-        try? await Task.sleep(for: .seconds(1))
         await viewModel.getAll()
-    }
-
-    func updateRunTask(_ val: Bool) {
-        runTask = val
     }
 
     var body: some View {
         NavigationStack(path: $router.stack) {
-            ServerContentView(onPresentationChanged: updateRunTask) {
+            ServerContentView {
                 Group {
                     switch viewModel.status {
                     case .success:
@@ -33,7 +28,6 @@ struct LibraryView: View {
                         .padding(.horizontal)
                         .buttonStyle(.plain)
                         .scrollIndicators(.never)
-                        .refreshable(action: fetchLibrary)
                         .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                             switch dest {
                             case let .bookDetails(book):
@@ -86,9 +80,17 @@ struct LibraryView: View {
                     }
                 }
             }
-            .task(id: runTask) {
-                await fetchLibrary()
+            .task {
+                if viewModel.status.isIdle {
+                    await fetchLibrary()
+                }
             }
+            .onChange(of: preferences.serverUrl) {
+                Task {
+                    await fetchLibrary()
+                }
+            }
+            .refreshable(action: fetchLibrary)
         }
     }
 }

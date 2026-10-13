@@ -4,17 +4,15 @@ import SwiftUI
 @MainActor
 @Observable
 final class LibraryViewModel {
-    private let mangaService: MangaService
-
-    init(_ storage: ServerStorage = DefaultServerStore.shared) {
-        mangaService = DefaultMangaService(serverStorage: storage)
-    }
+    private let mangaService: MangaService = DefaultMangaService()
 
     private(set) var books: [Book] = []
     private(set) var status: AsyncStatus = .idle
 
     func getAll() async {
-        status = .loading
+        if books.isEmpty {
+            status = .loading
+        }
 
         do {
             books = try await mangaService.getAll(fromLibrary: true)
