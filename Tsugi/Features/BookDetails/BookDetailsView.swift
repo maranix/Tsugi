@@ -1,32 +1,41 @@
+import Kingfisher
 import SwiftUI
 
 struct BookDetailsView: View {
+    private let cover: URL?
     @State private var viewModel: BookDetailsViewModel
 
-    init(_ book: Book) {
+    init(_ book: Book, cover: URL? = nil) {
         _viewModel = State(initialValue: BookDetailsViewModel(book))
+        self.cover = cover
     }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
-                Text(viewModel.book.title)
+            VStack {
+                ZStack(alignment: .bottom) {
+                    KFImage(cover)
+                        .resizable()
+                        .scaledToFit()
 
-                Group {
-                    switch viewModel.status {
-                    case .loading:
-                        ProgressView()
-                    case .success:
-                        Details(viewModel.details)
-                    case let .failure(msg):
-                        Text(msg)
-                    default:
-                        EmptyView()
-                    }
+                    Text(viewModel.book.title)
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .background(.ultraThinMaterial)
                 }
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Details(viewModel.details)
+                }
+                .padding()
+                .frame(maxHeight: .infinity, alignment: .leading)
             }
-            .padding()
         }
+        .ignoresSafeArea(edges: .top)
         .toolbarVisibility(.hidden, for: .tabBar)
         .task {
             await viewModel.getDetails()

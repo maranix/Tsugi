@@ -1,3 +1,4 @@
+import Kingfisher
 import SwiftUI
 
 struct LibraryView: View {
@@ -16,9 +17,7 @@ struct LibraryView: View {
                     case .success:
                         ScrollableGridSurfaceView(layout: gridLayout.items) {
                             ForEach(viewModel.books) { book in
-                                NavigationLink(value: RouteCoordinator.Destination.bookDetails(book)) {
-                                    BookCoverView(book)
-                                }
+                                BookCoverView(book)
                             }
                         }
                         .padding(.horizontal)
@@ -26,8 +25,8 @@ struct LibraryView: View {
                         .scrollIndicators(.never)
                         .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                             switch dest {
-                            case let .bookDetails(book):
-                                BookDetailsView(book)
+                            case let .bookDetails(book, cover):
+                                BookDetailsView(book, cover: cover)
                             }
                         }
                     case let .failure(msg):

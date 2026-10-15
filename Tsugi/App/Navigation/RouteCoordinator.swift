@@ -4,7 +4,7 @@ import SwiftUI
 @Observable
 final class RouteCoordinator {
     enum Destination: Hashable {
-        case bookDetails(_ book: Book)
+        case bookDetails(_ book: Book, cover: URL? = nil)
     }
 
     enum FullScreenCover: Identifiable {

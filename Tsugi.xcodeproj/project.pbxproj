@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D1CB84D307A0BEA00F138A8 /* Apollo in Frameworks */ = {isa = PBXBuildFile; productRef = 4D1CB84C307A0BEA00F138A8 /* Apollo */; };
+		4D1E697F3080BA3A0034B975 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 4D1E697E3080BA3A0034B975 /* Kingfisher */; };
 		4DB86655307A1704006CBE2A /* SuwayomiAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 4DB86654307A1704006CBE2A /* SuwayomiAPI */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D1E697F3080BA3A0034B975 /* Kingfisher in Frameworks */,
 				4D1CB84D307A0BEA00F138A8 /* Apollo in Frameworks */,
 				4DB86655307A1704006CBE2A /* SuwayomiAPI in Frameworks */,
 			);
@@ -182,6 +184,7 @@
 			packageProductDependencies = (
 				4D1CB84C307A0BEA00F138A8 /* Apollo */,
 				4DB86654307A1704006CBE2A /* SuwayomiAPI */,
+				4D1E697E3080BA3A0034B975 /* Kingfisher */,
 			);
 			productName = Tsugi;
 			productReference = 4D98D3A03071728F000B6AF5 /* Tsugi.app */;
@@ -222,6 +225,7 @@
 			packageReferences = (
 				4D1CB84B307A0BEA00F138A8 /* XCRemoteSwiftPackageReference "apollo-ios" */,
 				4DB86653307A1704006CBE2A /* XCLocalSwiftPackageReference "SuwayomiAPI" */,
+				4D1E697D3080BA3A0034B975 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4D98D3A13071728F000B6AF5 /* Products */;
@@ -657,6 +661,14 @@
 				minimumVersion = 2.4.0;
 			};
 		};
+		4D1E697D3080BA3A0034B975 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.13.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -664,6 +676,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4D1CB84B307A0BEA00F138A8 /* XCRemoteSwiftPackageReference "apollo-ios" */;
 			productName = Apollo;
+		};
+		4D1E697E3080BA3A0034B975 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4D1E697D3080BA3A0034B975 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		4DB86654307A1704006CBE2A /* SuwayomiAPI */ = {
 			isa = XCSwiftPackageProductDependency;
