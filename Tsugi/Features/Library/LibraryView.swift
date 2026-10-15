@@ -19,6 +19,15 @@ struct LibraryView: View {
                             ForEach(viewModel.books) { book in
                                 BookCoverView(book)
                             }
+
+                            if viewModel.hasMore {
+                                ProgressView()
+                                    .frame(maxWidth: .infinity)
+                                    .gridCellColumns(gridLayout.items.count)
+                                    .task {
+                                        await viewModel.loadNext()
+                                    }
+                            }
                         }
                         .padding(.horizontal)
                         .buttonStyle(.plain)
@@ -87,10 +96,10 @@ struct LibraryView: View {
             }
             .onChange(of: preferences.serverUrl) {
                 Task {
-                    await viewModel.refresh()
+                    await viewModel.get()
                 }
             }
-            .refreshable(action: viewModel.refresh)
+            .refreshable(action: viewModel.get)
         }
     }
 }
