@@ -1,8 +1,25 @@
-query MangaList($inLibrary: Boolean) {
-  mangas(condition: {inLibrary: $inLibrary}) {
+query MangaList(
+  $inLibrary: Boolean = true
+  $first: Int = 20
+  $orderBy: MangaOrderBy = TITLE
+  $orderType: SortOrder = ASC
+  $after: Cursor
+) {
+  mangas(
+    first: $first
+    after: $after
+    condition: {inLibrary: $inLibrary}
+    order: [{by: $orderBy, byType: $orderType}]
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+    }
     nodes {
-      id,
-      title,
+      id
+      title
       thumbnailUrl
     }
   }
@@ -23,16 +40,17 @@ query MangaDetails($id: Int) {
 }
 
 query MangaChapters(
-  $id: Int,
-  $first: Int,
-  $after: Cursor,
-  $orderBy: SortOrder
+  $id: Int = 98
+  $first: Int = 10
+  $orderBy: ChapterOrderBy = CHAPTER_NUMBER
+  $orderType: SortOrder = DESC
+  $after: Cursor
 ) {
   chapters(
     condition: {mangaId: $id}
+    order: [{by: $orderBy, byType: $orderType}]
     first: $first
     after: $after
-    order: {by: CHAPTER_NUMBER, byType: $orderBy}
   ) {
     totalCount
     pageInfo {

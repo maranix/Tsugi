@@ -8,31 +8,35 @@ nonisolated public struct MangaChaptersQuery: GraphQLQuery {
   public static let operationName: String = "MangaChapters"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query MangaChapters($id: Int, $first: Int, $after: Cursor, $orderBy: SortOrder) { chapters( condition: { mangaId: $id } first: $first after: $after order: { by: CHAPTER_NUMBER, byType: $orderBy } ) { __typename totalCount pageInfo { __typename startCursor endCursor hasNextPage } nodes { __typename id chapterNumber name realUrl scanlator } } }"#
+      #"query MangaChapters($id: Int = 98, $first: Int = 10, $orderBy: ChapterOrderBy = CHAPTER_NUMBER, $orderType: SortOrder = DESC, $after: Cursor) { chapters( condition: { mangaId: $id } order: [{ by: $orderBy, byType: $orderType }] first: $first after: $after ) { __typename totalCount pageInfo { __typename startCursor endCursor hasNextPage } nodes { __typename id chapterNumber name realUrl scanlator } } }"#
     ))
 
   public var id: GraphQLNullable<Int32>
   public var first: GraphQLNullable<Int32>
+  public var orderBy: GraphQLNullable<GraphQLEnum<ChapterOrderBy>>
+  public var orderType: GraphQLNullable<GraphQLEnum<SortOrder>>
   public var after: GraphQLNullable<Cursor>
-  public var orderBy: GraphQLNullable<GraphQLEnum<SortOrder>>
 
   public init(
-    id: GraphQLNullable<Int32>,
-    first: GraphQLNullable<Int32>,
-    after: GraphQLNullable<Cursor>,
-    orderBy: GraphQLNullable<GraphQLEnum<SortOrder>>
+    id: GraphQLNullable<Int32> = 98,
+    first: GraphQLNullable<Int32> = 10,
+    orderBy: GraphQLNullable<GraphQLEnum<ChapterOrderBy>> = .init(.chapterNumber),
+    orderType: GraphQLNullable<GraphQLEnum<SortOrder>> = .init(.desc),
+    after: GraphQLNullable<Cursor>
   ) {
     self.id = id
     self.first = first
-    self.after = after
     self.orderBy = orderBy
+    self.orderType = orderType
+    self.after = after
   }
 
   @_spi(Unsafe) public var __variables: Variables? { [
     "id": id,
     "first": first,
-    "after": after,
-    "orderBy": orderBy
+    "orderBy": orderBy,
+    "orderType": orderType,
+    "after": after
   ] }
 
   nonisolated public struct Data: SuwayomiAPI.SelectionSet {
@@ -43,12 +47,12 @@ nonisolated public struct MangaChaptersQuery: GraphQLQuery {
     @_spi(Execution) public static var __selections: [ApolloAPI.Selection] { [
       .field("chapters", Chapters.self, arguments: [
         "condition": ["mangaId": .variable("id")],
+        "order": [[
+          "by": .variable("orderBy"),
+          "byType": .variable("orderType")
+        ]],
         "first": .variable("first"),
-        "after": .variable("after"),
-        "order": [
-          "by": "CHAPTER_NUMBER",
-          "byType": .variable("orderBy")
-        ]
+        "after": .variable("after")
       ]),
     ] }
     @_spi(Execution) public static var __fulfilledFragments: [any ApolloAPI.SelectionSet.Type] { [
