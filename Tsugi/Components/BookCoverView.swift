@@ -8,11 +8,9 @@ struct BookCoverView: View {
     init(_ book: Book) {
         self.book = book
 
-        if let baseUrl = AppPreferences.shared.serverUrl {
-            thumbnail = book.thumbnailUrl(baseUrl)
-        } else {
-            thumbnail = nil
-        }
+        guard let baseUrl = AppPreferences.shared.serverUrl else { return }
+
+        thumbnail = book.thumbnailUrl(baseUrl)
     }
 
     init(_ book: Book, baseUrl: URL) {
@@ -22,7 +20,7 @@ struct BookCoverView: View {
 
     var body: some View {
         NavigationLink(value: RouteCoordinator.Destination.bookDetails(book, cover: thumbnail)) {
-            VStack {
+            ZStack(alignment: .bottom) {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(.secondary.opacity(0.2))
                     .aspectRatio(2 / 3, contentMode: .fit)
@@ -38,15 +36,10 @@ struct BookCoverView: View {
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 8))
 
-                ZStack(alignment: .topLeading) {
-                    Text(" \n ")
-                        .hidden()
-
-                    Text(book.title)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                }
-                .frame(maxWidth: .infinity, alignment: .topLeading)
+                Text(book.title)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+                    .background(.ultraThinMaterial)
             }
         }
     }
