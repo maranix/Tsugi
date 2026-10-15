@@ -1,7 +1,23 @@
 import Foundation
 
+enum BookSource: Hashable, Sendable {
+    case suwayomi
+
+    var idPrefix: String {
+        switch self {
+        case .suwayomi: "suwayomi"
+        }
+    }
+}
+
 struct Book: Identifiable, Hashable, Sendable {
-    let id: Int
+    var id: String {
+        "\(source.idPrefix):\(rawId)"
+    }
+
+    let source: BookSource
+
+    let rawId: Int
     let title: String
     let thumbnail: String?
 
@@ -14,48 +30,36 @@ struct Book: Identifiable, Hashable, Sendable {
     }
 }
 
-struct BookDetails: Sendable {
-    enum Source {
-        case suwayomi(Suwayomi)
-    }
+struct BookDetails: Equatable, Sendable {
+    let author: String?
+    let artist: String?
+    let description: String?
+    let genre: [String]
+    let realUrl: String?
+    let status: String
+    let inLibrary: Bool
 
-    struct Suwayomi: Sendable {
-        let author: String?
-        let artist: String?
-        let description: String?
-        let genre: [String]
-        let realUrl: String?
-        let status: String
-        let inLibrary: Bool
-
-        func sourceUrl() -> URL? {
-            guard let url = realUrl, !url.isEmpty else {
-                return nil
-            }
-
-            return URL(string: url)
+    func sourceUrl() -> URL? {
+        guard let url = realUrl, !url.isEmpty else {
+            return nil
         }
+
+        return URL(string: url)
     }
 }
 
-struct BookChapter: Sendable {
-    enum Source {
-        case suwayomi(Suwayomi)
-    }
+struct BookChapter: Identifiable, Hashable, Sendable {
+    let id: Int
+    let number: Double
+    let name: String
+    let realUrl: String?
+    let scanlator: String?
 
-    struct Suwayomi: Identifiable {
-        let id: Int
-        let number: Double
-        let name: String
-        let realUrl: String?
-        let scanlator: String?
-
-        func sourceUrl() -> URL? {
-            guard let url = realUrl, !url.isEmpty else {
-                return nil
-            }
-
-            return URL(string: url)
+    func sourceUrl() -> URL? {
+        guard let url = realUrl, !url.isEmpty else {
+            return nil
         }
+
+        return URL(string: url)
     }
 }

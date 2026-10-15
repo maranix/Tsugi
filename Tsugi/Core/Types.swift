@@ -44,3 +44,40 @@ enum AsyncStatus {
         return message
     }
 }
+
+struct PageRequest: Sendable {
+    let limit: Int
+    let token: String?
+
+    init(limit: Int = 20, token: String? = nil) {
+        self.limit = limit
+        self.token = token
+    }
+}
+
+struct PageResult<Item: Sendable>: Sendable {
+    let items: [Item]
+    let hasMore: Bool
+    let nextToken: String?
+
+    init(items: [Item], hasMore: Bool, nextToken: String? = nil) {
+        self.items = items
+        self.hasMore = hasMore
+        self.nextToken = nextToken
+    }
+
+    static func empty() -> Self {
+        .init(items: [], hasMore: false)
+    }
+}
+
+struct BookFilter: Sendable {
+    var inLibrary: Bool?
+    var sort: BookSort = .alphabetical(asc: true)
+}
+
+enum BookSort: Sendable {
+    case alphabetical(asc: Bool)
+    case dateAdded(asc: Bool)
+    case dateUpdated(asc: Bool)
+}
