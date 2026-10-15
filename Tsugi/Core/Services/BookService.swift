@@ -2,7 +2,7 @@ import Apollo
 import Foundation
 import SuwayomiAPI
 
-protocol BookService {
+protocol BookService: Sendable {
     func get(page: PageRequest, filter: BookFilter) async throws -> PageResult<Book>
     func getDetails(id: Int) async throws -> BookDetails?
     func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<BookChapter>
@@ -44,25 +44,36 @@ actor SuwayomiService: BookService {
 
         let response = try await client.fetch(
             query: MangaListQuery(
-                inLibrary: filter.inLibrary.toGraphQLNullable()
+                inLibrary: filter.inLibrary ?? nil,
+                first: .some(page.limit),
+                after: page.token ?? nil
             )
         )
 
-        guard let list = response.data?.mangas.nodes else {
+        guard let data = response.data?.mangas else {
             return PageResult.empty()
         }
 
-        let books = list.compactMap { node in
+        let books = data.nodes.compactMap { node in
             node.toBook()
         }
 
-        return PageResult(items: books, hasMore: false)
+        return PageResult(
+            items: books,
+            hasMore: data.pageInfo.hasNextPage,
+            totalCount: data.totalCount,
+            nextToken: data.pageInfo.endCursor
+        )
     }
 
     func getDetails(id: Int) async throws -> BookDetails? {
         let client = try client()
 
-        let response = try await client.fetch(query: MangaDetailsQuery(id: .some(Int32(id))))
+        let response = try await client.fetch(
+            query: MangaDetailsQuery(
+                id: .some(.init(id))
+            )
+        )
 
         guard let details = response.data?.mangas.nodes else {
             return nil
@@ -72,8 +83,29 @@ actor SuwayomiService: BookService {
     }
 
     func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<BookChapter> {
-        _ = try client()
+        let client = try client()
 
-        return PageResult.empty()
+        let response = try await client.fetch(
+            query: MangaChaptersQuery(
+                id: .some(.init(id)),
+                first: .some(page.limit),
+                after: page.token ?? nil
+            )
+        )
+
+        guard let data = response.data?.chapters else {
+            return PageResult.empty()
+        }
+
+        let chapters = data.nodes.compactMap { node in
+            node.toChapter()
+        }
+
+        return PageResult(
+            items: chapters,
+            hasMore: data.pageInfo.hasNextPage,
+            totalCount: data.totalCount,
+            nextToken: data.pageInfo.endCursor
+        )
     }
 }

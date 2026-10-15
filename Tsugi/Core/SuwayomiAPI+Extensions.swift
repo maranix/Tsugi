@@ -1,16 +1,6 @@
 import Apollo
 import SuwayomiAPI
 
-extension Bool? {
-    func toGraphQLNullable() -> GraphQLNullable<Bool> {
-        guard let notNull = self else {
-            return .none
-        }
-
-        return .some(notNull)
-    }
-}
-
 extension MangaListQuery.Data.Mangas.Node {
     func toBook() -> Book {
         .init(

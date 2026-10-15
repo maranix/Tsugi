@@ -46,10 +46,10 @@ enum AsyncStatus {
 }
 
 struct PageRequest: Sendable {
-    let limit: Int
+    let limit: Int32
     let token: String?
 
-    init(limit: Int = 20, token: String? = nil) {
+    init(limit: Int32 = 20, token: String? = nil) {
         self.limit = limit
         self.token = token
     }
@@ -58,11 +58,13 @@ struct PageRequest: Sendable {
 struct PageResult<Item: Sendable>: Sendable {
     let items: [Item]
     let hasMore: Bool
+    let totalCount: Int
     let nextToken: String?
 
-    init(items: [Item], hasMore: Bool, nextToken: String? = nil) {
+    init(items: [Item], hasMore: Bool, totalCount: Int = 0, nextToken: String? = nil) {
         self.items = items
         self.hasMore = hasMore
+        self.totalCount = totalCount
         self.nextToken = nextToken
     }
 
