@@ -1,16 +1,15 @@
 import SwiftUI
 
 struct BookDetailsView: View {
-    private var mangaService: DefaultMangaService?
-    private var viewModel: BookDetailsViewModel
+    @State private var viewModel: BookDetailsViewModel
 
     init(_ book: Book) {
-        viewModel = BookDetailsViewModel(book: book)
+        _viewModel = State(initialValue: BookDetailsViewModel(book))
     }
 
     var body: some View {
         ScrollView {
-            VStack {
+            VStack(alignment: .leading) {
                 Text(viewModel.book.title)
 
                 Group {
@@ -26,17 +25,19 @@ struct BookDetailsView: View {
                     }
                 }
             }
+            .padding()
         }
-        // .task {
-        //     await viewModel.getDetails(using: DefaultMangaService(serverStorage: serverStorage))
-        // }
+        .toolbarVisibility(.hidden, for: .tabBar)
+        .task {
+            await viewModel.getDetails()
+        }
     }
 }
 
 private struct Details: View {
-    private let data: BookDetails.Suwayomi?
+    private let data: BookDetails?
 
-    init(_ details: BookDetails.Suwayomi?) {
+    init(_ details: BookDetails?) {
         data = details
     }
 
@@ -44,10 +45,8 @@ private struct Details: View {
         switch data {
         case let .some(details):
             VStack {
-                if let description = details.description, !description.isEmpty,
-                   let attributed = try? AttributedString(markdown: description)
-                {
-                    Text(attributed)
+                if let description = details.description, !description.isEmpty {
+                    Text(description)
                 }
             }
         case .none:

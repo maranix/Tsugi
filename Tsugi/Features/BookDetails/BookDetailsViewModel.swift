@@ -3,20 +3,23 @@ import SwiftUI
 @MainActor
 @Observable
 final class BookDetailsViewModel {
+    private let bookService: BookService
+
     let book: Book
 
-    var details: BookDetails.Suwayomi?
+    var details: BookDetails?
     var status: AsyncStatus = .idle
 
-    init(book: Book) {
+    init(_ book: Book, using: BookService = SuwayomiService.shared) {
         self.book = book
+        bookService = using
     }
 
-    func getDetails(using service: MangaService) async {
+    func getDetails() async {
         status = .loading
 
         do {
-            details = try await service.getDetails(id: book.id)
+            details = try await bookService.getDetails(id: book.rawId)
             status = .success
         } catch {
             status = .failure(error.localizedDescription)

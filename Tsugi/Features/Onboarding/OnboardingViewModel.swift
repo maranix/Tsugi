@@ -12,6 +12,7 @@ enum OnboardingStep: Int, CaseIterable {
     case privacy
 }
 
+@MainActor
 @Observable
 final class OnboardingViewModel {
     private let steps = Array(OnboardingStep.allCases)

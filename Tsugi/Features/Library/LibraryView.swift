@@ -6,11 +6,7 @@ struct LibraryView: View {
 
     @State private var router = NavigationRouter<RouteCoordinator.Destination>()
     @State private var viewModel = LibraryViewModel()
-    @State private var gridLayout: GridLayout.Column = .three
-
-    func fetchLibrary() async {
-        await viewModel.getAll()
-    }
+    @State private var gridLayout = GridLayout.Column.three
 
     var body: some View {
         NavigationStack(path: $router.stack) {
@@ -32,7 +28,6 @@ struct LibraryView: View {
                             switch dest {
                             case let .bookDetails(book):
                                 BookDetailsView(book)
-                                    .toolbarVisibility(.hidden, for: .tabBar)
                             }
                         }
                     case let .failure(msg):
@@ -88,15 +83,15 @@ struct LibraryView: View {
             }
             .task {
                 if viewModel.status.isIdle {
-                    await fetchLibrary()
+                    await viewModel.get()
                 }
             }
             .onChange(of: preferences.serverUrl) {
                 Task {
-                    await fetchLibrary()
+                    await viewModel.refresh()
                 }
             }
-            .refreshable(action: fetchLibrary)
+            .refreshable(action: viewModel.refresh)
         }
     }
 }
