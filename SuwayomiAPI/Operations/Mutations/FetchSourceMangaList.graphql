@@ -1,0 +1,15 @@
+mutation FetchSourceMangaList(
+  $page: Int! = 1
+  $type: FetchSourceMangaType! = LATEST
+  $source: LongString!
+) {
+  fetchSourceManga(input: {page: $page, source: $source, type: $type}) {
+    hasNextPage
+    mangas {
+      id
+      title
+      thumbnailUrl
+    }
+  }
+}
+

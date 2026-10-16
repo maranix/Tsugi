@@ -26,6 +26,7 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     "ExtensionNodeList": SuwayomiAPI.Objects.ExtensionNodeList,
     "ExtensionStoreNodeList": SuwayomiAPI.Objects.ExtensionStoreNodeList,
     "FetchMangaAndChaptersPayload": SuwayomiAPI.Objects.FetchMangaAndChaptersPayload,
+    "FetchSourceMangaPayload": SuwayomiAPI.Objects.FetchSourceMangaPayload,
     "GlobalMetaNodeList": SuwayomiAPI.Objects.GlobalMetaNodeList,
     "MangaNodeList": SuwayomiAPI.Objects.MangaNodeList,
     "MangaType": SuwayomiAPI.Objects.MangaType,
@@ -33,6 +34,7 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     "PageInfo": SuwayomiAPI.Objects.PageInfo,
     "Query": SuwayomiAPI.Objects.Query,
     "SourceNodeList": SuwayomiAPI.Objects.SourceNodeList,
+    "SourceType": SuwayomiAPI.Objects.SourceType,
     "TrackRecordNodeList": SuwayomiAPI.Objects.TrackRecordNodeList,
     "TrackerNodeList": SuwayomiAPI.Objects.TrackerNodeList
   ]
