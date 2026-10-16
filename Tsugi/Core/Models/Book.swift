@@ -13,12 +13,6 @@ struct Book: Identifiable, Hashable, Sendable {
     }
 }
 
-extension Book {
-    typealias Details = BookDetails
-    typealias Chapter = BookChapter
-    typealias Source = BookSource
-}
-
 struct BookDetails: Hashable, Sendable {
     let description: String?
     let author: String?
