@@ -4,13 +4,9 @@ import SuwayomiAPI
 
 protocol BookService: Sendable {
     func getLibrary(first: Int, after: String?) async throws -> PagedResult<Book>
-    func getMangaAndChapters(id: Int) async throws -> BookContent
-}
-
-extension BookService {
-    func getLibrary(first: Int = 20, after: String? = nil) async throws -> PagedResult<Book> {
-        try await getLibrary(first: first, after: after)
-    }
+    func getDetailsAndChapters(id: Int) async throws -> BookContent
+    func getSources(first: Int, after: String?) async throws -> PagedResult<BookSource>
+    func getBookListFromSource(id: String, page: Int) async throws -> PagedResult<Book>
 }
 
 actor SuwayomiService: BookService {
@@ -73,7 +69,7 @@ actor SuwayomiService: BookService {
         )
     }
 
-    func getMangaAndChapters(id: Int) async throws -> BookContent {
+    func getDetailsAndChapters(id: Int) async throws -> BookContent {
         let client = try client()
 
         let response = try await client.perform(
@@ -85,5 +81,59 @@ actor SuwayomiService: BookService {
         }
 
         return data.toBookContent()
+    }
+
+    func getSources(first: Int = 20, after: String? = nil) async throws -> PagedResult<BookSource> {
+        let client = try client()
+
+        let response = try await client.fetch(
+            query: SourceListQuery(
+                first: Int32(first),
+                orderBy: .case(.id),
+                orderType: .case(.asc),
+                after: after ?? nil
+            )
+        )
+
+        guard let data = response.data?.sources else {
+            throw URLError(.badServerResponse)
+        }
+
+        let serverUrl = baseUrl()
+        let sources = data.nodes.compactMap { source in
+            source.toBookSource(iconBaseUrl: serverUrl)
+        }
+
+        return PagedResult(
+            items: sources,
+            hasMore: data.pageInfo.hasNextPage,
+            nextCursor: data.pageInfo.endCursor
+        )
+    }
+
+    func getBookListFromSource(id: String, page: Int = 1) async throws -> PagedResult<Book> {
+        let client = try client()
+
+        let response = try await client.perform(
+            mutation: FetchSourceMangaListMutation(
+                page: Int32(page),
+                type: .case(.latest),
+                source: id
+            )
+        )
+
+        guard let data = response.data?.fetchSourceManga else {
+            throw URLError(.badServerResponse)
+        }
+
+        let serverUrl = baseUrl()
+        let books = data.mangas.compactMap { book in
+            book.toBook(thumbnailBaseUrl: serverUrl)
+        }
+
+        return PagedResult(
+            items: books,
+            hasMore: data.hasNextPage
+        )
     }
 }

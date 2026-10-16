@@ -26,7 +26,7 @@ final class BookContentViewModel {
         }
 
         do {
-            let fetched = try await service.getMangaAndChapters(id: book.id)
+            let fetched = try await service.getDetailsAndChapters(id: book.id)
             content = fetched
             status = .success
         } catch {
