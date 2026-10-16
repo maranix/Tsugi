@@ -5,6 +5,8 @@
 //  Created by Raman Verma on 07/10/26.
 //
 
+import Foundation
+
 enum AsyncStatus {
     case idle
     case loading
@@ -45,41 +47,34 @@ enum AsyncStatus {
     }
 }
 
-struct PageRequest: Sendable {
-    let limit: Int32
-    let token: String?
+struct BookContent: Sendable {
+    let details: BookDetails
+    let chapters: [BookChapter]
 
-    init(limit: Int32 = 20, token: String? = nil) {
-        self.limit = limit
-        self.token = token
+    init(details: BookDetails, chapters: [BookChapter] = []) {
+        self.details = details
+        self.chapters = chapters
     }
 }
 
-struct PageResult<Item: Sendable>: Sendable {
+extension Book {
+    typealias Content = BookContent
+}
+
+struct PagedResult<Item: Sendable>: Sendable {
     let items: [Item]
     let hasMore: Bool
-    let totalCount: Int
-    let nextToken: String?
+    let nextCursor: String?
 
-    init(items: [Item], hasMore: Bool, totalCount: Int = 0, nextToken: String? = nil) {
+    init(items: [Item], hasMore: Bool, nextCursor: String? = nil) {
         self.items = items
         self.hasMore = hasMore
-        self.totalCount = totalCount
-        self.nextToken = nextToken
+        self.nextCursor = nextCursor
     }
 
     static func empty() -> Self {
-        .init(items: [], hasMore: false)
+        .init(items: [], hasMore: false, nextCursor: nil)
     }
 }
 
-struct BookFilter: Sendable {
-    var inLibrary: Bool?
-    var sort: BookSort = .alphabetical(asc: true)
-}
-
-enum BookSort: Sendable {
-    case alphabetical(asc: Bool)
-    case dateAdded(asc: Bool)
-    case dateUpdated(asc: Bool)
-}
+typealias PageResult<Item: Sendable> = PagedResult<Item>
