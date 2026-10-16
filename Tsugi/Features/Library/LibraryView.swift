@@ -35,7 +35,7 @@ struct LibraryView: View {
                         .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                             switch dest {
                             case let .bookDetails(book, cover):
-                                BookDetailsView(book, cover: cover)
+                                BookContentView(book, cover: cover)
                             }
                         }
                     case let .failure(msg):

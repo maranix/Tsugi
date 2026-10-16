@@ -1,9 +1,9 @@
 import Kingfisher
 import SwiftUI
 
-struct BookDetailsView: View {
+struct BookContentView: View {
     private let cover: URL?
-    @State private var viewModel: BookDetailsViewModel
+    @State private var viewModel: BookContentViewModel
     @State private var coverHeight: CGFloat = 0
     @State private var scrollOffset: CGPoint = .zero
 
@@ -12,7 +12,7 @@ struct BookDetailsView: View {
     }
 
     init(_ book: Book, cover: URL? = nil) {
-        _viewModel = State(initialValue: BookDetailsViewModel(book))
+        _viewModel = State(initialValue: BookContentViewModel(book))
         self.cover = cover
     }
 
@@ -98,7 +98,7 @@ struct BookDetailsView: View {
 }
 
 private struct Details: View {
-    @Environment(BookDetailsViewModel.self) private var viewModel
+    @Environment(BookContentViewModel.self) private var viewModel
 
     var body: some View {
         switch viewModel.content.details {
@@ -116,7 +116,7 @@ private struct Details: View {
 }
 
 private struct Chapters: View {
-    @Environment(BookDetailsViewModel.self) private var viewModel
+    @Environment(BookContentViewModel.self) private var viewModel
 
     var body: some View {
         if !viewModel.content.chapters.isEmpty {
@@ -134,7 +134,7 @@ private struct Chapters: View {
 
                     if viewModel.hasNext {
                         ProgressView()
-                            .frame(minWidth: .infinity, alignment: .center)
+                            .frame(maxWidth: .infinity, alignment: .center)
                             .task {
                                 await viewModel.loadMoreChapters()
                             }

@@ -7,7 +7,7 @@ private enum LoadContentStep: Sendable {
 
 @MainActor
 @Observable
-final class BookDetailsViewModel {
+final class BookContentViewModel {
     private let service: BookService
 
     let book: Book
@@ -25,6 +25,7 @@ final class BookDetailsViewModel {
 
     private(set) var hasNext: Bool
     private(set) var nextToken: String?
+    private(set) var isLoadingMore = false
 
     func loadContent() async {
         status = .loading
@@ -66,9 +67,12 @@ final class BookDetailsViewModel {
     }
 
     func loadMoreChapters() async {
-        guard hasNext, let token = nextToken else {
+        guard hasNext, let token = nextToken, !isLoadingMore else {
             return
         }
+
+        isLoadingMore = true
+        defer { isLoadingMore = false }
 
         guard let data = try? await service.getChapters(
             id: book.rawId,
@@ -78,7 +82,10 @@ final class BookDetailsViewModel {
             return
         }
 
-        content.chapters.append(contentsOf: data.items)
+        let existingIds = Set(content.chapters.map(\.id))
+        let newChapters = data.items.filter { !existingIds.contains($0.id) }
+
+        content.chapters.append(contentsOf: newChapters)
         hasNext = data.hasMore
         nextToken = data.nextToken
     }
