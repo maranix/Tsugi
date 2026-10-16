@@ -12,7 +12,6 @@ struct BookCoverView: View {
         VStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(.secondary.opacity(0.2))
-                .aspectRatio(2 / 3, contentMode: .fit)
                 .overlay {
                     KFImage(book.thumbnailUrl)
                         .placeholder {
@@ -30,6 +29,7 @@ struct BookCoverView: View {
                     .hidden()
 
                 Text(book.title)
+                    .foregroundStyle(.primary)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
             }
