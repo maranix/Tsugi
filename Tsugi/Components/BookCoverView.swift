@@ -20,7 +20,7 @@ struct BookCoverView: View {
 
     var body: some View {
         NavigationLink(value: RouteCoordinator.Destination.bookDetails(book, cover: thumbnail)) {
-            ZStack(alignment: .bottom) {
+            VStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(.secondary.opacity(0.2))
                     .aspectRatio(2 / 3, contentMode: .fit)
@@ -36,10 +36,15 @@ struct BookCoverView: View {
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 8))
 
-                Text(book.title)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-                    .background(.ultraThinMaterial)
+                ZStack(alignment: .topLeading) {
+                    Text(" \n ")
+                        .hidden()
+
+                    Text(book.title)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.leading)
+                }
+                .frame(maxWidth: .infinity, alignment: .topLeading)
             }
         }
     }
