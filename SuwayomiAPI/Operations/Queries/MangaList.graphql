@@ -1,0 +1,26 @@
+query MangaList(
+  $inLibrary: Boolean = true
+  $first: Int = 20
+  $orderBy: MangaOrderBy = TITLE
+  $orderType: SortOrder = ASC
+  $after: Cursor
+) {
+  mangas(
+    first: $first
+    after: $after
+    condition: {inLibrary: $inLibrary}
+    order: [{by: $orderBy, byType: $orderType}]
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+    }
+    nodes {
+      id
+      title
+      thumbnailUrl
+    }
+  }
+}
