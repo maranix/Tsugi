@@ -10,12 +10,12 @@ struct BookCoverView: View {
 
         guard let baseUrl = AppPreferences.shared.serverUrl else { return }
 
-        thumbnail = book.thumbnailUrl(baseUrl)
+        thumbnail = book.coverURL(baseURL: baseUrl)
     }
 
     init(_ book: Book, baseUrl: URL) {
         self.book = book
-        thumbnail = book.thumbnailUrl(baseUrl)
+        thumbnail = book.coverURL(baseURL: baseUrl)
     }
 
     var body: some View {
