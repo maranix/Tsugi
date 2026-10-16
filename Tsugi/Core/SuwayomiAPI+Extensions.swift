@@ -13,7 +13,7 @@ extension MangaListQuery.Data.Mangas.Node {
 }
 
 extension MangaDetailsQuery.Data.Mangas.Node {
-    func toDetails() -> BookDetails {
+    func toDetails() -> Book.Details {
         .init(
             author: author,
             artist: artist,
@@ -27,7 +27,7 @@ extension MangaDetailsQuery.Data.Mangas.Node {
 }
 
 extension MangaChaptersQuery.Data.Chapters.Node {
-    func toChapter() -> BookChapter {
+    func toChapter() -> Book.Chapter {
         .init(
             id: id,
             number: chapterNumber,

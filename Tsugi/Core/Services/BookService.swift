@@ -4,8 +4,8 @@ import SuwayomiAPI
 
 protocol BookService: Sendable {
     func get(page: PageRequest, filter: BookFilter) async throws -> PageResult<Book>
-    func getDetails(id: Int) async throws -> BookDetails?
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<BookChapter>
+    func getDetails(id: Int) async throws -> Book.Details?
+    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<Book.Chapter>
 }
 
 actor SuwayomiService: BookService {
@@ -66,7 +66,7 @@ actor SuwayomiService: BookService {
         )
     }
 
-    func getDetails(id: Int) async throws -> BookDetails? {
+    func getDetails(id: Int) async throws -> Book.Details? {
         let client = try client()
 
         let response = try await client.fetch(
@@ -82,7 +82,7 @@ actor SuwayomiService: BookService {
         return details.first?.toDetails()
     }
 
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<BookChapter> {
+    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<Book.Chapter> {
         let client = try client()
 
         let response = try await client.fetch(

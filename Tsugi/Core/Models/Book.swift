@@ -1,21 +1,70 @@
 import Foundation
 
-enum BookSource: Hashable, Sendable {
-    case suwayomi
+struct Book: Identifiable, Hashable, Sendable {
+    enum Source: Hashable, Sendable {
+        case suwayomi
 
-    var idPrefix: String {
-        switch self {
-        case .suwayomi: "suwayomi"
+        var idPrefix: String {
+            switch self {
+            case .suwayomi: "suwayomi"
+            }
         }
     }
-}
 
-struct Book: Identifiable, Hashable, Sendable {
+    struct Details: Hashable, Sendable {
+        let author: String?
+        let artist: String?
+        let description: String?
+        let genre: [String]
+        let realUrl: String?
+        let status: String
+        let inLibrary: Bool
+
+        var sourceUrl: URL? {
+            guard let url = realUrl, !url.isEmpty else { return nil }
+            return URL(string: url)
+        }
+    }
+
+    struct Chapter: Identifiable, Hashable, Sendable {
+        let id: Int
+        let number: Double
+        let name: String
+        let realUrl: String?
+        let scanlator: String?
+
+        var sourceUrl: URL? {
+            guard let url = realUrl, !url.isEmpty else { return nil }
+            return URL(string: url)
+        }
+
+        var displayName: String {
+            let trimmed = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty {
+                return trimmed
+            }
+
+            return number.truncatingRemainder(dividingBy: 1) == 0
+                ? "Chapter \(Int(number))"
+                : "Chapter \(number)"
+        }
+    }
+
+    struct Content: Hashable, Sendable {
+        var details: Details?
+        var chapters: [Chapter]
+
+        init(details: Details? = nil, chapters: [Chapter] = []) {
+            self.details = details
+            self.chapters = chapters
+        }
+    }
+
     var id: String {
         "\(source.idPrefix):\(rawId)"
     }
 
-    let source: BookSource
+    let source: Source
 
     let rawId: Int
     let title: String
@@ -27,39 +76,5 @@ struct Book: Identifiable, Hashable, Sendable {
         }
 
         return baseURL.appending(path: path)
-    }
-}
-
-struct BookDetails: Equatable, Sendable {
-    let author: String?
-    let artist: String?
-    let description: String?
-    let genre: [String]
-    let realUrl: String?
-    let status: String
-    let inLibrary: Bool
-
-    func sourceUrl() -> URL? {
-        guard let url = realUrl, !url.isEmpty else {
-            return nil
-        }
-
-        return URL(string: url)
-    }
-}
-
-struct BookChapter: Identifiable, Hashable, Sendable {
-    let id: Int
-    let number: Double
-    let name: String
-    let realUrl: String?
-    let scanlator: String?
-
-    func sourceUrl() -> URL? {
-        guard let url = realUrl, !url.isEmpty else {
-            return nil
-        }
-
-        return URL(string: url)
     }
 }
