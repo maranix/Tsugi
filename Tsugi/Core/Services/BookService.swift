@@ -2,13 +2,7 @@ import Apollo
 import Foundation
 import SuwayomiAPI
 
-protocol BookService: Sendable {
-    func get(page: PageRequest, filter: BookFilter) async throws -> PagedResult<Book>
-    func getDetails(id: Int) async throws -> BookDetails?
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PagedResult<BookChapter>
-}
-
-actor SuwayomiService: BookService {
+actor SuwayomiService {
     static let shared = SuwayomiService { UserDefaults.standard.url(forKey: StorageKey.server) }
 
     private(set) var cachedClient: (url: URL, client: ApolloClient)?
@@ -39,19 +33,19 @@ actor SuwayomiService: BookService {
         return client
     }
 
-    func get(page: PageRequest, filter: BookFilter) async throws -> PagedResult<Book> {
+    func getLibrary(first: Int = 24, after: String? = nil) async throws -> PagedResult<Book> {
         let client = try client()
 
         let response = try await client.fetch(
             query: MangaListQuery(
-                inLibrary: filter.inLibrary ?? nil,
-                first: .some(page.limit),
-                after: page.token ?? nil
+                inLibrary: .some(true),
+                first: .some(Int32(first)),
+                after: after ?? nil
             )
         )
 
         guard let data = response.data?.mangas else {
-            return PagedResult.empty()
+            return .empty()
         }
 
         let books = data.nodes.compactMap { node in
@@ -65,45 +59,8 @@ actor SuwayomiService: BookService {
         )
     }
 
-    func getDetails(id: Int) async throws -> BookDetails? {
-        let client = try client()
-
-        let response = try await client.fetch(
-            query: MangaDetailsQuery(
-                id: .some(.init(id))
-            )
-        )
-
-        guard let details = response.data?.mangas.nodes else {
-            return nil
-        }
-
-        return details.first?.toDetails()
-    }
-
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PagedResult<BookChapter> {
-        let client = try client()
-
-        let response = try await client.fetch(
-            query: MangaChaptersQuery(
-                id: .some(.init(id)),
-                first: .some(page.limit),
-                after: page.token ?? nil
-            )
-        )
-
-        guard let data = response.data?.chapters else {
-            return PagedResult.empty()
-        }
-
-        let chapters = data.nodes.compactMap { node in
-            node.toChapter()
-        }
-
-        return PagedResult(
-            items: chapters,
-            hasMore: data.pageInfo.hasNextPage,
-            nextCursor: data.pageInfo.endCursor
-        )
+    func getMangaAndChapters(id: Int) async throws -> BookContent {
+        // Ready for FetchMangaAndChapters mutation
+        throw URLError(.unsupportedURL)
     }
 }

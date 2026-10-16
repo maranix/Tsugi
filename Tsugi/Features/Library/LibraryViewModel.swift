@@ -4,10 +4,10 @@ import SwiftUI
 @MainActor
 @Observable
 final class LibraryViewModel {
-    let bookService: BookService
+    let service: SuwayomiService
 
-    init(_ service: BookService = SuwayomiService.shared) {
-        bookService = service
+    init(_ service: SuwayomiService = SuwayomiService.shared) {
+        self.service = service
     }
 
     private(set) var books: [Book] = []
@@ -16,21 +16,18 @@ final class LibraryViewModel {
     private(set) var pageStatus: AsyncStatus = .idle
 
     private(set) var hasMore: Bool = false
-    private(set) var nextToken: String?
+    private(set) var nextCursor: String?
 
     func get() async {
         hasMore = false
-        nextToken = nil
+        nextCursor = nil
         books = []
 
         do {
-            let result = try await bookService.get(
-                page: .init(),
-                filter: .init(inLibrary: true)
-            )
+            let result = try await service.getLibrary()
 
             hasMore = result.hasMore
-            nextToken = result.nextCursor
+            nextCursor = result.nextCursor
             books.append(contentsOf: result.items)
 
             status = .success
@@ -40,20 +37,17 @@ final class LibraryViewModel {
     }
 
     func loadNext() async {
-        guard hasMore, !pageStatus.isLoading, let token = nextToken else {
+        guard hasMore, !pageStatus.isLoading, let cursor = nextCursor else {
             return
         }
 
         pageStatus = .loading
 
         do {
-            let page = PageRequest(token: token)
-            let filter = BookFilter(inLibrary: true)
-
-            let result = try await bookService.get(page: page, filter: filter)
+            let result = try await service.getLibrary(after: cursor)
 
             hasMore = result.hasMore
-            nextToken = result.nextCursor
+            nextCursor = result.nextCursor
             books.append(contentsOf: result.items)
 
             pageStatus = .success
