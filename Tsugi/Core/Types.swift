@@ -47,7 +47,7 @@ enum AsyncStatus {
     }
 }
 
-struct BookContent: Sendable {
+struct BookContent: Hashable, Sendable {
     let details: BookDetails
     let chapters: [BookChapter]
 
@@ -55,10 +55,6 @@ struct BookContent: Sendable {
         self.details = details
         self.chapters = chapters
     }
-}
-
-extension Book {
-    typealias Content = BookContent
 }
 
 struct PagedResult<Item: Sendable>: Sendable {
@@ -77,4 +73,3 @@ struct PagedResult<Item: Sendable>: Sendable {
     }
 }
 
-typealias PageResult<Item: Sendable> = PagedResult<Item>
