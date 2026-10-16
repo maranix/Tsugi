@@ -3,9 +3,9 @@ import Foundation
 import SuwayomiAPI
 
 protocol BookService: Sendable {
-    func get(page: PageRequest, filter: BookFilter) async throws -> PageResult<Book>
-    func getDetails(id: Int) async throws -> Book.Details?
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<Book.Chapter>
+    func get(page: PageRequest, filter: BookFilter) async throws -> PagedResult<Book>
+    func getDetails(id: Int) async throws -> BookDetails?
+    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PagedResult<BookChapter>
 }
 
 actor SuwayomiService: BookService {
@@ -39,7 +39,7 @@ actor SuwayomiService: BookService {
         return client
     }
 
-    func get(page: PageRequest, filter: BookFilter) async throws -> PageResult<Book> {
+    func get(page: PageRequest, filter: BookFilter) async throws -> PagedResult<Book> {
         let client = try client()
 
         let response = try await client.fetch(
@@ -51,22 +51,21 @@ actor SuwayomiService: BookService {
         )
 
         guard let data = response.data?.mangas else {
-            return PageResult.empty()
+            return PagedResult.empty()
         }
 
         let books = data.nodes.compactMap { node in
             node.toBook()
         }
 
-        return PageResult(
+        return PagedResult(
             items: books,
             hasMore: data.pageInfo.hasNextPage,
-            totalCount: data.totalCount,
-            nextToken: data.pageInfo.endCursor
+            nextCursor: data.pageInfo.endCursor
         )
     }
 
-    func getDetails(id: Int) async throws -> Book.Details? {
+    func getDetails(id: Int) async throws -> BookDetails? {
         let client = try client()
 
         let response = try await client.fetch(
@@ -82,7 +81,7 @@ actor SuwayomiService: BookService {
         return details.first?.toDetails()
     }
 
-    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PageResult<Book.Chapter> {
+    func getChapters(id: Int, page: PageRequest, filter: BookFilter) async throws -> PagedResult<BookChapter> {
         let client = try client()
 
         let response = try await client.fetch(
@@ -94,18 +93,17 @@ actor SuwayomiService: BookService {
         )
 
         guard let data = response.data?.chapters else {
-            return PageResult.empty()
+            return PagedResult.empty()
         }
 
         let chapters = data.nodes.compactMap { node in
             node.toChapter()
         }
 
-        return PageResult(
+        return PagedResult(
             items: chapters,
             hasMore: data.pageInfo.hasNextPage,
-            totalCount: data.totalCount,
-            nextToken: data.pageInfo.endCursor
+            nextCursor: data.pageInfo.endCursor
         )
     }
 }

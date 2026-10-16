@@ -1,8 +1,8 @@
 import SwiftUI
 
 private enum LoadContentStep: Sendable {
-    case details(Book.Details?)
-    case chapters(PageResult<Book.Chapter>)
+    case details(BookDetails?)
+    case chapters(PagedResult<BookChapter>)
 }
 
 @MainActor
@@ -15,13 +15,13 @@ final class BookContentViewModel {
     init(_ book: Book, using: BookService = SuwayomiService.shared) {
         service = using
         self.book = book
-        content = .init()
+        content = .init(details: .init(), chapters: [])
         status = .idle
         hasNext = false
     }
 
     private(set) var status: AsyncStatus
-    private(set) var content: Book.Content
+    private(set) var content: BookContent
 
     private(set) var hasNext: Bool
     private(set) var nextToken: String?
@@ -30,7 +30,7 @@ final class BookContentViewModel {
     func loadContent() async {
         status = .loading
 
-        let id = book.rawId
+        let id = book.id
 
         do {
             try await withThrowingTaskGroup(of: LoadContentStep.self) { group in
@@ -47,11 +47,13 @@ final class BookContentViewModel {
                 for try await step in group {
                     switch step {
                     case let .details(details):
-                        self.content.details = details
+                        if let details {
+                            self.content = BookContent(details: details, chapters: self.content.chapters)
+                        }
                     case let .chapters(pageResult):
-                        self.content.chapters = pageResult.items
+                        self.content = BookContent(details: self.content.details, chapters: pageResult.items)
                         hasNext = pageResult.hasMore
-                        nextToken = pageResult.nextToken
+                        nextToken = pageResult.nextCursor
                     }
                 }
             }
@@ -75,7 +77,7 @@ final class BookContentViewModel {
         defer { isLoadingMore = false }
 
         guard let data = try? await service.getChapters(
-            id: book.rawId,
+            id: book.id,
             page: .init(token: token),
             filter: .init()
         ) else {
@@ -85,8 +87,8 @@ final class BookContentViewModel {
         let existingIds = Set(content.chapters.map(\.id))
         let newChapters = data.items.filter { !existingIds.contains($0.id) }
 
-        content.chapters.append(contentsOf: newChapters)
+        content = BookContent(details: content.details, chapters: content.chapters + newChapters)
         hasNext = data.hasMore
-        nextToken = data.nextToken
+        nextToken = data.nextCursor
     }
 }

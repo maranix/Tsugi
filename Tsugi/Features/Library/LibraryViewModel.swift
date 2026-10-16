@@ -30,7 +30,7 @@ final class LibraryViewModel {
             )
 
             hasMore = result.hasMore
-            nextToken = result.nextToken
+            nextToken = result.nextCursor
             books.append(contentsOf: result.items)
 
             status = .success
@@ -53,7 +53,7 @@ final class LibraryViewModel {
             let result = try await bookService.get(page: page, filter: filter)
 
             hasMore = result.hasMore
-            nextToken = result.nextToken
+            nextToken = result.nextCursor
             books.append(contentsOf: result.items)
 
             pageStatus = .success

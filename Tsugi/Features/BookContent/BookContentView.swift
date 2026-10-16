@@ -101,16 +101,11 @@ private struct Details: View {
     @Environment(BookContentViewModel.self) private var viewModel
 
     var body: some View {
-        switch viewModel.content.details {
-        case let .some(details):
+        if let description = viewModel.content.details.description, !description.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
-                if let description = details.description, !description.isEmpty {
-                    Text(description)
-                        .foregroundStyle(.white)
-                }
+                Text(description)
+                    .foregroundStyle(.white)
             }
-        case .none:
-            EmptyView()
         }
     }
 }
