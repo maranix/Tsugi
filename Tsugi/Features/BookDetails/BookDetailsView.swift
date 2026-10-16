@@ -4,6 +4,12 @@ import SwiftUI
 struct BookDetailsView: View {
     private let cover: URL?
     @State private var viewModel: BookDetailsViewModel
+    @State private var coverHeight: CGFloat = 0
+    @State private var scrollOffset: CGPoint = .zero
+
+    private var blurProgress: CGFloat {
+        min(1.0, scrollOffset.y / coverHeight * 0.7)
+    }
 
     init(_ book: Book, cover: URL? = nil) {
         _viewModel = State(initialValue: BookDetailsViewModel(book))
@@ -11,31 +17,81 @@ struct BookDetailsView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack {
-                ZStack(alignment: .bottom) {
-                    KFImage(cover)
-                        .resizable()
-                        .scaledToFit()
+        ZStack(alignment: .top) {
+            KFImage(cover)
+                .resizable()
+                .scaledToFit()
+                .blur(radius: blurProgress)
+                .onGeometryChange(for: CGFloat.self) { geo in
+                    geo.size.height
+                } action: { newValue in
+                    coverHeight = newValue
+                }
+                .overlay {
+                    Rectangle()
+                        .fill(.regularMaterial)
+                        .mask {
+                            LinearGradient(
+                                stops: [
+                                    .init(color: .black, location: 0.0), // 100% blur at bottom
+                                    .init(color: .black.opacity(0.8), location: 0.25),
+                                    .init(color: .clear, location: 0.65), // 0% blur at top
+                                ],
+                                startPoint: .bottom,
+                                endPoint: .top
+                            )
+                        }
+                }
+                .blur(radius: blurProgress * 25)
+                .opacity(1.0 - (blurProgress * 0.4))
+
+            ScrollView {
+                VStack(spacing: 0) {
+                    Color
+                        .clear
+                        .frame(height: coverHeight * 0.65)
 
                     Text(viewModel.book.title)
-                        .font(.title2)
+                        .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
                         .multilineTextAlignment(.center)
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .background(.ultraThinMaterial)
-                }
 
-                Details()
-                Chapters()
+                    VStack(alignment: .leading, spacing: 20) {
+                        Details()
+                        Chapters()
+                    }
+                    .padding()
+                    .background {
+                        Rectangle()
+                            .fill(.regularMaterial)
+                            .mask {
+                                LinearGradient(
+                                    stops: [
+                                        .init(color: .black, location: 0.0), // 100% blur at bottom
+                                        .init(color: .black.opacity(0.8), location: 0.25),
+                                        .init(color: .clear, location: 0.65), // 0% blur at top
+                                    ],
+                                    startPoint: .bottom,
+                                    endPoint: .top
+                                )
+                            }
+                    }
+                }
+            }
+            .refreshable(action: viewModel.refreshContent)
+            .onScrollGeometryChange(for: CGPoint.self) { geo in
+                geo.contentOffset
+            } action: { _, newValue in
+                scrollOffset = newValue
             }
         }
-        .ignoresSafeArea(edges: .top)
+        .ignoresSafeArea(edges: .vertical)
         .toolbarVisibility(.hidden, for: .tabBar)
         .task {
-            await viewModel.getDetails()
+            await viewModel.loadContent()
         }
         .environment(viewModel)
     }
@@ -45,14 +101,14 @@ private struct Details: View {
     @Environment(BookDetailsViewModel.self) private var viewModel
 
     var body: some View {
-        switch viewModel.details {
+        switch viewModel.content.details {
         case let .some(details):
             VStack(alignment: .leading, spacing: 12) {
                 if let description = details.description, !description.isEmpty {
                     Text(description)
+                        .foregroundStyle(.white)
                 }
             }
-            .padding()
         case .none:
             EmptyView()
         }
@@ -63,17 +119,17 @@ private struct Chapters: View {
     @Environment(BookDetailsViewModel.self) private var viewModel
 
     var body: some View {
-        if viewModel.chapters.isEmpty {
-            EmptyView()
-        } else {
+        if !viewModel.content.chapters.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Chapters")
-                    .font(.title3)
+                    .font(.title2)
+                    .foregroundStyle(.white)
 
                 LazyVStack(alignment: .leading) {
-                    ForEach(viewModel.chapters) { chapter in
-                        Text(chapter.name)
+                    ForEach(viewModel.content.chapters) { chapter in
+                        Text(chapter.displayName)
                             .padding(.vertical)
+                            .foregroundStyle(.white)
                     }
 
                     if viewModel.hasNext {
@@ -85,7 +141,6 @@ private struct Chapters: View {
                     }
                 }
             }
-            .padding()
         }
     }
 }

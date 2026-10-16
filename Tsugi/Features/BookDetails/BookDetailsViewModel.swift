@@ -1,39 +1,59 @@
 import SwiftUI
 
+private enum LoadContentStep: Sendable {
+    case details(Book.Details?)
+    case chapters(PageResult<Book.Chapter>)
+}
+
 @MainActor
 @Observable
 final class BookDetailsViewModel {
-    private let bookService: BookService
+    private let service: BookService
 
     let book: Book
 
-    private(set) var details: BookDetails?
-    private(set) var chapters = [BookChapter]()
-
-    private(set) var status: AsyncStatus = .idle
-    private(set) var chapterStatus: AsyncStatus = .idle
-
-    private(set) var hasNext = false
-    private var nextToken: String?
-
     init(_ book: Book, using: BookService = SuwayomiService.shared) {
+        service = using
         self.book = book
-        bookService = using
+        content = .init()
+        status = .idle
+        hasNext = false
     }
 
-    func getDetails() async {
+    private(set) var status: AsyncStatus
+    private(set) var content: Book.Content
+
+    private(set) var hasNext: Bool
+    private(set) var nextToken: String?
+
+    func loadContent() async {
         status = .loading
 
+        let id = book.rawId
+
         do {
-            let id = book.rawId
+            try await withThrowingTaskGroup(of: LoadContentStep.self) { group in
+                group.addTask {
+                    let details = try await self.service.getDetails(id: id)
+                    return .details(details)
+                }
 
-            details = try await bookService.getDetails(id: id)
+                group.addTask {
+                    let chapters = try await self.service.getChapters(id: id, page: .init(), filter: .init())
+                    return .chapters(chapters)
+                }
 
-            let chapData = try await bookService.getChapters(id: id, page: .init(), filter: .init())
-
-            chapters = chapData.items
-            hasNext = chapData.hasMore
-            nextToken = chapData.nextToken
+                for try await step in group {
+                    switch step {
+                    case let .details(details):
+                        self.content.details = details
+                    case let .chapters(pageResult):
+                        self.content.chapters = pageResult.items
+                        hasNext = pageResult.hasMore
+                        nextToken = pageResult.nextToken
+                    }
+                }
+            }
 
             status = .success
         } catch {
@@ -41,26 +61,25 @@ final class BookDetailsViewModel {
         }
     }
 
+    func refreshContent() async {
+        await loadContent()
+    }
+
     func loadMoreChapters() async {
         guard hasNext, let token = nextToken else {
             return
         }
-        chapterStatus = .loading
 
-        do {
-            let data = try await bookService.getChapters(
-                id: book.rawId,
-                page: .init(token: token),
-                filter: .init()
-            )
-
-            chapters.append(contentsOf: data.items)
-            hasNext = data.hasMore
-            nextToken = data.nextToken
-
-            chapterStatus = .success
-        } catch {
-            chapterStatus = .failure(error.localizedDescription)
+        guard let data = try? await service.getChapters(
+            id: book.rawId,
+            page: .init(token: token),
+            filter: .init()
+        ) else {
+            return
         }
+
+        content.chapters.append(contentsOf: data.items)
+        hasNext = data.hasMore
+        nextToken = data.nextToken
     }
 }
