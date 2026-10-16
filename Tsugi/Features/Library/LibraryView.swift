@@ -17,7 +17,9 @@ struct LibraryView: View {
                     case .success:
                         ScrollableGridSurfaceView(layout: gridLayout.items) {
                             ForEach(viewModel.books) { book in
-                                BookCoverView(book)
+                                NavigationLink(value: RouteCoordinator.Destination.bookDetails(book)) {
+                                    BookCoverView(book)
+                                }
                             }
 
                             if viewModel.hasMore {
@@ -34,8 +36,8 @@ struct LibraryView: View {
                         .scrollIndicators(.never)
                         .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                             switch dest {
-                            case let .bookDetails(book, cover):
-                                BookContentView(book, cover: cover)
+                            case let .bookDetails(book):
+                                BookContentView(book)
                             }
                         }
                     case let .failure(msg):

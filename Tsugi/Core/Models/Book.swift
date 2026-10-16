@@ -4,13 +4,7 @@ struct Book: Identifiable, Hashable, Sendable {
     let id: Int
     let title: String
     let thumbnail: String?
-
-    func coverURL(baseURL: URL) -> URL? {
-        guard let thumbnail, !thumbnail.isEmpty else {
-            return nil
-        }
-        return baseURL.appending(path: thumbnail)
-    }
+    let thumbnailUrl: URL?
 }
 
 struct BookDetails: Hashable, Sendable {

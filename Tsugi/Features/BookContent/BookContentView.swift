@@ -2,7 +2,6 @@ import Kingfisher
 import SwiftUI
 
 struct BookContentView: View {
-    private let cover: URL?
     @State private var viewModel: BookContentViewModel
     @State private var coverHeight: CGFloat = 0
     @State private var scrollOffset: CGPoint = .zero
@@ -11,14 +10,13 @@ struct BookContentView: View {
         min(1.0, scrollOffset.y / coverHeight * 0.7)
     }
 
-    init(_ book: Book, cover: URL? = nil) {
+    init(_ book: Book) {
         _viewModel = State(initialValue: BookContentViewModel(book))
-        self.cover = cover
     }
 
     var body: some View {
         ZStack(alignment: .top) {
-            KFImage(cover)
+            KFImage(viewModel.book.thumbnailUrl)
                 .resizable()
                 .scaledToFit()
                 .blur(radius: blurProgress)

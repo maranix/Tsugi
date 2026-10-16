@@ -8,7 +8,7 @@ protocol BookService: Sendable {
 }
 
 extension BookService {
-    func getLibrary(first: Int = 24, after: String? = nil) async throws -> PagedResult<Book> {
+    func getLibrary(first: Int = 20, after: String? = nil) async throws -> PagedResult<Book> {
         try await getLibrary(first: first, after: after)
     }
 }
@@ -44,7 +44,7 @@ actor SuwayomiService: BookService {
         return client
     }
 
-    func getLibrary(first: Int = 24, after: String? = nil) async throws -> PagedResult<Book> {
+    func getLibrary(first: Int = 20, after: String? = nil) async throws -> PagedResult<Book> {
         let client = try client()
 
         let response = try await client.fetch(
@@ -59,8 +59,9 @@ actor SuwayomiService: BookService {
             return .empty()
         }
 
+        let serverUrl = baseUrl()
         let books = data.nodes.compactMap { node in
-            node.toBook()
+            node.toBook(thumbnailBaseUrl: serverUrl)
         }
 
         return PagedResult(
