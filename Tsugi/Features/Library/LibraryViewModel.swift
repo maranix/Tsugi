@@ -24,7 +24,7 @@ final class LibraryViewModel {
         books = []
 
         do {
-            let result = try await service.getLibrary()
+            let result = try await service.getLibrary(first: 20, after: nextCursor)
 
             hasMore = result.hasMore
             nextCursor = result.nextCursor
@@ -44,7 +44,7 @@ final class LibraryViewModel {
         pageStatus = .loading
 
         do {
-            let result = try await service.getLibrary(after: cursor)
+            let result = try await service.getLibrary(first: 20, after: cursor)
 
             hasMore = result.hasMore
             nextCursor = result.nextCursor

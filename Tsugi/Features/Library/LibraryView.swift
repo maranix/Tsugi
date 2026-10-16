@@ -19,6 +19,7 @@ struct LibraryView: View {
                             ForEach(viewModel.books) { book in
                                 NavigationLink(value: RouteCoordinator.Destination.bookDetails(book)) {
                                     BookCoverView(book)
+                                        .aspectRatio(1.5 / 3, contentMode: .fit)
                                 }
                             }
 
@@ -32,7 +33,6 @@ struct LibraryView: View {
                             }
                         }
                         .padding(.horizontal)
-                        .buttonStyle(.plain)
                         .scrollIndicators(.never)
                         .navigationDestination(for: RouteCoordinator.Destination.self) { dest in
                             switch dest {
