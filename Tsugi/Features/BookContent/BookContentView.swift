@@ -126,14 +126,6 @@ private struct Chapters: View {
                             .padding(.vertical)
                             .foregroundStyle(.white)
                     }
-
-                    if viewModel.hasNext {
-                        ProgressView()
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .task {
-                                await viewModel.loadMoreChapters()
-                            }
-                    }
                 }
             }
         }
