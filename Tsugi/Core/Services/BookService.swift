@@ -2,7 +2,18 @@ import Apollo
 import Foundation
 import SuwayomiAPI
 
-actor SuwayomiService {
+protocol BookService: Sendable {
+    func getLibrary(first: Int, after: String?) async throws -> PagedResult<Book>
+    func getMangaAndChapters(id: Int) async throws -> BookContent
+}
+
+extension BookService {
+    func getLibrary(first: Int = 24, after: String? = nil) async throws -> PagedResult<Book> {
+        try await getLibrary(first: first, after: after)
+    }
+}
+
+actor SuwayomiService: BookService {
     static let shared = SuwayomiService { UserDefaults.standard.url(forKey: StorageKey.server) }
 
     private(set) var cachedClient: (url: URL, client: ApolloClient)?

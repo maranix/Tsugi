@@ -4,9 +4,9 @@ import SwiftUI
 @MainActor
 @Observable
 final class LibraryViewModel {
-    let service: SuwayomiService
+    let service: BookService
 
-    init(_ service: SuwayomiService = SuwayomiService.shared) {
+    init(_ service: BookService = SuwayomiService.shared) {
         self.service = service
     }
 

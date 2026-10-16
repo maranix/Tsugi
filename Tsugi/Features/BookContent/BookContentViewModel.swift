@@ -3,11 +3,11 @@ import SwiftUI
 @MainActor
 @Observable
 final class BookContentViewModel {
-    private let service: SuwayomiService
+    private let service: BookService
 
     let book: Book
 
-    init(_ book: Book, service: SuwayomiService = SuwayomiService.shared) {
+    init(_ book: Book, service: BookService = SuwayomiService.shared) {
         self.service = service
         self.book = book
         self.content = .init(details: .init(), chapters: [])
