@@ -13,4 +13,16 @@ enum GridLayout {
             Array(repeating: item, count: rawValue)
         }
     }
+
+    enum Row: Int {
+        case two = 2
+
+        var items: [GridItem] {
+            Array(repeating: GridItem(.flexible()), count: rawValue)
+        }
+
+        func build(_ item: GridItem) -> [GridItem] {
+            Array(repeating: item, count: rawValue)
+        }
+    }
 }
