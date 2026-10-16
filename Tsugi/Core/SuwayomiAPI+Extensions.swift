@@ -4,7 +4,7 @@ import SuwayomiAPI
 extension MangaListQuery.Data.Mangas.Node {
     func toBook() -> Book {
         .init(
-            source: .suwayomi,
+            provider: .suwayomi,
             rawId: id,
             title: title,
             thumbnail: thumbnailUrl

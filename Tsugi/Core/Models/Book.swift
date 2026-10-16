@@ -1,7 +1,7 @@
 import Foundation
 
 struct Book: Identifiable, Hashable, Sendable {
-    enum Source: Hashable, Sendable {
+    enum Provider: Hashable, Sendable {
         case suwayomi
 
         var idPrefix: String {
@@ -61,10 +61,10 @@ struct Book: Identifiable, Hashable, Sendable {
     }
 
     var id: String {
-        "\(source.idPrefix):\(rawId)"
+        "\(provider.idPrefix):\(rawId)"
     }
 
-    let source: Source
+    let provider: Provider
 
     let rawId: Int
     let title: String
