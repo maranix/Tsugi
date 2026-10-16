@@ -79,7 +79,6 @@ struct BookContentView: View {
                     }
                 }
             }
-            .refreshable(action: viewModel.refreshContent)
             .onScrollGeometryChange(for: CGPoint.self) { geo in
                 geo.contentOffset
             } action: { _, newValue in
@@ -89,7 +88,9 @@ struct BookContentView: View {
         .ignoresSafeArea(edges: .vertical)
         .toolbarVisibility(.hidden, for: .tabBar)
         .task {
-            await viewModel.loadContent()
+            if viewModel.content == nil {
+                await viewModel.loadContent()
+            }
         }
         .environment(viewModel)
     }
@@ -99,7 +100,7 @@ private struct Details: View {
     @Environment(BookContentViewModel.self) private var viewModel
 
     var body: some View {
-        if let description = viewModel.content.details.description, !description.isEmpty {
+        if let description = viewModel.content?.details.description, !description.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 Text(description)
                     .foregroundStyle(.white)
@@ -112,14 +113,14 @@ private struct Chapters: View {
     @Environment(BookContentViewModel.self) private var viewModel
 
     var body: some View {
-        if !viewModel.content.chapters.isEmpty {
+        if let chapters = viewModel.content?.chapters, !chapters.isEmpty {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Chapters")
                     .font(.title2)
                     .foregroundStyle(.white)
 
                 LazyVStack(alignment: .leading) {
-                    ForEach(viewModel.content.chapters) { chapter in
+                    ForEach(chapters) { chapter in
                         Text(chapter.displayName)
                             .padding(.vertical)
                             .foregroundStyle(.white)

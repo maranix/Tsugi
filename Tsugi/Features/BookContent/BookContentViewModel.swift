@@ -10,22 +10,27 @@ final class BookContentViewModel {
     init(_ book: Book, service: BookService = SuwayomiService.shared) {
         self.service = service
         self.book = book
-        self.content = .init(details: .init(), chapters: [])
-        self.status = .idle
+        status = .idle
     }
 
     private(set) var status: AsyncStatus
-    private(set) var content: BookContent
+    private(set) var content: BookContent?
 
     func loadContent() async {
-        status = .loading
+        if status.isLoading {
+            return
+        }
+
+        if content == nil {
+            status = .loading
+        }
 
         do {
             let fetched = try await service.getMangaAndChapters(id: book.id)
-            self.content = fetched
-            self.status = .success
+            content = fetched
+            status = .success
         } catch {
-            self.status = .failure(error.localizedDescription)
+            status = .failure(error.localizedDescription)
         }
     }
 

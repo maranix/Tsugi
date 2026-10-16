@@ -1,8 +1,8 @@
 query MangaList(
-  $inLibrary: Boolean = true
-  $first: Int = 20
-  $orderBy: MangaOrderBy = TITLE
-  $orderType: SortOrder = ASC
+  $inLibrary: Boolean!
+  $first: Int!
+  $orderBy: MangaOrderBy!
+  $orderType: SortOrder!
   $after: Cursor
 ) {
   mangas(

@@ -8,20 +8,20 @@ nonisolated public struct MangaListQuery: GraphQLQuery {
   public static let operationName: String = "MangaList"
   public static let operationDocument: ApolloAPI.OperationDocument = .init(
     definition: .init(
-      #"query MangaList($inLibrary: Boolean = true, $first: Int = 20, $orderBy: MangaOrderBy = TITLE, $orderType: SortOrder = ASC, $after: Cursor) { mangas( first: $first after: $after condition: { inLibrary: $inLibrary } order: [{ by: $orderBy, byType: $orderType }] ) { __typename totalCount pageInfo { __typename startCursor endCursor hasNextPage } nodes { __typename id title thumbnailUrl } } }"#
+      #"query MangaList($inLibrary: Boolean!, $first: Int!, $orderBy: MangaOrderBy!, $orderType: SortOrder!, $after: Cursor) { mangas( first: $first after: $after condition: { inLibrary: $inLibrary } order: [{ by: $orderBy, byType: $orderType }] ) { __typename totalCount pageInfo { __typename startCursor endCursor hasNextPage } nodes { __typename id title thumbnailUrl } } }"#
     ))
 
-  public var inLibrary: GraphQLNullable<Bool>
-  public var first: GraphQLNullable<Int32>
-  public var orderBy: GraphQLNullable<GraphQLEnum<MangaOrderBy>>
-  public var orderType: GraphQLNullable<GraphQLEnum<SortOrder>>
+  public var inLibrary: Bool
+  public var first: Int32
+  public var orderBy: GraphQLEnum<MangaOrderBy>
+  public var orderType: GraphQLEnum<SortOrder>
   public var after: GraphQLNullable<Cursor>
 
   public init(
-    inLibrary: GraphQLNullable<Bool> = true,
-    first: GraphQLNullable<Int32> = 20,
-    orderBy: GraphQLNullable<GraphQLEnum<MangaOrderBy>> = .init(.title),
-    orderType: GraphQLNullable<GraphQLEnum<SortOrder>> = .init(.asc),
+    inLibrary: Bool,
+    first: Int32,
+    orderBy: GraphQLEnum<MangaOrderBy>,
+    orderType: GraphQLEnum<SortOrder>,
     after: GraphQLNullable<Cursor>
   ) {
     self.inLibrary = inLibrary

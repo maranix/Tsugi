@@ -49,14 +49,16 @@ actor SuwayomiService: BookService {
 
         let response = try await client.fetch(
             query: MangaListQuery(
-                inLibrary: .some(true),
-                first: .some(Int32(first)),
+                inLibrary: true,
+                first: Int32(first),
+                orderBy: .case(.title),
+                orderType: .case(.asc),
                 after: after ?? nil
             )
         )
 
         guard let data = response.data?.mangas else {
-            return .empty()
+            throw URLError(.badServerResponse)
         }
 
         let serverUrl = baseUrl()
@@ -72,7 +74,16 @@ actor SuwayomiService: BookService {
     }
 
     func getMangaAndChapters(id: Int) async throws -> BookContent {
-        // Ready for FetchMangaAndChapters mutation
-        throw URLError(.unsupportedURL)
+        let client = try client()
+
+        let response = try await client.perform(
+            mutation: FetchMangaAndChaptersMutation(id: Int32(id))
+        )
+
+        guard let data = response.data?.fetchMangaAndChapters else {
+            throw URLError(.badServerResponse)
+        }
+
+        return data.toBookContent()
     }
 }
