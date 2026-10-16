@@ -72,4 +72,3 @@ struct PagedResult<Item: Sendable>: Sendable {
         .init(items: [], hasMore: false, nextCursor: nil)
     }
 }
-
