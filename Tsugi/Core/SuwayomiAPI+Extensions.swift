@@ -102,3 +102,64 @@ extension FetchSourceMangaListMutation.Data.FetchSourceManga.Manga {
         )
     }
 }
+
+extension ServerInfoFields {
+    func toServerInfo() -> ServerInfo {
+        ServerInfo(
+            name: name,
+            github: .init(string: github)!,
+            discord: .init(string: discord)!,
+            buildType: buildType,
+            buildTime: buildTime,
+            version: version,
+            platform: .init(
+                arch: platformInfo.arch,
+                headless: platformInfo.headless,
+                osInfo: .init(
+                    name: platformInfo.os.name,
+                    version: platformInfo.os.version
+                ),
+                jvmInfo: .init(
+                    vmName: platformInfo.jvm.vmName,
+                    javaVersion: platformInfo.jvm.javaVersion
+                )
+            )
+        )
+    }
+}
+
+extension ServerConfigFields {
+    func toServerSettings() -> ServerSettings {
+        ServerSettings(
+            library: .init(
+                globalUpdateIntervalHrs: globalUpdateInterval,
+                maxSourcesInParallel: maxSourcesInParallel,
+                excludeCompleted: excludeCompleted,
+                excludeNotStarted: excludeNotStarted
+            ),
+            downloads: .init(
+                autoDownloadNewChapters: autoDownloadNewChapters,
+                autoDownloadNewChaptersLimit: autoDownloadNewChaptersLimit,
+                autoDownloadIgnoreReUploads: autoDownloadIgnoreReUploads,
+                downloadAsCbz: downloadAsCbz
+            ),
+            storage: .init(
+                downloadsPath: downloadsPath,
+                localSourcePath: localSourcePath,
+                backupPath: backupPath
+            ),
+            flareSolverr: .init(
+                enabled: flareSolverrEnabled,
+                url: flareSolverrUrl,
+                timeout: flareSolverrTimeout
+            ),
+            backup: .init(
+                intervalHrs: backupInterval,
+                ttl: backupTTL,
+                includeCategories: autoBackupIncludeCategories,
+                includeManga: autoBackupIncludeManga,
+                includeTracking: autoBackupIncludeTracking
+            )
+        )
+    }
+}
