@@ -3,7 +3,7 @@ import SwiftUI
 private enum ShellTab: Hashable {
     case library
     case discover
-    case search
+    case server
 }
 
 struct HomeShellView: View {
@@ -18,6 +18,10 @@ struct HomeShellView: View {
 
                 Tab("Discover", systemImage: SFSymbol.browse, value: ShellTab.discover) {
                     DiscoverView()
+                }
+
+                Tab("Server", systemImage: SFSymbol.server, value: ShellTab.server) {
+                    ServerView()
                 }
             }
         }
