@@ -19,6 +19,7 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
   public static let configuration: any ApolloAPI.SchemaConfiguration.Type = SchemaConfiguration.self
 
   private static let objectTypeMap: [String: ApolloAPI.Object] = [
+    "AboutServerPayload": SuwayomiAPI.Objects.AboutServerPayload,
     "CategoryNodeList": SuwayomiAPI.Objects.CategoryNodeList,
     "ChapterNodeList": SuwayomiAPI.Objects.ChapterNodeList,
     "ChapterType": SuwayomiAPI.Objects.ChapterType,
@@ -28,11 +29,16 @@ nonisolated public enum SchemaMetadata: ApolloAPI.SchemaMetadata {
     "FetchMangaAndChaptersPayload": SuwayomiAPI.Objects.FetchMangaAndChaptersPayload,
     "FetchSourceMangaPayload": SuwayomiAPI.Objects.FetchSourceMangaPayload,
     "GlobalMetaNodeList": SuwayomiAPI.Objects.GlobalMetaNodeList,
+    "JvmInfo": SuwayomiAPI.Objects.JvmInfo,
     "MangaNodeList": SuwayomiAPI.Objects.MangaNodeList,
     "MangaType": SuwayomiAPI.Objects.MangaType,
     "Mutation": SuwayomiAPI.Objects.Mutation,
+    "OSInfo": SuwayomiAPI.Objects.OSInfo,
     "PageInfo": SuwayomiAPI.Objects.PageInfo,
+    "PartialSettingsType": SuwayomiAPI.Objects.PartialSettingsType,
+    "PlatformInfo": SuwayomiAPI.Objects.PlatformInfo,
     "Query": SuwayomiAPI.Objects.Query,
+    "SettingsType": SuwayomiAPI.Objects.SettingsType,
     "SourceNodeList": SuwayomiAPI.Objects.SourceNodeList,
     "SourceType": SuwayomiAPI.Objects.SourceType,
     "TrackRecordNodeList": SuwayomiAPI.Objects.TrackRecordNodeList,
