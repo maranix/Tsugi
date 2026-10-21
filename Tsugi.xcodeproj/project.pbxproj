@@ -28,20 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4D1F7D293089322300AA3914 /* Local.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Local.xcconfig; sourceTree = "<group>"; };
 		4D266B973089178B00A4EA2E /* Tsugi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tsugi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D266BA63089179000A4EA2E /* TsugiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TsugiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D266BB03089179000A4EA2E /* TsugiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TsugiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4D1F7D283089317A00AA3914 /* Exceptions for "Tsugi" folder in "Tsugi" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Tsugi.xcconfig,
-			);
-			target = 4D266B963089178B00A4EA2E /* Tsugi */;
-		};
 		4D1F7D6B3089394100AA3914 /* Exceptions for "Packages" folder in "Tsugi" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -62,9 +54,6 @@
 		};
 		4D266B993089178B00A4EA2E /* Tsugi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				4D1F7D283089317A00AA3914 /* Exceptions for "Tsugi" folder in "Tsugi" target */,
-			);
 			path = Tsugi;
 			sourceTree = "<group>";
 		};
@@ -114,7 +103,6 @@
 				4D266BA93089179000A4EA2E /* TsugiTests */,
 				4D266BB33089179000A4EA2E /* TsugiUITests */,
 				4D266B983089178B00A4EA2E /* Products */,
-				4D1F7D293089322300AA3914 /* Local.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -312,8 +300,6 @@
 /* Begin XCBuildConfiguration section */
 		4D266BB83089179000A4EA2E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 4D266B993089178B00A4EA2E /* Tsugi */;
-			baseConfigurationReferenceRelativePath = Tsugi.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -345,8 +331,10 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 66X62GDP94;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -378,8 +366,6 @@
 		};
 		4D266BB93089179000A4EA2E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 4D266B993089178B00A4EA2E /* Tsugi */;
-			baseConfigurationReferenceRelativePath = Tsugi.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -411,6 +397,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 66X62GDP94;
@@ -458,7 +445,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = in.maranix.Tsugi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
@@ -491,7 +477,6 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = in.maranix.Tsugi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
