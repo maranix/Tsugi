@@ -66,3 +66,6 @@ buildServer.json
 
 # Local editor state
 .nvim/
+
+# Signing & local configuration for build overrides, kept out of version control
+Local.xcconfig
