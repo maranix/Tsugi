@@ -41,6 +41,13 @@
 			);
 			target = 4D266B963089178B00A4EA2E /* Tsugi */;
 		};
+		4DE819163089E67700909079 /* Exceptions for "Tsugi" folder in "Tsugi" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4D266B963089178B00A4EA2E /* Tsugi */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -54,6 +61,9 @@
 		};
 		4D266B993089178B00A4EA2E /* Tsugi */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4DE819163089E67700909079 /* Exceptions for "Tsugi" folder in "Tsugi" target */,
+			);
 			path = Tsugi;
 			sourceTree = "<group>";
 		};
@@ -431,7 +441,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = TsugiDebug;
+				INFOPLIST_FILE = ./Tsugi/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tsugi;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -463,6 +474,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ./Tsugi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tsugi;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
