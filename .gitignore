@@ -66,3 +66,7 @@ buildServer.json
 
 # Local editor state
 .nvim/
+
+# Apollo iOS CLI (installed by `make apollo-cli`)
+/apollo-ios-cli
+/Packages/TsugiKit/apollo-ios-cli

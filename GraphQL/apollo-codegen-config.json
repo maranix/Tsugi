@@ -1,0 +1,43 @@
+{
+  "schemaNamespace": "TsugiGraphQL",
+  "input": {
+    "operationSearchPaths": [
+      "**/*.graphql"
+    ],
+    "schemaSearchPaths": [
+      "**/*.graphqls"
+    ]
+  },
+  "output": {
+    "testMocks": {
+      "none": {}
+    },
+    "schemaTypes": {
+      "path": "../Packages/TsugiKit/Sources/TsugiGraphQL/",
+      "moduleType": {
+        "other": {}
+      }
+    },
+    "operations": {
+      "inSchemaModule": {}
+    }
+  },
+  "schemaDownload": {
+    "downloadMethod": {
+      "introspection": {
+        "endpointURL": "http://192.168.1.200:4567/api/graphql",
+        "httpMethod": {
+          "POST": {}
+        },
+        "includeDeprecatedInputValues": false,
+        "outputFormat": "SDL"
+      }
+    },
+    "downloadTimeout": 60,
+    "headers": [],
+    "outputPath": "./schema.graphqls"
+  },
+  "options": {
+      "pruneGeneratedFiles": true
+  }
+}

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4DE8189230893AFF00909079 /* TsugiKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4DE8189130893AFF00909079 /* TsugiKit */; };
+		4DE8189230893AFF00909079 /* TsugiGraphQL in Frameworks */ = {isa = PBXBuildFile; productRef = 4DE8189130893AFF00909079 /* TsugiGraphQL */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4DE8189230893AFF00909079 /* TsugiKit in Frameworks */,
+				4DE8189230893AFF00909079 /* TsugiGraphQL in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 			);
 			name = Tsugi;
 			packageProductDependencies = (
-				4DE8189130893AFF00909079 /* TsugiKit */,
+				4DE8189130893AFF00909079 /* TsugiGraphQL */,
 			);
 			productName = Tsugi;
 			productReference = 4D266B973089178B00A4EA2E /* Tsugi.app */;
@@ -618,9 +618,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4DE8189130893AFF00909079 /* TsugiKit */ = {
+		4DE8189130893AFF00909079 /* TsugiGraphQL */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = TsugiKit;
+			productName = TsugiGraphQL;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
